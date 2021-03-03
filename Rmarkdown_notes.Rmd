@@ -1,0 +1,56 @@
+---
+title: "R notes"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+Two new lines must be used to make a new line in the knitted document. Two returns must be made for a new line.
+
+* A list is created with the \* or an ordered list is created with 1. (item)
+  + indented list is made with two spaces a followed by \+
+    + further indented
+* Text between \` and \` shows `content` as r code.
+* Text between \* and \* shows *content* in italics
+* Text between \** and \** shows **content** in bold
+* A header is created by prefixing it with \#. The more the smaller the font.
+
+A table is created as follows (doesn't always work dunno why)
+
+Table Header | Second Header
+------------- | -------------
+Table Cell | Cell 2
+Cell 3 | Cell 4 
+
+
+### Cell Parameters
+
+`echo = FALSE` prevents R code that generated output from being printed
+
+`result = "hide"` prevents output of r code from being printed.
+
+`include = FALSE` parameter prevents r code or output being shown on knitted document
+
+
+
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```

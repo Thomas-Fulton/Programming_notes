@@ -1,0 +1,30 @@
+   #### setup ####
+git config --global user.name "Thomas-Fulton"
+git config --global user.email "thomas@fultondesigns.co.uk"
+
+
+    #### Create new repo ####
+git init  # create git repository locally
+
+# create repository on github.com
+
+git remote add origin https://github.com/Thomas-Fulton/Programming.git  # creates link to newly created repository
+
+git add/commit/pust files
+
+
+    #### useful commands ####
+
+git add FILENAME
+
+git commit -m "Commit 3"
+    # good message should have a title roughly less than 52 characters long, and be told in the imperative, eg. If applied, this commit will: (Title of commit)
+    
+    # add details in paragraph separated by blank line
+    
+git status
+
+git push
+
+
+git config --get remote.origin.url   # see remote origin url
