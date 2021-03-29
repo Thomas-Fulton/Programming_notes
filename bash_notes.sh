@@ -14,6 +14,14 @@ ls #list content of directory
 ls -lh # list long version of content eg. size, date modified, permissions
 ls -1 #forces output to be on one line
 ls --ignore=PATTERN # ignores matches with PATTERN
+ls -1 | wc -l 
+ls | head
+ls | sort 
+ls -lh | sort -k 5nr  # sorts -k is key (column) 5 (in this case file size), by number, in reverse order 
+
+ls *jpg > imagefiles #lists names of .jpg files into new file imagefiles
+ls *gif >> imagefiles #appends names of .gif files to imagefiles (instead of overwriting
+
    
 cd directorypath #change directory. 
 cd ~ or cd # cd to /home/thomas
@@ -55,12 +63,6 @@ cat file1 >> file2 #appends contents of file1 into file2
 wc # word count
 wc -l #number of lines
 
-ls -1 | wc -l
-ls | head
-ls | sort
-
-ls *jpg > imagefiles #lists names of .jpg files into new file imagefiles
-ls *gif >> imagefiles #appends names of .gif files to imagefiles (instead of overwriting
 
 sort file1.txt # sorts file1 alphebetically. CAPITALS before lowercase. prints in terminal
 
