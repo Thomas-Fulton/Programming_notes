@@ -8,7 +8,21 @@ command --help #lists options
     q # to quit file view of man/help page
 apropos searchterm #search for a command or term in description of a command
 
-## file navigation ##
+
+    #### regular expressions and operators ####
+
+^  # beginning of string
+$  # end of string
++  # more of the same, any number of such characters
+# eg: ^[A-Z]+$  would be any string containing only capital characters eg. "ADHEHCDE", but not "ADCFHEfDGE"
+
+# opertators return 0 for a match between left and right of the operator and a 1 for a mismatch 
+# difference between == and =~  ?
+
+
+
+    #### file navigation ####
+    
 df -H --total #shows free disk space. -H for human readable.
 ls #list content of directory
 ls -lh # list long version of content eg. size, date modified, permissions
@@ -48,6 +62,7 @@ zip ARCHIVE_NAME.zip # extract
 tar -zcvf filename.tar.gz # read table of contents (-t) for a archive file. -g tells tar "compressed file" (.gz). -f is --file filename. filename is argument to -f option.
 tar -zxvf filename.tar.gz #extract compressed files
 
+
 file filename.gif #prints file type eg. in this case GIF image data bla bla
 
 
@@ -78,3 +93,6 @@ tr # SEE man tr it's really cool
 cut -d " " -f 2 #cuts the second field of each line, with fields defined using the delimiter " ".
 
 expr 38-26 #allows sums
+
+sed s/string/replacement filename.txt  # s = substitution. / is the delimiter. Default behaviour is to replace first occurence in a line 
+sed s/string/replacement/g filename.txt  # /g is global - replaces all occurences
