@@ -2,6 +2,8 @@
 git config --global user.name "Thomas-Fulton"
 git config --global user.email "thomas@fultondesigns.co.uk"
 
+git config --get remote.origin.url   # see remote origin url
+
 
     #### Create new repo ####
 git init  # create git repository locally
@@ -17,7 +19,7 @@ git add/commit/push files
 
 git add FILENAME
 
-git add --patch  # goes through changes, choose to include change to add so a commit can retroactively be split up into logical commits.
+git add --patch  # goes through changes, choose to include change to add so a commit can retroactively be split up into logical commits. "y" yes add this hunk, "n" no don't add hunk, "s" split hunk into individual changes, "d" don't add this hunk and all remaining hunks.
 
 git commit -m "Commit 3"
     # good message should have a title roughly less than 52 characters long, and be told in the imperative, eg. If applied, this commit will: (Title of commit)
@@ -31,5 +33,10 @@ git push
 git branch "branch-name"  # creates new branch
 git checkout "master/branch-name"  # switches between branches - changes all files in working directory to the files in the branch that you have just switched to.
 
+    ## merging ##
+git checkout "main"  # move to master branch you want update 
+git merge "branch"  # merge branch "branch" with current working branch "main"
 
-git config --get remote.origin.url   # see remote origin url
+
+
+## add section on stashing and commit ammending
