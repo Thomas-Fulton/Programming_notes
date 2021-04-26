@@ -22,7 +22,7 @@ git add --patch  # goes through changes, choose to include change to add so a co
 git commit -m "Commit 3"
     # good message should have a title roughly less than 52 characters long, and be told in the imperative, eg. If applied, this commit will: (Title of commit)
     
-    # add details in paragraph separated by blank line
+    # add details in paragraph separated by blank line <-- FINISH
     
 git status
 
