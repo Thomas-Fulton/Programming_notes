@@ -35,3 +35,6 @@ git checkout "master/branch-name"  # switches between branches - changes all fil
 
 
 git config --get remote.origin.url   # see remote origin url
+
+
+## add section on stashing and commit ammending
