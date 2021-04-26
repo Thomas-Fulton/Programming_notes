@@ -2,6 +2,8 @@
 git config --global user.name "Thomas-Fulton"
 git config --global user.email "thomas@fultondesigns.co.uk"
 
+git config --get remote.origin.url   # see remote origin url
+
 
     #### Create new repo ####
 git init  # create git repository locally
@@ -31,10 +33,10 @@ git push
 git branch "branch-name"  # creates new branch
 git checkout "master/branch-name"  # switches between branches - changes all files in working directory to the files in the branch that you have just switched to.
 
-## add section on deleting branches and merging
+    ## merging ##
+git checkout "main"  # move to master branch you want update 
+git merge "branch"  # merge branch "branch" with current working branch "main"
 
-
-git config --get remote.origin.url   # see remote origin url
 
 
 ## add section on stashing and commit ammending
