@@ -31,5 +31,7 @@ git push
 git branch "branch-name"  # creates new branch
 git checkout "master/branch-name"  # switches between branches - changes all files in working directory to the files in the branch that you have just switched to.
 
+## add section on deleting branches and merging
+
 
 git config --get remote.origin.url   # see remote origin url
