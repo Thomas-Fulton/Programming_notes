@@ -17,7 +17,7 @@ git add/commit/push files
 
 git add FILENAME
 
-git add --patch  # goes through changes, choose to include change to add so a commit can retroactively be split up into logical commits.
+git add --patch  # goes through changes, choose to include change to add so a commit can retroactively be split up into logical commits. "y" yes add this hunk, "n" no don't add hunk, "s" split hunk into individual changes, "d" don't add this hunk and all remaining hunks.
 
 git commit -m "Commit 3"
     # good message should have a title roughly less than 52 characters long, and be told in the imperative, eg. If applied, this commit will: (Title of commit)
