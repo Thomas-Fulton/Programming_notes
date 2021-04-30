@@ -478,3 +478,22 @@ class Curve():
      def __str__(self):
         return "Curve:{}".format(self.items)
 print(Curve(1,2,3))
+
+
+
+
+
+
+    #### Virtual Environments ####
+
+    # using venv
+cd ~/GitRepos/practical_1
+python3 -m venv env  # create new environment "env"
+source ./env/bin/activate  # activate environment
+pip install matplotlib  # installs matplotlib into virtual environment
+pip install numpy
+pip freeze > requirements.txt  # put only additional packages and their dependencies installed within the virtual environment into the requirements.txt file in the right format, because the virtual environment is activated
+deactivate  # exit environment
+
+    # using conda
+
