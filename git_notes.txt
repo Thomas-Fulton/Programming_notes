@@ -30,8 +30,11 @@ git status
 
 git push
 
+    ## branching ##
+
 git branch "branch-name"  # creates new branch
 git checkout "master/branch-name"  # switches between branches - changes all files in working directory to the files in the branch that you have just switched to.
+git branch -d "branch-name"  # delete branch
 
     ## merging ##
 git checkout "main"  # move to master branch you want update 
