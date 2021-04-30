@@ -1,4 +1,4 @@
-!# /bin/bash
+#!/bin/bash
    #################### Bash and directory notes ######################
 
 Generic form: COMMAND [OPTION] [somethinghaha]
