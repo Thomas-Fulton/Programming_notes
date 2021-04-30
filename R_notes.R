@@ -7,9 +7,9 @@ rm(object) # deletes object from global environement
 
 ### Data types
 
-* *numeric*
-* *strings* in "speech_marks"  
-* *boolian* either TRUE or FALSE  
+*numeric*
+*strings* in "speech_marks"  
+*boolian* either TRUE or FALSE  
 
 ### Data Structures
 #### Vectors/lists
