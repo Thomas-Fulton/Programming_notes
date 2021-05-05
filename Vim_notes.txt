@@ -1,30 +1,33 @@
 VIM tips and hints
 
 ### Modes ### 
-esc - command mode: 
-i - insert mode: edit file directly, insert characters
+esc  # command mode: 
+i  # insert mode: edit file directly, insert characters
 
 
  ### Command Mode ###
-:q - quit
-:w - write the current state to the file (save?)
-:wq - save and exit
-:q! - quit and don't save
+:q  # quit
+:w  # write the current state to the file (save?)
+:wq  # save and exit
+:q!  # quit and don't save
 
-/word - searches for "word". Enter brings cursor to first letter of search
-    n - next match
-    N - previous match
-:%s/origninal/replacement/ - replace "original" with "replacement". First occurance only 
-:%s/origninal/replacement/g - (/g) replace ALL occurances. (/c) asks for confirmation for each replacement
-g
-dd - delete line
-3dd - delete next three lines
+/word  # searches for "word". Enter brings cursor to first letter of search
+    n  # next match
+    N  # previous match
+:%s/origninal/replacement/  # replace "original" with "replacement". First occurance only 
+:%s/origninal/replacement/g  # (/g) replace ALL occurances. (/c) asks for confirmation for each replacement
 
-y - copy (yank)
+$  # move to end of line
+^  # move to beginning of line
 
-u - undo actions
-ctrl + r - redo actions
+dd  # delete line
+3dd  # delete next three lines
 
-:set number - number lines
+y  # copy (yank)
+
+u  # undo actions
+ctrl + r  # redo actions
+
+:set number  # number lines
 
 
