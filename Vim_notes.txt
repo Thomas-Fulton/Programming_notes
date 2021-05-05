@@ -18,6 +18,7 @@ i  # insert mode: edit file directly, insert characters
 :%s/origninal/replacement/g  # (/g) replace ALL occurances. (/c) asks for confirmation for each replacement
 
 $  # move to end of line
+  A  # append: move cursor to end of line an change to insert mode
 ^  # move to beginning of line
 
 dd  # delete line
