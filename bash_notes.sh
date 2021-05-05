@@ -20,13 +20,20 @@ $  # end of string
 # opertators return 0 for a match between left and right of the operator and a 1 for a mismatch 
 # difference between == and =~  ?
 
+<  # stin
+>  # stout
+2>  # sterr  (standard error
+&>  # stout and sterr
 
-
-    #### file navigation ####
+    #### system and file navigation ####
     
-df -H --total #shows free disk space. -H for human readable.
+cat /etc/os-release  # shows linux version info.
+
+df -H --total  #shows free disk space. -H for human readable.
+top  # see CPU usage
+
 ls #list content of directory
-ls -lh # list long version of content eg. size, date modified, permissions
+ls -lh # list long version of content eg. size, date modified, permissions, human readable
 ls -1 #forces output to be on one line
 ls --ignore=PATTERN # ignores matches with PATTERN
 ls -1 | wc -l 
@@ -40,7 +47,7 @@ ls *gif >> imagefiles #appends names of .gif files to imagefiles (instead of ove
    
 cd directorypath #change directory. 
 cd ~ or cd # cd to /home/thomas
-~  # is home/thomas directory
+~  # is home/thomas (user?) directory
 /  #root directory
 *  #represents any number of any characters including nothing
 ?  #represents any single character
@@ -104,17 +111,11 @@ sed s/string/replacement filename.txt  # s = substitution. / is the delimiter. D
 sed s/string/replacement/g filename.txt  # /g is global - replaces all occurences
 
 
-touch file1.txt # creates empty file file1.txt
+echo -e  # enable interpretation of backslashes
+echo -n  # don't show trailing newline
 
-cat file1 #prints file1 in terminal
-less file1 #prints some of the file?
-head -n5 file1 #prints first five lines of a file. Default is ten lines
 
-cat file1.txt # creates file1. Write text. ctrl + D to save and exit
-cat file1 > file2 # copies content of file1 into file2. Overwrites/creates file2
-cat file1 >> file2 #appends contents of file1 into file2
-wc # word count
-wc -l #number of lines
+
 
     #### Scripting ####
     
@@ -126,7 +127,7 @@ done
 
 
 
-# to run a BASH script:  (NOTE: The script must be executable `chmod +x script_name`)
+# to run a BASH script:  (NOTE: The file does not have to be executable when calling bash interpreter `chmod +x script_name`)
 bash script_name
 # or 
 ./script_name
@@ -155,6 +156,29 @@ $0  # Stores the first word of the entered command (the name of the shell progra
 $*  # Stores all the arguments that were entered on the command line ($1 $2 ...).
 "$@"  # Stores all the arguments that were entered on the command line, individually quoted ("$1" "$2" ...). 
 
+# put positional variables/arguments into an array using brackets.
+args=("$@")
+echo ${args[0]} ${args[1]} ${args[2]}
+echo $@
+
+readarray myarray < list.txt
+for i in "${myarray[@]}"
+do
+echo "$i"
+# or do whatever with individual element of the array
+done
+
+# user input
+read word word2 # script prompts user for input, which is put into variable word
+echo word word2  # spaces define the end of the first word
+
+# read command now stores a reply into the default build-in variable $REPLY
+read
+echo "You said $REPLY"
+
+# read -a puts responses into an array
+read -a array
+echo ${array[0]} ${array[1]}
 
 
 # A whole script runs multiple commands. A semicolon `;` is used after each command to run the next one eg.
@@ -170,22 +194,30 @@ greeting="Hello there $username"  # only whitespace is hidden - variable $userna
 greeting='Hello There $username'  # "$" would be hidden: all special characters in the string are hidden. echo $greeting would print Hello There $username
 greeting=Hello\ There\ $username  # "\" hides the single character after it.
 
+
+
+# command substitution
+files=$(ls) 
 files=`ls`  # back quotes set the variable as the output of the command
 
-sort file1.txt # sorts file1 alphebetically. CAPITALS before lowercase. prints in terminal
+# parameter expansion with curly braces:
+uservariable=$user
+username2=${user}\ is\ the\ name  # strings which are not part of the variable name follow the variable so curly braces are necessary
 
-grep [OPTION] searchterm [FILE] # searches line by line for term. Puts into standard output.
-grep -v # inverts output ie. lines without search term into standard output 
-grep '*>' file # allows to search for characters that might be interpreted by bash as something else
-grep -e ^I file #extracts lines that start with I
 
-tr -s " " #Translate. Replaces multiple spaces with one space (--sqeeze-repeats)
-tr -d " " #deletes spaces
-tr # SEE man tr it's really cool
 
-cut -d " " -f 2 #cuts the second field of each line, with fields defined using the delimiter " ".
+## EXAMPLE ##
+#!/bin/bash
 
-expr 38-26 #allows sums
+# This bash script is used to backup a user's home directory to /tmp/.
 
-sed s/string/replacement filename.txt  # s = substitution. / is the delimiter. Default behaviour is to replace first occurence in a line 
-sed s/string/replacement/g filename.txt  # /g is global - replaces all occurences
+user=$(whoami)
+input=/home/$user
+output=/tmp/${user}_home_$(date +%Y-%m-%d_%H%M%S).tar.gz
+
+tar -czf $output $input
+echo "Backup of $input completed! Details about the output backup file:"
+ls -l $output
+
+
+
