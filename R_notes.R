@@ -48,6 +48,11 @@ car.version <- c(rep(2.0,15), rep(2.1,5), rep(3,24), 4, rep(4.1,5))
 car.type <- data.frame(carname,car.version) # create data frame
 cars$cartype <- car.type # Add new column/data frame to cars
 cars$cartype$carname[23]
+
+#insert column 
+df$newcolumn <- paste(df$col1, "and", df$col2, sep="_")
+
+
 cars$cartype[23,] # brackets [ROW,COLUMN] remember with x,y axis of graph
 cars[cars$cartype == "BMW"]
 cars$cartype$carname <- NULL
@@ -90,4 +95,6 @@ boxplot(ATP.ADP~Type+Temp, ylab = "ATP/ADP ratio") # Boxplots: boxplot(Data_to_b
 
 x <- read.table(file= "/file/path.txt", sep = "\t", header = TRUE)
 write.table(x, file = "/file/path.txt", quote = FALSE)
+
+
 
