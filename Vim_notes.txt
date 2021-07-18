@@ -21,6 +21,9 @@ $  # move to end of line
   A  # append: move cursor to end of line an change to insert mode
 ^  # move to beginning of line
 
+B  # move to the end of the word
+W  # move to the beginning of the word
+
 dd  # delete line
 3dd  # delete next three lines
 
