@@ -30,6 +30,7 @@ git status
 
 git push
 
+
     ## branching ##
 
 git branch "branch-name"  # creates new branch
@@ -39,6 +40,11 @@ git branch -d "branch-name"  # delete branch
     ## merging ##
 git checkout "main"  # move to master branch you want update 
 git merge "branch"  # merge branch "branch" with current working branch "main"
+
+
+  ## UNDO local commit before pushing ##
+git reset HEAD~1  # undo your last commit while leaving your working tree (the state of your files on disk) untouched.
+git reset Head~1 --hard  # undoes your last commit and edits files to state of previous commit 
 
 
 
