@@ -60,6 +60,10 @@ summary(cars)
 head(cars)
 colnames(cars) <- gsub("distance", "distance_tavelled", colnames(cars))
 
+# python_style key-value searching
+mut_load_change$Generation_labs[n] <- paste(SRR_lineage_generation$generation_axis_labs[SRR_lineage_generation$SRR_names==SRR_name])
+
+
 cars[2] # list style indexing, returns column
 cars[,2] # matrix style indexing, returns a vector
 
@@ -98,3 +102,18 @@ write.table(x, file = "/file/path.txt", quote = FALSE)
 
 
 
+
+
+    #### Looping ####
+# Apply conditions across a vector with tidyverse is faster than for loops
+
+library(tidyverse)
+
+fbnums <- 1:50
+
+output <- case_when(fbnums %% 15 == 0 ~ "FizzBuzz",
+                    fbnums %% 3 == 0 ~ "Fizz",
+                    fbnums %% 5 == 0 ~ "Buzz",
+                    TRUE ~ as.character(fbnums))
+
+print(output)

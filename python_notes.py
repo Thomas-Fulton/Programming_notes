@@ -11,7 +11,6 @@
 # != is not equal to
 # <= is less than or equal to
 
-
     #### reading files ####
 file_handle= open("/file/path.txt")
 for i in file_handle :
@@ -368,7 +367,7 @@ def available_tariffs() :
         print(out.format(tariff, inclusive[0], inclusive[1],
                          inclusive[2]))
     
-prints:
+# prints:
 Tariff # Flat Rate Minutes Texts
        1        20     200   150
        2        35     400   350
@@ -403,7 +402,7 @@ output = 15
 def by_ten(x):
     return x*10
 
-##map applies the function to all elements in the list
+## map applies the function to all elements in the list
 list1x10 = list(map(by_ten, list1))
 print(list1x10)
 
@@ -480,7 +479,9 @@ class Curve():
 print(Curve(1,2,3))
 
 
-
+    #### Help ####
+help(function())
+# returns """ information """ in the defined function
 
 
 

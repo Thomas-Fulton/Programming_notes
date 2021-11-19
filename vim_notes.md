@@ -24,7 +24,7 @@ Ctrl + v  # visual block
 %  # selects whole file
 :%s/origninal/replacement/  # replace "original" with "replacement". First occurance only 
 :%s/origninal/replacement/g  # (/g) replace ALL occurances. (/c) asks for confirmation for each replacement
-
+  # (when searching for newline: \n, when replacing newline: \r).
 
 ## Navigation ##
 (Think top right to bottom left for hjkl movement)

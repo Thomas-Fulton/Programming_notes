@@ -1,4 +1,7 @@
 #!/bin/bash
+
+#(quick hints: https://devhints.io/bash)
+
    #################### Bash and directory notes ######################
 
 Generic form: COMMAND [OPTION] [somethinghaha]
