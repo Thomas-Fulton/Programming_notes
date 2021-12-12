@@ -1,4 +1,4 @@
-     ################### Python and Bash notes ######################
+     ################### Python notes ######################
 
 # = defines an object, like "<-"" in R
 # ** is ^
@@ -498,3 +498,36 @@ deactivate  # exit environment
 
     # using conda
 
+
+
+
+    #### Stucture of a python project/package ####
+
+    ## Quick points ##
+
+# USE GIT (or other VCS)
+# no _underscores_ or CAPS in package name, and avoid in modules --> see PEP8 guidelines
+# any .py file is a module, and a directory containing modules AND an __init__.py is a package
+# flatter project is better than nested: explicit imports become too long otherwise (see importing)
+
+
+# Project needs: Licence.md, README.md, project/, .gitignore. All python scripts go into the project folder
+
+
+    ## Importing ##
+import package_namespace  # imports package
+package_namespace.function1()
+
+from package_namespace import function1, function2  # imports two functions from a package
+function1()
+function2()
+
+# modules don't know about their "sibling" modules in the same directory, so the parent package must be stated eg. for the structurepackage/setup/module1 package/game/module2
+module1.py
+from game import module2  # WON'T WORK! Instead:
+from package.game import module2  # or
+import ..game/module2  # ... is back two packages, .... back three..
+# bash-like relative paths only work within python packages 
+
+# to import a module from the same package use . like bash eg.
+from .setup import module3
