@@ -12,6 +12,11 @@ git init  # create git repository locally
 
 git remote add origin https://github.com/Thomas-Fulton/Programming.git  # creates link to newly created repository
 
+git branch -M main  # Rename "master" (default) to "main"
+# Set the remote origin: the remote branch which is pushed and pulled to
+git push --set-upstream origin main
+
+
 git add/commit/push files
 
 
@@ -34,6 +39,7 @@ git push
     ## branching ##
 
 git branch "branch-name"  # creates new branch
+git branch -a  # list branches
 git checkout "master/branch-name"  # switches between branches - changes all files in working directory to the files in the branch that you have just switched to.
 git branch -d "branch-name"  # delete branch
 
