@@ -240,12 +240,17 @@ source activate py35
 # Deactivate 
 source deactivate
 
+# create environment file to make it easier to recreate a conda environment (like a venv requirements.txt)
+conda env export --file environment.yml
+
+
+
 # List packages and version
 conda list
 # List changes to packages and version
 conda list --revisions
 # Save environment to text file
-conda list --explicit > requirements.txt
+conda list --explicit > conda_env.txt
 
 
 ## Venv ##
