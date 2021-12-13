@@ -485,25 +485,12 @@ help(function())
 
 
 
-    #### Virtual Environments ####
-
-    # using venv
-cd ~/GitRepos/practical_1
-python3 -m venv env  # create new environment "env"
-source ./env/bin/activate  # activate environment
-pip install matplotlib  # installs matplotlib into virtual environment
-pip install numpy
-pip freeze > requirements.txt  # put only additional packages and their dependencies installed within the virtual environment into the requirements.txt file in the right format, because the virtual environment is activated
-deactivate  # exit environment
-
-    # using conda
-
 
 
 
     #### Stucture of a python project/package ####
 
-    ## Quick points ##
+## Quick points ##
 
 # USE GIT (or other VCS)
 # no _underscores_ or CAPS in package name, and avoid in modules --> see PEP8 guidelines
@@ -541,7 +528,6 @@ from .setup import module3
 __main__.py  # the special file that is exectuted when the packed is ran directly with python: python -m packagename
 
 if __name__ == '__main__':
-    start.run()
-
+    # do something eg. run main script
 
 
