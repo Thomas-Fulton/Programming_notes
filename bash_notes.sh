@@ -226,7 +226,8 @@ ls -l $output
 
    #### Virtual environments ####
 
-   ## Conda ##
+## Conda ##
+
 # Create envionment IN A SPECIFIC DIRECTORY (like venv)
 conda create --prefix /full/path/to/conda_env  # " conda config --set env_prompt '({name}) ' " alters .condarc so only env name not full path is displayed when activated.
 # use ./conda-env when creating or activating
@@ -245,3 +246,14 @@ conda list
 conda list --revisions
 # Save environment to text file
 conda list --explicit > requirements.txt
+
+
+## Venv ##
+cd ~/GitRepos/practical_1
+python3 -m venv env  # create new environment "env"
+source ./env/bin/activate  # activate environment
+pip install matplotlib  # installs matplotlib into virtual environment
+pip install numpy
+pip freeze > requirements.txt  # put only additional packages and their dependencies installed within the virtual environment into the requirements.txt file in the right format, because the virtual environment is activated
+deactivate  # exit environment
+
