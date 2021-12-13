@@ -507,7 +507,8 @@ deactivate  # exit environment
 
 # USE GIT (or other VCS)
 # no _underscores_ or CAPS in package name, and avoid in modules --> see PEP8 guidelines
-# any .py file is a module, and a directory containing modules AND an __init__.py is a package
+# A MODULE is any python script (.py)
+# A PACKAGE is a directory containing modules AND an __init__.py 
 # flatter project is better than nested: explicit imports become too long otherwise (see importing)
 
 
@@ -522,6 +523,8 @@ from package_namespace import function1, function2  # imports two functions from
 function1()
 function2()
 
+# NEVER use * when importing modules to improve code readability and avoid functions with the same name clashing with each other. Also difficult to trace what has been imported and debug any problems from them 
+
 # modules don't know about their "sibling" modules in the same directory, so the parent package must be stated eg. for the structurepackage/setup/module1 package/game/module2
 module1.py
 from game import module2  # WON'T WORK! Instead:
@@ -531,3 +534,14 @@ import ..game/module2  # ... is back two packages, .... back three..
 
 # to import a module from the same package use . like bash eg.
 from .setup import module3
+
+
+    ## main ##
+
+__main__.py  # the special file that is exectuted when the packed is ran directly with python: python -m packagename
+
+if __name__ == '__main__':
+    start.run()
+
+
+
