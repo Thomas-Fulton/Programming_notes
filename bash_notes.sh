@@ -8,6 +8,7 @@ Generic form: COMMAND [OPTION] [somethinghaha]
 
 ## help commands ##
 man command #gives user manual for command
+# press h in man page to see commands to move around man page
 command --help #lists options
     q # to quit file view of man/help page
 apropos searchterm #search for a command or term in description of a command
@@ -36,7 +37,7 @@ df -H --total  #shows free disk space. -H for human readable.
 top  # see CPU usage
 
 ls #list content of directory
-ls -lh # list long version of content eg. size, date modified, permissions, human readable
+ls -lha # list long version of content eg. size, date modified, permissions, human readable
 ls -1 #forces output to be on one line
 ls --ignore=PATTERN # ignores matches with PATTERN
 ls -1 | wc -l 
@@ -223,4 +224,24 @@ echo "Backup of $input completed! Details about the output backup file:"
 ls -l $output
 
 
+   #### Virtual environments ####
 
+   ## Conda ##
+# Create envionment IN A SPECIFIC DIRECTORY (like venv)
+conda create --prefix /full/path/to/conda_env  # " conda config --set env_prompt '({name}) ' " alters .condarc so only env name not full path is displayed when activated.
+# use ./conda-env when creating or activating
+
+# (Create environment normally - saved into conda envs dir I think)
+conda create --name py35 python=3.5  # specifies python version
+
+# Activate environment
+source activate py35
+# Deactivate 
+source deactivate
+
+# List packages and version
+conda list
+# List changes to packages and version
+conda list --revisions
+# Save environment to text file
+conda list --explicit > requirements.txt
