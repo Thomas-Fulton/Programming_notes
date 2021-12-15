@@ -523,11 +523,32 @@ import ..game/module2  # ... is back two packages, .... back three..
 from .setup import module3
 
 
-    ## main ##
 
-__main__.py  # the special file that is exectuted when the packed is ran directly with python: python -m packagename
+
+
+    ## main ##
+   
+    # __main__ is the name of the environment where top-level code is run.
+    # “Top-level code” is the first user-specified Python module that starts running. It’s “top-level” because it imports all other modules that the program needs. Sometimes top-level code is called an "entry point" to the application.
+   
+__main__.py  # the special file that is exectuted when a python package is ran directly with python: 
+# eg. python -m package (OR module)
+#     python3 module.py
+#    python3 -c "import module"
+
+    # __name__ is the variable of a module (eg. myscript.py), either top level or imported: in this case __name__ = "myscript". __main__ is set as only the top level module.
 
 if __name__ == '__main__':
-    # do something eg. run main script
+    # do something eg. run python script
+    # this block is only ran if the script is exectuted as the entry point, ie. in the top level environment.
+
+
+
+    #### arguments ####
+## Argparse
+
+# Used to parse arguments from the command line or interpreter
+# Positional args don't have a flag.
+# Positional or keyword (--flag value) can be optional or required arguments
 
 
