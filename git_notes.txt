@@ -1,7 +1,6 @@
    #### setup ####
 git config --global user.name "Thomas-Fulton"
 git config --global user.email "thomas@fultondesigns.co.uk"
-
 git config --get remote.origin.url   # see remote origin url
 
 
@@ -9,15 +8,16 @@ git config --get remote.origin.url   # see remote origin url
 git init  # create git repository locally
 
 # create repository on github.com
-
 git remote add origin https://github.com/Thomas-Fulton/Programming.git  # creates link to newly created repository
 
-git branch -M main  # Rename "master" (default) to "main"
+git branch -M main  # Rename "master" (default) to "main"  # if you forget and can't merge use "--allow-unrelated-histories"
 # Set the remote origin: the remote branch which is pushed and pulled to
 git push --set-upstream origin main
 
 
 git add/commit/push files
+
+
 
 
     #### useful commands ####
