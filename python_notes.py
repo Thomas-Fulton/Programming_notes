@@ -35,9 +35,25 @@ with open("file.txt") as data :
 
 
 #command input("Question/statement") prompts user to type an input. eg. 
-name = input("Type your name:")
+name = input("Type your name:").strip()
 print("Hello", name)
 # output: Hello name
+
+    ## Command Line Interface ## 
+while TRUE :
+    choice = input("Input \"1\" for start, \"2\" for options, or \"stop\" to exit")
+    if choice == "1" :
+        # do something
+    elif choice == "2"
+        # give options
+    elif name.lower() == "stop" :
+        # .lower allows for CAps mistakes
+        break
+    else :
+        print("Invalid option, please try again!")
+
+
+
 # each letter in a string has a corresponding value eg.
 fruit = "banana"
 #        012345 <- index or sub operator eg fruit[4] is the fourth index "a". 
@@ -269,6 +285,10 @@ min(nums)
 sum(nums)
 sorted(list) or list.sort()
 reversed(list) or list.reverse()
+list.remove(value)  # removes the first matching value
+del list[3]  # removes value at the specific index
+list.pop(3)  # removes value at the specific index and returns it
+
 
  ## list comprehension ##
 # do something to every element in a list 
@@ -474,7 +494,7 @@ print( Square(4,5,6).area() )
 class Curve():
     def __init__(self,*items):
         self.items = list(items);
-     def __str__(self):
+    def __str__(self):
         return "Curve:{}".format(self.items)
 print(Curve(1,2,3))
 
@@ -483,6 +503,11 @@ print(Curve(1,2,3))
 help(function())
 # returns """ information """ in the defined function
 
+ ### Explore structure of an object
+type(object)  #
+vars(iris)  # list vars
+dir(object)  # gives alphabetised list of attributes
+object
 
 
 
@@ -552,3 +577,15 @@ if __name__ == '__main__':
 # Positional or keyword (--flag value) can be optional or required arguments
 
 
+    #### PyCharm ####
+## Troubleshooting unrecognised but correct relative imports:
+# make sure parent package is set as "sources root"
+
+
+
+    #### Conventions ####
+    # Pycharm helpfully corrects many, misc notes here:
+
+    ## docstrings
+# https://www.programiz.com/python-programming/docstrings
+# change with class, function, object
