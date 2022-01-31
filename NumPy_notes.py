@@ -8,7 +8,10 @@ import numpy as np
 # 1. creating an object in R creates a separate copy eg. a <- a[1:5]
 #    doing the same in Numpy only "views" the data - creates a shallow copy that when modified also modifies the original!!
 
-# 2. column vs row major ordering. R uses column major ordering like Fortran 
+# 2. column vs row major ordering. R uses column major ordering like Fortran
+
+
+# numpy vs pandas: numpy more memory efficient (below 50K rows), and used in most machine learning packages.
 
 
 
@@ -18,7 +21,7 @@ import numpy as np
 
 # Arrays
 # Can be indexed and sliced.
-# One dimensional (vector), 2D, (matrix), 3D+ (tensor). NOT the same as nesting?
+# One dimensional (vector), 2D, (matrix), 3D+ (tensor).
 
 
 one_dimensional_array = np.array([1.2, 2.4, 3.5, 4.7, 6.1, 7.2, 8.3, 9.5])
@@ -26,6 +29,28 @@ print(one_dimensional_array)
 
 two_dimensional_array = np.array([[6, 5], [11, 7], [4, 8]])
 print(two_dimensional_array)
+
+nested_array = np.array([[[1,2,3,4],[5,6,7,8]],[[2,3,4,5],[6,7,8,9]],[[1,1,1,1],[2,2,2,2]]]) # nested is just a three dimensional array
+nested_array[0,0]  # nested_array[column,row]
+nested_array[0,0][0]
+
+## slicing rows and columns
+# for a 2d array/matrix:
+# --->>> array[column,row]
+# for a 3d array
+nested_array[]
+
+print("Rows #0, #1, and #2:")
+print(my_dataframe.head(3), '\n')
+
+print("Row #2:")
+print(my_dataframe.iloc[[2]], '\n')
+
+print("Rows #1, #2, and #3:")
+print(my_dataframe[1:4], '\n')
+
+print("Column 'temperature':")
+print(my_dataframe['temperature'])
 
 # Elements in an array are all the same type: referred to as the "dtype"
 x = np.ones(2, dtype=np.int64)  # np.float64
@@ -54,17 +79,18 @@ arr2.shape
 
 ## Properties of arrays
 nested_array = np.array([[[1,2,3,4],[5,6,7,8]],[[2,3,4,5],[6,7,8,9]],[[1,1,1,1],[2,2,2,2]]])
+nested_array[0,0]  # nested_array[column,row]
+nested_array[0,0][0]
 
 nested_array.ndim  # number of dimensions
 nested_array.shape  # shape of array: 3 dimensions of 2 rows of 4 columns
 
 
 
-
 # new axis/dimensions can be added 
 a = np.array([[1 , 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
-a2  = np.expand_dims(a, axis = (0))  # axis is the index of the shape of the array
-arr3 = arr[np.newaxis,:]  # increases the dimensionality of the array - doesn't add a new column, more like adding a new sheet
+a2 = np.expand_dims(a, axis=(0))  # axis is the index of the shape of the array
+arr3 = arr[np.newaxis, :]  # increases the dimensionality of the array - doesn't add a new column, more like adding a new sheet
 
 
 # Can be indexed and sliced like python lists: indices start at 0, -ve indices go from the last value
@@ -72,6 +98,7 @@ data = np.array([1, 2, 3])
 data[1]
 data[0:2]
 data[1:]
+# data[start:stop:step]
 
 
 # values can be obtained using expressions
