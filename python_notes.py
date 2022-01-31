@@ -589,3 +589,11 @@ if __name__ == '__main__':
     ## docstrings
 # https://www.programiz.com/python-programming/docstrings
 # change with class, function, object
+
+
+
+
+
+   #### Links ###
+   # Bioinformatics 
+   https://www.annasyme.com/trainingwebs.html

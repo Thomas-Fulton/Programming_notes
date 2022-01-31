@@ -262,3 +262,6 @@ pip install numpy
 pip freeze > requirements.txt  # put only additional packages and their dependencies installed within the virtual environment into the requirements.txt file in the right format, because the virtual environment is activated
 deactivate  # exit environment
 
+
+
+
