@@ -52,6 +52,7 @@ git merge "branch"  # merge branch "branch" with current working branch "main"
 git reset HEAD~1  # undo your last commit while leaving your working tree (the state of your files on disk) untouched.
 git reset Head~1 --hard  # undoes your last commit and edits files to state of previous commit 
 
-
+  ## undo local change (restore to remote version)
+git checkout -- <file/s>
 
 ## add section on stashing and commit ammending
