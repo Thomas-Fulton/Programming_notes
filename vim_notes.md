@@ -1,5 +1,6 @@
 #### VIM tips and hints
 https://www.keycdn.com/blog/vim-commands  # useful cheat sheet
+https://vimhelp.org/vim_faq.txt.html#faq-10.2
 
 
 ### Modes ### 
@@ -25,6 +26,7 @@ Ctrl + v  # visual block
 :%s/origninal/replacement/  # replace "original" with "replacement". First occurance only 
 :%s/origninal/replacement/g  # (/g) replace ALL occurances. (/c) asks for confirmation for each replacement
   # (when searching for newline: \n, when replacing newline: \r).
+:g//  # lists all lines containing the last search pattern, and :redir will capture the results.
 
 ## Navigation ##
 (Think top right to bottom left for hjkl movement)
