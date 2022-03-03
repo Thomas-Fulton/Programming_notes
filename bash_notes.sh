@@ -264,4 +264,7 @@ deactivate  # exit environment
 
 
 
-
+#################### Terminal #######################
+alt+arrow keys skip words
+7 on num pad to move to beginning of line
+1 to move to the end
