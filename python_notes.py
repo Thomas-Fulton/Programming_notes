@@ -12,7 +12,9 @@
 # <= is less than or equal to
 
     #### reading files ####
-file_handle= open("/file/path.txt")
+     import matplotlib.pyplot as plt
+
+     file_handle= open("/file/path.txt")
 for i in file_handle :
     (whatever you want loop)
 
@@ -511,6 +513,20 @@ object
 
 
 
+    #### Plotting ####
+  ## matplotlib ##
+plt.scatter('temp', 'cnt', data=day, c='season')
+# c determines the colors of the data points. Because we passed a string - 'season' which is a column of the dataframe day
+
+
+
+    #### Installing packages ####
+# install a version greater than or equal to 1 and less than 2:
+python3 -m pip install "SomeProject>=1,<2"
+
+# install from github
+python3 -m pip install -e git+https://git.repo/some_pkg.git#egg=SomeProject
+
 
 
     #### Stucture of a python project/package ####
@@ -578,8 +594,14 @@ if __name__ == '__main__':
 
 
     #### PyCharm ####
-## Troubleshooting unrecognised but correct relative imports:
-# make sure parent package is set as "sources root"
+## Troubleshooting ##
+     # unrecognised but correct relative imports:
+     # make sure parent package is set as "sources root"
+
+     # plots not showing in window. Try:
+     plt.show(block=True) # or
+     plt.interactive(True)
+     # or False
 
 
 
@@ -590,10 +612,67 @@ if __name__ == '__main__':
 # https://www.programiz.com/python-programming/docstrings
 # change with class, function, object
 
+"""This is the summary line
 
+This is the further elaboration of the docstring. Within this section,
+you can elaborate further on details as appropriate for the situation.
+Notice that the summary and the elaboration is separated by a blank new
+line.
+"""
+
+# Notice the blank line above. Code should continue on this line.
+
+
+
+
+    #### Sphinx Documentation ####
+
+# 1. 
+
+# 2. From inside the docs/ folder.
+sphinx-build -b html docs/source/ docs/build/html
+
+# 3. Edit the index.rst to include a description/whatever else you like.
+# 4. Edit to docs/source/conf.py to include extensions eg.
+extensions = [
+    'sphinx.ext.duration',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary'
+]
+
+# 5. Create other files eg. docs/source/usage.rst
+# 6. Add the name of the new .rst files to the index.rst under ..toctree::
+# 7.
+make clean # from the docs/ folder. Good practice to build from scratch so remove previous builds first with make clean.
+make html
+# 8. Edit themes eg. install select sphinx-rtd-theme
+pip install sphinx-rtd-theme
+# (change theme name in conf.py to sphinx-rtd-theme)
+html_theme = "sphinx_rtd_theme"
+# 9. For the api to work properly, the following should be deleted from the source/ folder: the generated/ folder, modules.rst, specific package.rst and module.rst
+
+
+## Useful Notes ##
+
+# To reference the “Installation” subsection, add a label right before the heading of the referenced section eg. in usage.rst, as follows:
+.. _installation:
+
+    Installation
+    ------------
+    To install etc.
+# Then reference using:
+:ref:`install <installation>`  # in eg. index.rst
+   
+# using stars to underline a subtitle in a .rst file will show them in the index as a sub-entry.
+Installation
+************
 
 
 
    #### Links ###
    # Bioinformatics 
    https://www.annasyme.com/trainingwebs.html
+
+
+
+
