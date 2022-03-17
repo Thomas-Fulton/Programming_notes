@@ -1,2 +1,5 @@
 ignored.txt
 ignored/*
+
+# ebooks folder: large and making public against licenses
+ebooks/
