@@ -18,15 +18,11 @@ git push --set-upstream origin main
 git add/commit/push files
 
 
-
-
     #### Conflicts ####
 # use git diff <file> to see conflicts
 # edit file to resolve in vim - shown with >>>>>> etc
 # add and commit resolved file
 # pull/push
-
-
 
 
     #### useful commands ####

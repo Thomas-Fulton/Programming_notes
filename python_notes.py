@@ -191,7 +191,8 @@ except Exception as e:
     
  ### Formatting  
 number = 8.93658947362847  
-print("The number is {0:.2f}".format(number)) #number to 2 decimal places dp
+print("The number is {0:.2f}".format(number)) # PRINT number to 2 decimal places dp
+
     
     #### Loops and iterations ####
 
