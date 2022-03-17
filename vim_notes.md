@@ -13,7 +13,7 @@ Ctrl + v  # visual block
 
 ## Command Mode ##
 :q  # quit
-:w  # write the current state to the file (save?)
+:w  # write the current state to the file (save)
 :wq  # save and exit
 :q!  # quit and don't save
 
@@ -35,10 +35,14 @@ k  # move up one line
 j  # move down one line
 h  # move left one character
 
+ctrl + u  # move up half a page
+ctrl + d  # move down half a page
+
 $  # move to end of line
   A  # append: move cursor to end of line an change to insert mode
 ^  # move to beginning of line
 G  # move to last line of file 
+gg  # move to beginning of file or:
 Ctrl + home  # move to beginning of file
 B  # move to the end of the word
 W  # move to the beginning of the word
