@@ -1,6 +1,8 @@
 #!/bin/bash
 
-#(quick hints: https://devhints.io/bash)
+# quick hints: https://devhints.io/bash
+# full manual: https://www.gnu.org/software/bash/manual/bash.html#Command-Substitution
+# bash terminal shortcuts: https://www.makeuseof.com/linux-bash-terminal-shortcuts/
 
    #################### Bash and directory notes ######################
 
@@ -14,7 +16,7 @@ command --help #lists options
 apropos searchterm #search for a command or term in description of a command
 
 
-    #### regular expressions and operators ####
+    #### regular expressions (REGEX) and operators ####
 
 ^  # beginning of string
 $  # end of string
@@ -28,6 +30,7 @@ $  # end of string
 >  # stout
 2>  # sterr  (standard error
 &>  # stout and sterr
+
 
     #### system and file navigation ####
     
@@ -63,8 +66,16 @@ rm -r  #remove directory can contain files
 rm filename  #delete file
 touch filename  # makes empty file
 mv oldfile.txt newfile.txt  # moves/cuts the file and pastes and renames it 
+
+# Permissions
 chmod +rwx filename  # change permissions: add read write execute permissions to file/directory
 chmod -wx filname  # remove write and execute permissions
+groups  # see groups you are a member of
+getent group developers  # get members of a group
+# http://www.yolinux.com/TUTORIALS/LinuxTutorialManagingGroups.html <- group permissions etc
+chmod -R +r dirname  # recursively change permissions in directory
+chmod -R g=u  dirname  # recurively set the permission of the group for a dir to those of the user
+
 cp file.txt filcopy.txt  #copy file newfile
 cp -r dir /new/location/dircopy  #copy directories
 
@@ -98,10 +109,14 @@ wc -l  # number of lines
 
 sort file1.txt  # sorts file1 alphebetically. CAPITALS before lowercase. prints in terminal
 
+
+  ## Manipulating files and strings ##
+
+# See https://stackoverflow.com/questions/19482123/extract-part-of-a-string-using-bash-cut-split !!!
 grep [OPTION] searchterm [FILE]  # searches line by line for term. Puts into standard output.
 grep -v  # inverts output ie. lines without search term into standard output 
 grep '*>' file  # allows to search for characters that might be interpreted by bash as something else - see Scripting section.
-grep -e ^I file  #extracts lines that start with I
+grep -e ^I file  #extracts lines that start with I. ^ beginning of line, $ end of line
 
 tr -s " " #Translate. Replaces multiple spaces with one space (--sqeeze-repeats)
 tr -d " " #deletes spaces
@@ -185,9 +200,9 @@ read -a array
 echo ${array[0]} ${array[1]}
 
 
-# A whole script runs multiple commands. A semicolon `;` is used after each command to run the next one eg.
-echo "This is a scipt"; 
-echo "with more than one command"
+# A whole script runs multiple commands. A semicolon `;` is used after each command to run the next one if it is on the same line eg.
+echo "This is a scipt"; echo "with more than one command on the same line"
+echo "semi-colons aren't needed if newline"
 
 # The && operator is used as a boolian and a continuation command ie. if the command on the left is a non-zero exit code(??-true?), then the next command will be ran.
 
@@ -198,6 +213,10 @@ greeting="Hello there $username"  # only whitespace is hidden - variable $userna
 greeting='Hello There $username'  # "$" would be hidden: all special characters in the string are hidden. echo $greeting would print Hello There $username
 greeting=Hello\ There\ $username  # "\" hides the single character after it.
 
+  ## conditionals
+if test -f "./example_file.txt"; then
+echo "example_file.txt exists"
+elif [[$(wc -l example_file.txt) -eq 0]]; then
 
 
 # command substitution
