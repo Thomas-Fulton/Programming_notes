@@ -1,0 +1,44 @@
+###########  Containers  ################
+Links:
+- https://www.sciencedirect.com/science/article/pii/S1525157822000381#:~:text=A%20container%20is%20a%20technology,developing%20NGS%20bioinformatics%20analysis%20pipelines.
+
+Definitions:
+Container	A container is a standard unit of software that packages application code along with all required dependencies (binaries, language-specific libraries) to run an application fast, efficiently, and consistently across any computing environment, without any change in application configuration. It is a runnable instance of an image of a software application.
+Image	An image is a static read-only template with instructions for creating a container.
+Daemon	Service that runs on host OS and listens for API requests. It creates and manages images, containers, images, and volumes.
+Build image	The action of building an image based on the information and context provided by its Dockerfile.
+Multistage build	Feature to reduce final size of the image. For example, using a large base image and a small runtime-only base image to produce a smaller final image.
+Container registry	A centralized/hosted collection of repositories of static container images. If public, anyone can pull the images from the registry.
+Dockerfile	Image definition file with commands to build a Docker image.
+Image tag	Labels for a container image, usually used to reference versions.
+Hypervisor	Is a software program, typically an operating system (OS), that can host multiple virtual machines (VMs) on a bare metal host. The hypervisor is responsible for provisioning and managing the appropriate hardware resources to the VMs.
+Microservice Architecture	Software design principle for building an application or solution such that each function is implemented and operated as an independent service.
+continuous integration (CI) and continuous deployment (CD)
+
+- The key advantages of containers are portability, lightweight nature, reproducibility, and security. 
+- Unlike VMs, containers only package the application source code (or compiled binary) and the minimal necessary dependencies, making them very lightweight.
+- Allow software to be run in exactly the same way on different OSes and platforms. 
+- The OS/hypervisor runs a container engine
+
+Good practices:
+- Avoid packaging unrelated pieces of software into the same container image (eg. fastqc and bowtie2)
+  - Increases size of container
+  - Makes debugging harder
+  - complicates versioning and maintainence of individual software
+  - 
+- Keep data and code separate: Resources used in bioinformatics such as reference genomes, databases, Browser Extensible Data (BED) files, etc. can be significant in size. Use Container Storage Interface (CSI) to allow access of data stored elsewhere when running an instance of the container image(?)
+- The image code should clearly specify the software version eg. conda, apt, yum etc.
+- Best practice for tagging should use the version number of the software contained in the image, or if a couple of software is used in one image, semantic versioning: Major.Minor.Patch version numbering for software releases. The most recent version of the image is usually tagged as latest, but it is very important to use the software version number tag along with the latest tag.
+- detailed documentation about the contents, the versions of the component software programs, and any other dependencies, and changes from previous versions in terms of function/parameters etc. and WHY must be included.
+- Include which standard and specification the contatainer is following, eg. Container Network Model (CNM) (the Docker standard)or Container network interface (CNI) (kubernetes) which is based on a standard Linux specification: Open Container Initiative (OCI)
+- License information
+- Intermediate file storage: information within containers is lost once removed so a solution like a common working directory on the host file system is a good solution
+- Container Health Checks: if a program eg. bwa, gets stuck without exiting, the container could continue indefinitely. Periodic status checks  
+
+Different containers
+Singularity
+- Singularity favors integration over isolation as its key approach to running containers. Unlike standard containers, no container runtime is required to run or build Singularity containers and therefore eliminating the need for privileged (ie. root) access. 
+- Singularity provides methods to convert and use existing Docker images for running bioinformatics software in an HPC (Sylabs, https://sylabs.io/guides/3.7/user-guide/singularity_and_docker.html, last accessed September 20, 2021)
+
+
+Use Nextflow within a Docker container: https://github.com/PhilPalmer/lbf-hack-tutorial
