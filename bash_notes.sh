@@ -60,13 +60,14 @@ cd ~ or cd # cd to /home/thomas
 ?  #represents any single character
 ls  #list folders/files in a directory
 ls -lht  # -l long: shows permisstions and time of last modification and size, -h human readable, -t sorts by recently modified
+du -ch  # see total space inside directory. -c total -h human readable
 mkdir dirname  #make directory
 rmdir dirname or rm -d  #remove empty directory
 rm -r  #remove directory can contain files
 rm filename  #delete file
 touch filename  # makes empty file
 mv oldfile.txt newfile.txt  # moves/cuts the file and pastes and renames it 
-
+find ~ -name filename.txt  # find file in ~ (home) dir
 # Permissions
 chmod +rwx filename  # change permissions: add read write execute permissions to file/directory
 chmod -wx filname  # remove write and execute permissions
@@ -79,16 +80,22 @@ chmod -R g=u  dirname  # recurively set the permission of the group for a dir to
 cp file.txt filcopy.txt  #copy file newfile
 cp -r dir /new/location/dircopy  #copy directories
 
+## Extracting and compressing files: (see https://www.nexcess.net/help/how-to-decompress-files-in-gzip/)
+# .zip
 zip -r ARCHIVE_NAME  # compress into zip format <- universally used across OS systems
 zip ARCHIVE_NAME.zip  # extract
-
-tar -zcvf filename.tar.gz  # read table of contents (-t) for a archive file. 
+# .tar.gz
+tar -zcvf filename.tar.gz directory
+        # read table of contents (-t) for a archive file. 
     -c  # compress
     -x  # extract 
     -z  # tell tar .gzip file
     -f  # is `--file filename`  # needs filename.
     -v  # --verbose
-tar -zxvf filename.tar.gz  #extract compressed files
+tar -zxvf filename.tar.gz # extract compressed dir 
+tar -zxvf filename.tar.gz -C tmp/ # to tmp/dir/files* 
+# .gz
+gzip  
 
 
 file filename.gif  #prints file type eg. in this case GIF image data bla bla
@@ -243,6 +250,12 @@ echo "Backup of $input completed! Details about the output backup file:"
 ls -l $output
 
 
+############  Install packages  ##################
+
+# download .deb file
+sudo apt install package.deb
+
+
    #### Virtual environments ####
 
 ## Conda ##
@@ -287,3 +300,4 @@ deactivate  # exit environment
 alt+arrow keys skip words
 7 on num pad to move to beginning of line
 1 to move to the end
+Ctrl + W  # delete previous word

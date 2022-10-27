@@ -54,8 +54,9 @@ git merge "branch"  # merge branch "branch" with current working branch "main"
 
 
   ## UNDO local commit before pushing ##
-git reset HEAD~1  # undo your last commit while leaving your working tree (the state of your files on disk) untouched.
+git reset HEAD~1 --soft  # undo your last commit while leaving your working tree (the state of your files on disk) untouched.
 git reset Head~1 --hard  # undoes your last commit and edits files to state of previous commit 
+ # ~1  go back 1 commit.
 
   ## undo local change (restore to remote version)
 git checkout -- <file/s>

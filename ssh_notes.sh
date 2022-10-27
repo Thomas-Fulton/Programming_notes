@@ -1,6 +1,8 @@
  #!/bin/bash
  
  # ADD ssh general protocol/instructions
+    #### Set up ssh tunnel #### 
+
 
     ## ncl rocket access ##
 ssh c0078068@unix.ncl.ac.uk
@@ -32,7 +34,7 @@ rsync -avzP /path/to/local/file.txt yourUsername@remote.computer.address:/path/o
   # the v (verbose) option gives verbose output to help monitor the transfer; 
   # the z (compression) option compresses the file during transit to reduce size and transfer time; 
   # the P (partial/progress) option preserves partially transferred files in case of an interruption and also displays the progress of the transfer.
- rsync -avzP yourUsername@remote.computer.address:/path/on/remote/computer/file.txt /path/to/local/
+rsync -avzP yourUsername@remote.computer.address:/path/on/remote/computer/file.txt /path/to/local/
   # to download a file switch the source and destination
 
 
