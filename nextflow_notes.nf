@@ -11,20 +11,49 @@
 */
 
 
-// #############  Syntax and Workflow  ###############
+// #############  Workflow  ###############
 // Nextflow is a Domain Specific Languages (DSL), e.g., SQL is used to work with databases.
 /* A workflow is made up of:
-  - Processes: describe a task to be run. A process script can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.). One instance of a process per element in a channel. 
-  - Channels: link Processes together by controlling the input and outputs.  
+  - Processes: describe a task to be run. A process script can be written in any scripting language that can be executed by the Linux platform (Bash, Perl, Ruby, Python, etc.). A task is when one instance of a process is run for one element/item in a channel. 
+  - Channels: link Processes together though their inputs and outputs. 
 
+
+// ####  Processes  ####
+
+
+// #### Channels #### 
+
+/* Channels link processes and control the data.
+ Two types of channels:
+ - A queue (CONSUMABLE) channels is used to store multiple values.
+ - A value (REUSABLE) channel is used to store a single value/object: this can be a list with multiple values, eg. a reference genome sequence file that is required by multiple steps within a process, or by more than one process.
+
+// ####  Queue channels  ####
+
+myFileChannel = Channel.fromPath( '/data/some/bigfile.txt' )
+myFileChannel = Channel.fromPath( '/data/big/*.txt' )  // *glob can be used, doesn't include hidden files.
+Channel.fromFilePairs('/my/data/SRR*_{1,2}.fastq')  // creates a list of tuples: [SRR493366, [/my/data/SRR493366_1.fastq, /my/data/SRR493366_2.fastq]]
+
+TODO watchPath
+
+// #### Executing scripts ####
 Nextflow scripts are exectuted with:
 `nextflow run SCRIPT.nf`
+nextflow run wc-params.nf --sleep 10
 */
 
-// nextflow is not sensitive to whitespace
+
+
+// #############  Syntax  ################
+// ####  Key Points  ####
+
+// - nextflow is not sensitive to whitespace
+
+
 // ####  Variables  ####
 /* Variables can be an integer, float, string or Boolean. They are defined with `=`. 
 Strings are defined with "quotes" (read special characters eg. "$bashvar" would be read as the content of the variable) or /slashes/ (which ignore special characters EXCEPT FOR $VARIABLES), or 'single quotes' (which ignore all special characters, eg. \* etc, would print $bashvar as a string of characters). 
+
 
 // ####  Lists  ####
 // Lists or arrays are defined with []. Indexing starts at 0. Negative indexes go back from the end of the array. To define a range use `myarray[<num1>..<num2>]`.
@@ -36,7 +65,7 @@ println mylist + [1]  // add element
 println mylist - [1]  // take away element at index.
 println mylist * 2
 println mylist.reverse()
-println mylist.collect{ it+3 }
+println mylist.collect({ it+3 })  // IMPORTANT: iterates over a list and can take a closure/expression, or a variable with a closure assigned to it (see closure section)
 println mylist.unique().size()
 println mylist.count(1)
 println mylist.min()
@@ -51,12 +80,23 @@ println mylist.findAll{it%2 == 0}
 roi = [ chromosome : "chr17", start: 7640755, end: 7718054, genes: ['ATP1B2','TP53','WRAP53']]
 println(roi['chromosome'])
 
+// ####  Closures (like functions)  ####
+// A closure is a block of code/expression/funtion that can be passed as an argument to a function. They are enclosed in `{}`, and use the default variable `it`, but other variables can be defined. eg. 
+square_it = { it * it }
+multipy_vals = { value1, value2 -> value1 * value2 }  // { parameters -> expression/function } 
+
+// Some methods can take closures
+x = [ 1, 2, 3, 4 ]
+y = x.collect(square)
+println(y)  // returns: [ 1, 4, 9, 16 ]
 
 
 // #### Useful commands ####
 println("list size is:  ${mylist.size()}")  // prints to screen/output/terminal. Uses Bash-type variable interpolation.
 
 
+
+// ##############  Script Structure  ###############
 
 /* EXAMPLE SCRIPT Structure: 
 1. #!/usr/bin/env nextflow
@@ -86,7 +126,7 @@ nextflow.enable.dsl=2
 
 
 //  Workflow default parameters are written as params.<parameter> and can be initialised using the `=` operator.
-//  These can be overridden when executing a nextflow workflow with `--in <value>`
+//  These can be overridden when executing a nextflow workflow with `--<parameter> <value>`.
 
 params.input = "data/yeast/reads/ref1_1.fq.gz"
 //params.output = "something"
@@ -132,3 +172,18 @@ process NUM_LINES {
 // END OF EXAMPLE SCRIPT //
 
 
+
+// ####  Parameter files  #### 
+// Contains parameters and written in JSON or YAML format. The -params-file option is used to pass the parameters file to the script.
+// Excuted with:
+$ nextflow run wc-params.nf -params-file wc-params.json
+
+
+// EXAMPLE PARAMETER FILE //
+
+{
+  "sleep": 5,
+  "input": "data/yeast/reads/etoh60_1*.fq.gz"
+}
+
+// END OF PARAMETER FILE EXAMPLE //
