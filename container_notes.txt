@@ -1,19 +1,20 @@
 ###########  Containers  ################
 Links:
 - https://www.sciencedirect.com/science/article/pii/S1525157822000381#:~:text=A%20container%20is%20a%20technology,developing%20NGS%20bioinformatics%20analysis%20pipelines.
+- https://training.seqera.io/#_manage_dependencies_and_containers
 
 Definitions:
-Container	A container is a standard unit of software that packages application code along with all required dependencies (binaries, language-specific libraries) to run an application fast, efficiently, and consistently across any computing environment, without any change in application configuration. It is a runnable instance of an image of a software application.
-Image	An image is a static read-only template with instructions for creating a container.
-Daemon	Service that runs on host OS and listens for API requests. It creates and manages images, containers, images, and volumes.
-Build image	The action of building an image based on the information and context provided by its Dockerfile.
-Multistage build	Feature to reduce final size of the image. For example, using a large base image and a small runtime-only base image to produce a smaller final image.
-Container registry	A centralized/hosted collection of repositories of static container images. If public, anyone can pull the images from the registry.
-Dockerfile	Image definition file with commands to build a Docker image.
-Image tag	Labels for a container image, usually used to reference versions.
-Hypervisor	Is a software program, typically an operating system (OS), that can host multiple virtual machines (VMs) on a bare metal host. The hypervisor is responsible for provisioning and managing the appropriate hardware resources to the VMs.
-Microservice Architecture	Software design principle for building an application or solution such that each function is implemented and operated as an independent service.
-continuous integration (CI) and continuous deployment (CD)
+- Container	A container is a standard unit of software that packages application code along with all required dependencies (binaries, language-specific libraries) to run an application fast, efficiently, and consistently across any computing environment, without any change in application configuration. It is a runnable instance of an image of a software application.
+- Image	An image is a static read-only template with instructions for creating a container.
+- Daemon	Service that runs on host OS and listens for API requests. It creates and manages images, containers, images, and volumes.
+- Build image	The action of building an image based on the information and context provided by its Dockerfile.
+- Multistage build	Feature to reduce final size of the image. For example, using a large base image and a small runtime-only base image to produce a smaller final image.
+- Container registry	A centralized/hosted collection of repositories of static container images. If public, anyone can pull the images from the registry.
+- Dockerfile	Image definition file with commands to build a Docker image.
+- Image tag	Labels for a container image, usually used to reference versions.
+- Hypervisor	Is a software program, typically an operating system (OS), that can host multiple virtual machines (VMs) on a bare metal host. The hypervisor is responsible for provisioning and managing the appropriate hardware resources to the VMs.
+- Microservice Architecture	Software design principle for building an application or solution such that each function is implemented and operated as an independent service.
+- continuous integration (CI) and continuous deployment (CD)
 
 - The key advantages of containers are portability, lightweight nature, reproducibility, and security. 
 - Unlike VMs, containers only package the application source code (or compiled binary) and the minimal necessary dependencies, making them very lightweight.
@@ -41,4 +42,57 @@ Singularity
 - Singularity provides methods to convert and use existing Docker images for running bioinformatics software in an HPC (Sylabs, https://sylabs.io/guides/3.7/user-guide/singularity_and_docker.html, last accessed September 20, 2021)
 
 
-Use Nextflow within a Docker container: https://github.com/PhilPalmer/lbf-hack-tutorial
+Use Nextflow within a Docker container: 
+- https://github.com/PhilPalmer/lbf-hack-tutorial
+- https://nickwisniewski.com/nextflow-example/
+
+
+
+
+#################################
+Docker
+#################################
+
+Docker creates runs a system, eg. ubuntu:20.04, usually from the root (/) directory.
+
+######  Creating a new docker image  ######
+
+1. Create repository on hub.docker.com
+2. Create Dockerfile: see notes in Programming_notes/container_notes and example Dockerfile in this image, and mendelian-filter.3. Build locally: `docker build -t myname/myimage:tag . `
+4. Push to repo: `docker push <your_username>/my-private-repo:tag`
+
+
+######  Commands  #######
+
+docker tag <current image name>  <our user name>/<new image name>[:tag] 
+docker build -t myname/myimage:tag .  # build image locally. Use --no-cache=true to build from scratch
+docker run <your_username>/my-private-repo:tag  # test image locally
+docker push <your_username>/my-private-repo:tag  # push to your repo
+docker pull <your_username>/my-private-repo:tag 
+
+#docker exec -it name-of-container bash  # LINE BELOW IS BETTER run a new instance of bash inside container to explore it
+docker run -ti wtfulton/mendelian-filter:0.1.12 /bin/sh
+
+
+# Remove docker images with "pattern"
+docker images -a | grep "none" | awk '{print $3}' | xargs docker rm
+
+
+######  Dockerfile  #######
+
+FROM ubuntu:20.04
+RUN mkdir /opt/mendelian-filter/  # Use opt/ dir to install additional software like this package, each in its own subdir
+WORKDIR /opt/mendelian-filter/  # Defines workdir, needs full path, usually default workdir is root (/)
+
+# Building from a cache will not re-run unchanged lines: Always run `apt-get update && apt-get install [packages]` on the same line, so building a new version from a cached one will also run `apt-get update`. Always specify versions. Also remove apt cache so image size is reduced (apt-get update refreshes package cache before apt-get install)
+RUN apt-get update && apt-get install -y \
+    package-bar1.0.2 \
+    package-baz \
+    package-foo=1.3.* \
+    && rm -rf /var/lib/apt/lists/*  
+
+VOLUME ./results  # specify dirs to be saved on host and NOT in container
+
+CMD ["nextflow", "-version"]  # Used to run 
+
+

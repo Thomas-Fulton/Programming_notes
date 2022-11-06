@@ -30,11 +30,20 @@
 
 // ####  Queue channels  ####
 
-myFileChannel = Channel.fromPath( '/data/some/bigfile.txt' )
+// .fromPath returns files (default) or directories that match the glob. checkIfExists is False by default.
+myFileChannel = Channel.fromPath( '/data/some/bigfile.txt', checkIfExists:true)
 myFileChannel = Channel.fromPath( '/data/big/*.txt' )  // *glob can be used, doesn't include hidden files.
+myDirChannel = Channel.fromPath( '/data/dir*' , type = 'dir' )  // type can be used to find 'file' 'dir' or 'any' - default is 'file'
 Channel.fromFilePairs('/my/data/SRR*_{1,2}.fastq')  // creates a list of tuples: [SRR493366, [/my/data/SRR493366_1.fastq, /my/data/SRR493366_2.fastq]]
 
-TODO watchPath
+// .watchPath By default it watches only for new files created in the specified folder. Can watch for 'create' 'modify' 'delete'myFileChannel = Channel.watchPath( '/path/*.fa', 'create,modify')
+
+// Run process x times, and link to these files: Use Channel.from() method to define the range over which to repeat the task execution, then chain it with the Channel.map() operator to associate each index with the corresponding input files. Finally, use the resulting channel as input for the process. see https://nextflow-io.github.io/patterns/process-per-file-range/
+
+// If one process outputs more than one file
+
+
+
 
 // #### Executing scripts ####
 Nextflow scripts are exectuted with:
@@ -161,7 +170,7 @@ process NUM_LINES {
     stdout
 
     script:
-    /* Triple quote syntax """, Triple-single-quoted strings may span multiple lines. The content of the string can cross line boundaries without the need to split the string in several pieces and without concatenation or newline escape characters. */
+    /* Bash by default. Triple quote syntax """, Triple-single-quoted strings may span multiple lines. The content of the string can cross line boundaries without the need to split the string in several pieces and without concatenation or newline escape characters. */
     """
     printf '${read} '
     gunzip -c ${read} | wc -l
@@ -187,3 +196,42 @@ $ nextflow run wc-params.nf -params-file wc-params.json
 }
 
 // END OF PARAMETER FILE EXAMPLE //
+
+
+
+
+// Modular structure //
+
+include { SCRNASEQ } from './workflows/scrnaseq'
+
+
+
+// ###################################
+//     Configuration files
+// ###################################
+
+Settings in a configuration file are sets of name-value pairs (name = value). The name is a specific property to set, while the value can be anything you can assign to a variable (see nextflow scripting), for example, strings, booleans, or other variables. It is also possible to access any variable defined in the host environment such as $PATH, $HOME, $PWD, etc.
+
+// "dot" notation:
+params.input = ''             // The workflow parameter "input" is assigned an empty string to use as a default value
+params.outdir = './results'   // The workflow parameter "outdir" is assigned the value './results' to use by default.
+// "brace notation:
+params {
+    input  = ''
+    outdir = './results'
+}
+
+Parameters starting with a single dash - (e.g., -c my_config.config) are configuration options for nextflow, while parameters starting with a double dash -- (e.g., --outdir) are workflow parameters defined in the params scope: params.outdir in the .nf script can be altered via the command line with a --outdir. Overrides config and default value in the .nf script.
+
+The majority of Nextflow configuration settings must be provided on the command-line, however a handful of settings can also be provided within a configuration file, such as workdir = '/path/to/work/dir' (-w /path/to/work/dir) or resume = true (-resume), and do not belong to a configuration scope.
+
+
+
+
+// ###################################
+//     Docker
+// ###################################
+
+To use Docker, we must provide a container image path using the process.container directive, and also enable docker in the docker scope, docker.enabled = true. A container image path takes the form (protocol://)registry/repository/image:version--build. By default, Docker containers run software using a privileged user. This can cause issues, and so it is also a good idea to supply your user and group via the docker.runOptions.
+
+

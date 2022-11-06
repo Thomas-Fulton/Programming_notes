@@ -1,0 +1,42 @@
+
+
+   ###  File System Hierarchy  ###
+/usr/
+  # unix system resources - don't change
+ /usr/local/
+  # The /usr/local hierarchy is for use by the system administrator when installing software locally. It needs to be safe from being overwritten when the system software is updated.
+  /usr/local/bin/
+  /usr/local/lib/
+  /usr/local/share/
+  # most programs are installed here: not affected by a system software update like files in /usr/
+  # similar to the root directory structure
+  # becomes messy quickly: the system can identify what file is used by what program but it is not human friendly. Therefore, additional software can be install to /opt/ instead.
+/opt/  
+  # for add-on packages and software, and can be much more human readable.
+  # new directory for each software/program
+  # create dirs here to install your own programs (then either create symlink from opt/dir to local/bin, or add opt/dir/bin $PATH)
+
+   ###  Installing programs  ###
+  ##  Apt  ##
+
+
+  ##  Manual installation  ##
+# https://itsfoss.com/install-software-from-source-code/
+# Follow the FSH (File system hierarchy)
+
+# When in doubt, make a directory /opt/program_name, and install to there:
+mkdir /opt/myprog-1.0
+git clone myprog-1.0.git
+cd /opt/myprog-1.0
+./configure --prefix=/opt/myprog-1.0
+
+# Now your program can be ran using the full path:
+/opt/myprog-1.0/bin/myprog-1.0
+
+# To run the program more easily by just typing the name either: add to $PATH, or make a symlink to eg.local/bin.
+# Export to $PATH: 
+export PATH=/opt/myprog-1.0/bin:$PATH 
+# Create symlink:
+ln -s my_prog-1.0/bin/executable /usr/local/bin/
+
+

@@ -171,6 +171,9 @@ variable2=two
 
 # Access variables with the dollar sign. eg: (for some inbuilt shell variables)
 $PATH  
+# Add dir to path temporarily (edit ~/.bashrc to make permanent for user)
+export PATH="$HOME/bin:$PATH"
+
 $PS1  # The command prompt in the shell eg. thomas@wolf: ~$
 
 # POSITIONAL variables cannot be assigned by user and correspond to the arguments passed when running the script eg. `
