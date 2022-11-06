@@ -3,3 +3,6 @@ ignored/*
 
 # ebooks folder: large and making public against licenses
 ebooks/
+
+# R_cheatsheets: big pdfs
+R_cheatsheets/
