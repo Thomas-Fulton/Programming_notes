@@ -15,6 +15,8 @@
   # for add-on packages and software, and can be much more human readable.
   # new directory for each software/program
   # create dirs here to install your own programs (then either create symlink from opt/dir to local/bin, or add opt/dir/bin $PATH)
+/etc/
+  # mostly configuration files of programs
 
    ###  Installing programs  ###
   ##  Apt  ##
