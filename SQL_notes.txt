@@ -1,0 +1,130 @@
+
+SQL stands for Structured Query Language and is pronounced “S.Q.L.” or “Sequel”.
+
+
+##  Relational Database Management System (RDBMS) ##
+
+Makes querying and processing efficient by using links between data/tables, . eg. the tables below share customer_id, so 
+- Customer_information_table (which has fields for customer_id, address, phone_number, etc…)
+- Customer_orders_table (which has fields for customer_id, product, quantity, etc…)
+If this was in the same table, then multiple orders by the same customer would also include wasted repeats of their address etc.
+
+
+#####################################
+      mySQL
+#####################################
+https://likegeeks.com/mysql-on-linux-beginners-tutorial/
+
+mysql --help
+sudo mysql -u thomas -p  # enter CLI with user thomas and authenticated with password
+mysql> QUIT  # Exit CLI
+
+mySQL is an example of a RDBMS.
+- The mysql server is used to persist the data and provide a query interface for it (SQL). 
+- The mysql clients purpose is to allow you to use that query interface.
+
+MySQL is a system service, ie. a program that runs in the background outside the interactive control of system users as they lack an interface, so mysql client is needed to access the server. To start the the service:
+
+
+#########  Setup  ###########
+
+sudo systemctl start mysql  # no output means it started successfully
+sudo systemctl status mysql  # check status to see if its running
+sudo systemctl enable mysql  # enables mysql to run on system startup automatically
+
+Root user for SQL should be created with a strong password, as they can create users and give permissions for all databases. This, and other configurations, can be set with the mysql_secure_installation script:
+sudo mysql
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'password'; see https://askubuntu.com/questions/1406395/mysql-root-password-setup-error to resolve error
+
+GRANT [privilege1, privilege2] ON [database].[table] TO '[user]'@'localhost';  # SEE privileges in syntax section below
+
+
+#########  Syntax  #########
+- commands end with a ";"
+- ignores cases but convensions include:
+  - CAPS for COMMANDS
+- Enter mysql with:
+sudo mysql -u username -p [database]
+
+  ###  Basics  ###
+
+SHOW DATABASES;  # list existing databases
+DESCRIBE [tablename]  # show structure, colnames and data types.
+CREATE DATABASE [database_name]  # Create a database eg. CREATE DATABASE Person
+USE [tablename]
+
+  ### Operators ###
+AND
+OR
+# use in parenthises:
+SELECT * FROM pet WHERE (species = 'cat' AND sex = 'm') OR (species = 'dog' AND sex = 'f');
+
+  ### Data types ###
+data_type can be: int (integer), varchar (string of variable length), char (single character), DATE ('YYYY-MM-DD')
+
+CREATE TABLE [table_name] (column1_name data_type(length) [NOT NULL] [DEFAULT value] [AUTO_INCREMENT], column2_name data_type(length) [NOT NULL] [DEFAULT value] [AUTO_INCREMENT] ... );
+CREATE TABLE Person (Id int(10) NOT NULL, name varchar(10), last_name varchar(10));  # 
+
+USE [database_name];  # Use a database eg. USE Person 
+
+INSERT INTO table_name (column1, column2, column3,..) VALUES ( value1, value2, value3,..);
+INSERT INTO Person (Id, name, last_name) VALUES (1,'Richard','Winters');
+INSERT INTO pet VALUES ('Puffball','Diane','hamster','f','1999-03-30',NULL);
+
+SELECT * FROM table_name;  # read all the data in the table
+SELECT column1, column2, ... FROM table_name;
+SELECT * FROM table_name WHERE [condition]  # 
+  [condition] examples: Id=1 AND Age < 30,
+SELECT name, birth FROM pet;  # Only two columns
+SELECT DISTINCT owner FROM pet;  # Unique values
+SELECT name, species, birth FROM pet WHERE species = 'dog' OR species = 'cat';
+SELECT name, birth FROM pet ORDER BY birth DESC;  # Order results
+
+
+UPDATE table_name SET column1 = value1, column2 = value2 WHERE [condition];
+UPDATE Person SET last_name = 'Clark' WHERE Id=1;
+
+DELETE FROM table_name WHERE condition;
+DELETE from Person WHERE Id=1;
+
+
+# Create table:
+CREATE TABLE [table_name] (column1_name data_type(length) [NOT NULL] [DEFAULT value] [AUTO_INCREMENT], column2_name data_type(length) [NOT NULL] [DEFAULT value] [AUTO_INCREMENT] ... );
+eg.
+CREATE TABLE Person (Id int(10) NOT NULL, name varchar(10), last_name varchar(10));
+
+# CRUD operations to a database table are other very basic data manipulation operations. 
+
+
+  ###  Import SQL file  ###
+
+# Create new database, then exit:
+CREATE DATABASE example2;
+exit;
+sudo mysql -u username -p [database] < [sql_file_path]
+
+  ###  Export SQL file  ###
+
+sudo mysqldump -u username -p database_to_export > file.sql
+# To make a backup of all databases:
+sudo mysqldump -u username -p --all-databases > file.sql
+
+
+  ###  Privileges  ###
+eg.  GRANT CREATE ON test.* TO 'thomas'@'localhost';
+ALL PRIVILEGES: Assigns all permissions on the chosen database.
+CREATE: This privilege allows you to create new tables or databases.
+DROP: In this case, it allows you to delete tables and databases.
+DELETE: It allows deleting records from the tables.
+INSERT: With this privilege, you can create records in the tables.
+SELECT: This privilege is required to read the records from the tables.
+UPDATE: It allows you to update the records of a table.
+GRANT OPTION: With this privilege, the user can remove privileges from certain users.
+
+
+
+
+
+###########  Logs  ##############
+On Ubuntu, log files are stored in:
+/var/log/mysql/error.log
