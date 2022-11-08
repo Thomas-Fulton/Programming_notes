@@ -3,16 +3,24 @@ SQL stands for Structured Query Language and is pronounced “S.Q.L.” or “Se
 
 
 ##  Relational Database Management System (RDBMS) ##
+https://towardsdatascience.com/designing-a-relational-database-and-creating-an-entity-relationship-diagram-89c1c19320b2  <- planning and using a RDBMS with mySQL
 
 Makes querying and processing efficient by using links between data/tables, . eg. the tables below share customer_id, so 
-- Customer_information_table (which has fields for customer_id, address, phone_number, etc…)
-- Customer_orders_table (which has fields for customer_id, product, quantity, etc…)
+- 1: Customer_information_table (which has fields for customer_id, address, phone_number, etc…)
+- 2: Customer_orders_table (which has fields for order_no, customer_id, product, order_no, quantity, etc…)
+- 3: Product_table (which has the fields product, brand, serial_no)
 If this was in the same table, then multiple orders by the same customer would also include wasted repeats of their address etc.
+
+Each table in the database must have a primary key: a UNIQUE non-NULL identifier for each row (record). Columns are attributes. These can be different in each table, as each table can represent a different entity (eg. Entity: Customer information, primary key: customer_id, 2: Entity: Customer Orders, primary key: order_no, 3: Entity: product, primary key: Product) 
+
+For each relationship a table has to another table, it requires a foreign key as an attribute in table A to define that relationship.
+
 
 
 #####################################
       mySQL
 #####################################
+https://downloads.mysql.com/docs/mysql-tutorial-excerpt-5.7-en.pdf
 https://likegeeks.com/mysql-on-linux-beginners-tutorial/
 
 mysql --help
@@ -63,7 +71,7 @@ SELECT * FROM pet WHERE (species = 'cat' AND sex = 'm') OR (species = 'dog' AND 
 data_type can be: int (integer), varchar (string of variable length), char (single character), DATE ('YYYY-MM-DD')
 
 CREATE TABLE [table_name] (column1_name data_type(length) [NOT NULL] [DEFAULT value] [AUTO_INCREMENT], column2_name data_type(length) [NOT NULL] [DEFAULT value] [AUTO_INCREMENT] ... );
-CREATE TABLE Person (Id int(10) NOT NULL, name varchar(10), last_name varchar(10));  # 
+CREATE TABLE Person (Id int(10) PRIMARY KEY NOT NULL UNIQUE, name varchar(10), last_name varchar(10));  # Cannot be a null value,
 
 USE [database_name];  # Use a database eg. USE Person 
 
@@ -88,12 +96,16 @@ DELETE FROM table_name WHERE condition;
 DELETE from Person WHERE Id=1;
 
 
-# Create table:
+# Create table: See contraints
 CREATE TABLE [table_name] (column1_name data_type(length) [NOT NULL] [DEFAULT value] [AUTO_INCREMENT], column2_name data_type(length) [NOT NULL] [DEFAULT value] [AUTO_INCREMENT] ... );
-eg.
 CREATE TABLE Person (Id int(10) NOT NULL, name varchar(10), last_name varchar(10));
 
-# CRUD operations to a database table are other very basic data manipulation operations. 
+
+
+  ###  Constraints  ####
+PRIMARY KEY
+NOT NULL
+UNIQUE
 
 
   ###  Import SQL file  ###
@@ -123,6 +135,147 @@ GRANT OPTION: With this privilege, the user can remove privileges from certain u
 
 
 
+#################################
+Extended Example:  https://towardsdatascience.com/coding-and-implementing-a-relational-database-using-mysql-d9bc69be90f5
+#################################
+
+CREATE TABLE teacher (
+  teacher_id INT PRIMARY KEY,
+  first_name VARCHAR(40) NOT NULL,
+  last_name VARCHAR(40) NOT NULL,
+  language_1 VARCHAR(3) NOT NULL,
+  language_2 VARCHAR(3),
+  dob DATE,
+  tax_id INT UNIQUE,
+  phone_no VARCHAR(20)
+  );
+CREATE TABLE client (
+  client_id INT PRIMARY KEY,
+  client_name VARCHAR(40) NOT NULL,
+  address VARCHAR(60) NOT NULL,
+  industry VARCHAR(20)
+);
+CREATE TABLE participant (
+  participant_id INT PRIMARY KEY,
+  first_name VARCHAR(40) NOT NULL,
+  last_name VARCHAR(40) NOT NULL,
+  phone_no VARCHAR(20),
+  client INT
+);
+CREATE TABLE course (
+  course_id INT PRIMARY KEY,
+  course_name VARCHAR(40) NOT NULL,
+  language VARCHAR(3) NOT NULL,
+  level VARCHAR(2),
+  course_length_weeks INT,
+  start_date DATE,
+  in_school BOOLEAN,
+  teacher INT,
+  client INT
+);
+
+# Add 
+ALTER TABLE participant
+ADD FOREIGN KEY(client)  # creating a relationship (ADD FOREIGN KEY) where the attribute/column client on the participant table references the client_id attribute/column on the client table
+REFERENCES client(client_id)
+ON DELETE SET NULL;  # if record (row) is deleted the value of the client attribute for that participant will be set to NULL, but the record will remain in the participants table. ON DELETE CASCADE would delete all records linked to this foreign key would be deleted as well!
+
+ALTER TABLE course
+ADD FOREIGN KEY(teacher)
+REFERENCES teacher(teacher_id)
+ON DELETE SET NULL;
+
+ALTER TABLE course
+ADD FOREIGN KEY(client)
+REFERENCES client(client_id)
+ON DELETE SET NULL;
+
+# To capture an N-to-M relationship in a relational database we must create another table which connects the primary keys of the entities involved in the relationship, along with any other useful information that it makes sense to store here.
+CREATE TABLE takes_course (
+  participant_id INT,
+  course_id INT,
+  PRIMARY KEY(participant_id, course_id),
+  FOREIGN KEY(participant_id) REFERENCES participant(participant_id) ON DELETE CASCADE,
+  FOREIGN KEY(course_id) REFERENCES course(course_id) ON DELETE CASCADE
+);
+
+# Populate table:
+INSERT INTO teacher VALUES
+(1,  'James', 'Smith', 'ENG', NULL, '1985-04-20', 12345, '+491774553676'),
+(2, 'Stefanie',  'Martin',  'FRA', NULL,  '1970-02-17', 23456, '+491234567890'), 
+(3, 'Steve', 'Wang',  'MAN', 'ENG', '1990-11-12', 34567, '+447840921333');
+
+# Partial insert:
+INSERT INTO teacher (teacher_id, first_name, last_name, language_1)
+VALUES (2, 'Stefanie',  'Martin',  'FRA');
+
+# Delete one record: (MUST USE `WHERE` STATEMENT or will delete all records)
+DELETE FROM teacher WHERE teacher_id = 2;
+
+# Update one record: (again must use `WHERE` statement or all records will be changed)
+
+
+INSERT INTO teacher VALUES
+(4, 'Friederike',  'Müller-Rossi', 'DEU', 'ITA', '1987-07-07',  45678, '+492345678901'),
+(5, 'Isobel', 'Ivanova', 'RUS', 'ENG', '1963-05-30',  56789, '+491772635467'),
+(6, 'Niamh', 'Murphy', 'ENG', 'IRI', '1995-09-08',  67890, '+491231231232');
+
+
+INSERT INTO client VALUES
+(101, 'Big Business Federation', '123 Falschungstraße, 10999 Berlin', 'NGO'),
+(102, 'eCommerce GmbH', '27 Ersatz Allee, 10317 Berlin', 'Retail'),
+(103, 'AutoMaker AG',  '20 Künstlichstraße, 10023 Berlin', 'Auto'),
+(104, 'Banko Bank',  '12 Betrugstraße, 12345 Berlin', 'Banking'),
+(105, 'WeMoveIt GmbH', '138 Arglistweg, 10065 Berlin', 'Logistics');
+
+
+INSERT INTO participant VALUES
+(101, 'Marina', 'Berg','491635558182', 101),
+(102, 'Andrea', 'Duerr', '49159555740', 101),
+(103, 'Philipp', 'Probst',  '49155555692', 102),
+(104, 'René',  'Brandt',  '4916355546',  102),
+(105, 'Susanne', 'Shuster', '49155555779', 102),
+(106, 'Christian', 'Schreiner', '49162555375', 101),
+(107, 'Harry', 'Kim', '49177555633', 101),
+(108, 'Jan', 'Nowak', '49151555824', 101),
+(109, 'Pablo', 'Garcia',  '49162555176', 101),
+(110, 'Melanie', 'Dreschler', '49151555527', 103),
+(111, 'Dieter', 'Durr',  '49178555311', 103),
+(112, 'Max', 'Mustermann', '49152555195', 104),
+(113, 'Maxine', 'Mustermann', '49177555355', 104),
+(114, 'Heiko', 'Fleischer', '49155555581', 105);
+
+
+INSERT INTO course VALUES
+(12, 'English for Logistics', 'ENG', 'A1', 10, '2020-02-01', TRUE,  1, 105),
+(13, 'Beginner English', 'ENG', 'A2', 40, '2019-11-12',  FALSE, 6, 101),
+(14, 'Intermediate English', 'ENG', 'B2', 40, '2019-11-12', FALSE, 6, 101),
+(15, 'Advanced English', 'ENG', 'C1', 40, '2019-11-12', FALSE, 6, 101),
+(16, 'Mandarin für Autoindustrie', 'MAN', 'B1', 15, '2020-01-15', TRUE, 3, 103),
+(17, 'Français intermédiaire', 'FRA', 'B1',  18, '2020-04-03', FALSE, 2, 101),
+(18, 'Deutsch für Anfänger', 'DEU', 'A2', 8, '2020-02-14', TRUE, 4, 102),
+(19, 'Intermediate English', 'ENG', 'B2', 10, '2020-03-29', FALSE, 1, 104),
+(20, 'Fortgeschrittenes Russisch', 'RUS', 'C1',  4, '2020-04-08',  FALSE, 5, 103);
+
+
+INSERT INTO takes_course VALUES
+(101, 15),
+(101, 17),
+(102, 17),
+(103, 18),
+(104, 18),
+(105, 18),
+(106, 13),
+(107, 13),
+(108, 13),
+(109, 14),
+(109, 15),
+(110, 16),
+(110, 20),
+(111, 16),
+(114, 12),
+(112, 19),
+(113, 19);
 
 
 ###########  Logs  ##############
