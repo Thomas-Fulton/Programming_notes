@@ -2,6 +2,14 @@
 
   ###########  Imperial  ###########
 
+# login Quickstart
+export PS1='[\u@\h:\w]$ '
+module load anaconda3/personal
+source ~/anaconda3/etc/profile.d/conda.sh
+conda activate R413-scRNAseq
+
+
+
     ### File system ###
 ## .../user/home/
 /rds/general/user/wfulton/home  
@@ -43,10 +51,10 @@ source activate ENV_NAME
 conda deactivate
 conda list  # List all packages and versions installed in active environment
 conda search PACKAGENAME
-conda install -c conda-forge -c bioconda -c defaults PACKAGENAME  # specify channel
+conda install -c conda-forge PACKAGENAME=version  # specify channel eg. bioconda, conda-forge etc.
 conda clean   # remove unused pacakages and cache
 conda config --get channels # see added channels and priority order
-conda config --add channels bioconda
+conda config --add channels bioconda  # last channel added has highest priority
 conda config --add channels defaults  
 conda config --add channels conda-forge
 

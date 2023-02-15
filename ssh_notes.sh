@@ -2,6 +2,10 @@
  
  # ADD ssh general protocol/instructions
     #### Set up ssh tunnel #### 
+# start ssh agent:
+eval "$(ssh-agent -s)"
+# add private key to ssh agent
+ssh-add ~/.ssh/id_ed25519
 
 
     ## ncl rocket access ##
