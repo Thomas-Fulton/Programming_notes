@@ -28,6 +28,7 @@ module avail  # list available modules
 module avail python  # search for available modules
 module load python/3.5.4  # load specified module, best practice to name version as defaults may change
 
+
     ### Conda to manage environment ###
 module load anaconda3/personal
 # Loads user's conda environments (`anaconda-setup` must be run when loading for the first time)
@@ -42,14 +43,41 @@ source activate ENV_NAME
 conda deactivate
 conda list  # List all packages and versions installed in active environment
 conda search PACKAGENAME
-conda install PACKAGENAME
+conda install -c conda-forge -c bioconda -c defaults PACKAGENAME  # specify channel
 conda clean   # remove unused pacakages and cache
+conda config --get channels # see added channels and priority order
+conda config --add channels bioconda
+conda config --add channels defaults  
+conda config --add channels conda-forge
+
+# Installing R packages in conda:
+# best not to use install_packages() (but check .libpaths to same location as conda env?)
+# Additional R packages may be installed from conda-forge; these packages will be prefixed with 'r-'.
+conda create r413-scRNAseq r-base=4.1.3 -c conda-forge
+conda search "r-*"
+conda install r-png -c conda-forge  # for the png R package
 
     ### Submitting jobs via PBS ###
-PBS -l select=N:ncpus=X:mem=Ygb -l walltime=HH:HH:HH
+# Best practices: https://wiki.imperial.ac.uk/display/HPC/General+best+practices
+
+qsub -l walltime=30:25:05 myjob.pbs 
+
+## myjob.pbs
+
+
+# OPTIONS:
+#PBS -l select=N:ncpus=X:mem=Ygb -l walltime=HH:HH:HH
 # N is the number of nodes, and 
 # X and Y are the number of cpus and amount of memory per node. 
 # HH is the expected runtime of the job in hours.
+
+
+#PBS -l walltime=02:00:00
+#PBS -l select=1:ncpus=1:mem=1gb
+#PBS -o /rds/general/user/slacalle/home/project1/logs_project1/
+#PBS -e /rds/general/user/slacalle/home/project1/logs_project1/
+
+# writabletmp True/False  # look up format - writable to $TMPDIR
 
 # MEDIUM JOB:
 Queue	Use cases	No. nodes per job	No. cores per job (ncpus)(gb)	Memory	Walltime (hrs)
