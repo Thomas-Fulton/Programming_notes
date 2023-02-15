@@ -4,6 +4,18 @@
 # full manual: https://www.gnu.org/software/bash/manual/bash.html#Command-Substitution
 # bash terminal shortcuts: https://www.makeuseof.com/linux-bash-terminal-shortcuts/
 
+   #################### Customising bash environment #################
+# Which file to edit (.bashprofile or bashrc?) see links:
+# https://www.maths.cam.ac.uk/computing/linux/bash/adding
+# https://unix.stackexchange.com/questions/38175/difference-between-login-shell-and-non-login-shell
+
+### Set prompt ###
+# https://www.unix.com/hp-ux/173508-unable-set-prompt-current-working-dir.html
+# https://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
+# https://bash.cyberciti.biz/guide/.bash_profile
+export $PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$' 
+export PS1='[\u@\h:\w]$ '  # hpc
+
    #################### Bash and directory notes ######################
 
 Generic form: COMMAND [OPTION] [somethinghaha]
@@ -76,7 +88,7 @@ getent group developers  # get members of a group
 # http://www.yolinux.com/TUTORIALS/LinuxTutorialManagingGroups.html <- group permissions etc
 chmod -R +r dirname  # recursively change permissions in directory
 chmod -R g=u  dirname  # recurively set the permission of the group for a dir to those of the user
-
+   +s  # setuid: a bit that makes an executable run with the privileges of the owner of the file.
 cp file.txt filcopy.txt  #copy file newfile
 cp -r dir /new/location/dircopy  #copy directories
 
@@ -96,7 +108,7 @@ tar -zxvf filename.tar.gz # extract compressed dir
 tar -zxvf filename.tar.gz -C tmp/ # to tmp/dir/files* 
 # .gz
 gzip  
-
+gunzip
 
 file filename.gif  #prints file type eg. in this case GIF image data bla bla
 
@@ -141,6 +153,8 @@ echo -e  # enable interpretation of backslashes
 echo -n  # don't show trailing newline
 
 
+wget <url>  # download from link
+curl <url>  # curl is more powerful, -l 
 
 
     #### Scripting ####

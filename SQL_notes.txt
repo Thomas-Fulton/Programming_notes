@@ -64,6 +64,14 @@ USE [tablename]
   ### Operators ###
 AND
 OR
+=  # equal to
+!=  # not equal to 
+>
+>=
+%  # WILDCARD like * in bash - any character, any number of characters
+_  # WILDCARD one character
+
+
 # use in parenthises:
 SELECT * FROM pet WHERE (species = 'cat' AND sex = 'm') OR (species = 'dog' AND sex = 'f');
 
@@ -278,6 +286,50 @@ INSERT INTO takes_course VALUES
 (113, 19);
 
 
+## Querying:
+SELECT *
+FROM course
+WHERE language = 'ENG'
+ORDER BY start_date DESC, client, teacher;
+
+SELECT *
+FROM course
+WHERE NOT language = 'ENG' OR level = 'C1';
+
+SELECT course_name
+FROM course
+WHERE course_name LIKE '%interm%';
+
+SELECT first_name, last_name
+FROM participant
+WHERE last_name IN ('Garcia', 'Nowak', 'Mustermann');
+
+SELECT * 
+FROM teacher
+WHERE language_2 IS NULL;
+
+SELECT * 
+FROM teacher
+WHERE language_2 IS NOT NULL;
+
+SELECT course_name AS 'Course Name', course_length_weeks AS 'Length of Course (Weeks)'
+FROM course
+WHERE language = 'DEU';
+
+SELECT client, AVG(course_length_weeks)
+FROM course
+GROUP BY client;
+
+SELECT COUNT(*)
+FROM course
+WHERE language = 'Eng';
+
+SELECT language, COUNT(language)
+FROM course
+GROUP BY language;
+
+
+
+
+
 ###########  Logs  ##############
-On Ubuntu, log files are stored in:
-/var/log/mysql/error.log

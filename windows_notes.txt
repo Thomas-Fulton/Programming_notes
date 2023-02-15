@@ -1,0 +1,2 @@
+# cheatsheet for BASH command equivalents in windows:
+https://www.covingtoninnovations.com/mc/winforunix.html

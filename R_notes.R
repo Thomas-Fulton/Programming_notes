@@ -6,12 +6,12 @@ export RSTUDIO_WHICH_R=/usr/local/bin/R3.6.3
 #.libPaths() <- "/home/thomas/R/x86_64-pc-linux-gnu-library/3.6"
 
 
-#### Setting up switching ######
+#### How to set up switching ######
 ## normal .libPaths() :
  #[1]  "/home/thomas/R/x86_64-pc-linux-gnu-library/3.6" "/usr/local/lib/R/site-library"                  "/usr/lib/R/site-library"                       
  #[4]  "/usr/lib/R/library"
 
-# (root CL Bash):
+# as root in terminal (Bash):
 mkdir /tmp/R3.6/
 cp /home/thomas/R/x86_64-pc-linux-gnu-library/3.6/* /tmp/R3.6/ -r
 ## 2nd and 3rd directories in .libPaths() are empty - move 4th to save
@@ -32,6 +32,33 @@ sudo ln -s /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript${R_VERSION}
 
 # Change environmental variable in ~/.profile
 RSTUDIO_WHICH_R=/usr/local/bin/R
+
+#### Packages #####
+
+# See for environment management with conda: https://astrobiomike.github.io/R/managing-r-and-rstudio-with-conda
+
+
+install.packages("data.table")
+library(data.table)
+
+# use package pacman to load, or install and then load packages, eg.
+#install.packages("pacman")
+pacman::p_load(Seurat,SeuratObject,SeuratDisk,
+               Signac,tidyverse,scDblFinder)
+
+### Repositories ###
+# CRAN is default
+# Bioconductor:
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::available()
+BiocManager::install()
+
+# Install from github:
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes")
+}
+remotes::install_github("mojaveazure/seurat-disk")
 
 
 ###  Cheatsheets  ###
@@ -77,6 +104,8 @@ sample(z, 5) # takes a 5 random samples from the list
 
 #### Data Frames
 
+str(cars)  # see structure of data
+
 cars
 colnames(cars)
 carname = c(rep("pergeot",20),rep("BMW", 15),rep("golf",25))
@@ -115,6 +144,10 @@ DF[ , !(colnames(DF) %in% c("colname1", "colname2"))]
 
 # select two columns and get unique combinations of their values:
 unique(lin_mut_load_change[ ,c('Pos', 'Lineage')])
+
+
+# append df to df
+lin_mut_load_change <- rbind(lin_mut_load_change, mut_load_change)
 
 
  # Tidyverse #
@@ -182,4 +215,78 @@ output <- case_when(fbnums %% 15 == 0 ~ "FizzBuzz",
                     fbnums %% 5 == 0 ~ "Buzz",
                     TRUE ~ as.character(fbnums))
 
+
+
+    #### Large data ####
+### General Principles:
+#  - use sparse matrices, especially if data has many zero values eg. expression data
+#  - find different implementation of algorithm/analysis
+#  - subset data: processing data in chunks or line-by-line, careful selection of features
+#  - parallelise
+#  - matrix computing and use parallel serial computing to keep the memory requirements low, e.g.:
+# (in python):
+# for index0, data0 in dataset:
+#   for index1, data1 in dataset:
+#       new_df[index0, index1] = correlation(data0, data1)
+#  - convert data types? eg. floats to integers
+
+# appending rows/dfs: create separate df with same structure and use rbind
+lin_mut_load_change <- rbind(lin_mut_load_change, mut_load_change)
+
+
+
+
+
 print(output)
+
+
+
+    ####  Parse command-line arguments  ####
+library(argparse)
+# create parser object
+parser <- ArgumentParser()
+required <- parser$add_argument_group("Required", "required arguments")
+
+# Add arguments
+required$add_argument(
+  "--input",
+  help = "full path to the sample sheet tsv file",
+  metavar = "SampleSheet.tsv",
+  required = TRUE
+)
+
+required$add_argument(
+  "--manifest",
+  help = "full path to the manifest file",
+  metavar = "manifest",
+  required = TRUE
+)
+
+args <- parser$parse_args()
+
+if (!file.exists(args$input)) {
+  stop("The input samplesheet was not found.")
+}
+if (!file.exists(args$manifest)) {
+  stop("The manifest was not found.")
+}
+
+input <- read.delim(args$input)
+manifest <- read.delim(args$manifest)
+
+# check manifest paths exist
+
+check_exists <- function(filepath) {
+  RCurl::url.exists(filepath) | dir.exists(filepath)
+}
+
+dir_exists <- purrr::pmap_lgl(manifest, ~ check_exists(as.character(..2)))
+
+if (!all(dir_exists)) {
+  cat("The following paths were not found: -\n")
+  print(manifest[!dir_exists, ])
+  stop("Folder paths specified in the manifest were not found.")
+} else {
+  cat("✓ All paths specified in the manifest were found.\n")
+}
+

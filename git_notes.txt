@@ -5,13 +5,24 @@ git config --get remote.origin.url   # see remote origin url
 
 
     #### Create new repo ####
+# create repository on github.com first, then create locally and link remote repo:
+
 git init  # create git repository locally
 
-# create repository on github.com
-git remote add origin https://github.com/Thomas-Fulton/Programming.git  # creates link to newly created repository
+git add README.md
+
+git commit -m "first commit"
 
 git branch -M main  # Rename "master" (default) to "main"  # if you forget and can't merge use "--allow-unrelated-histories"
-# Set the remote origin: the remote branch which is pushed and pulled to
+
+git remote add origin https://github.com/Thomas-Fulton/Programming.git  # creates link to newly created repository
+
+git remote add origin git@github.com:Thomas-Fulton/scRNA-analysis.git
+
+git push -u origin main
+
+
+# (TODO what's the difference?) Set the remote origin: the remote branch which is pushed and pulled to
 git push --set-upstream origin main
 
 
@@ -62,3 +73,8 @@ git reset Head~1 --hard  # undoes your last commit and edits files to state of p
 git checkout -- <file/s>
 
 ## add section on stashing and commit ammending
+
+
+
+## Git Markdown notes ##
+

@@ -132,6 +132,19 @@ banana banana
 >>> print(greeting)
 hi there
 
+    #### Generators ####
+# Very useful in processing MASSIVE data - iterates over data instead of loading all in memory(?)
+# Return an iterator object that returns eg. the next value when iterated over it, rather than loading the whole sequence of values and iterating over that and extracting the next value each time.
+# A generator is a function that returns an object (iterator) which we can iterate over (one value at a time).
+#  It is as easy as defining a normal function, but with a yield statement instead of a return statement.
+
+# eg. generator to produce every even number (infinite sequence in theory):
+def all_even():
+    n = 0
+    while True:
+        yield n
+        n += 2
+
 
 
     #### Conditionals ####
