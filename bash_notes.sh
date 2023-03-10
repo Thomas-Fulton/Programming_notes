@@ -145,8 +145,11 @@ cut -d " " -f 2 #cuts the second field of each line, with fields defined using t
 
 expr 38-26 #allows sums
 
-sed s/string/replacement filename.txt  # s = substitution. / is the delimiter. Default behaviour is to replace first occurence in a line 
-sed s/string/replacement/g filename.txt  # /g is global - replaces all occurences
+sed 's/string/replacement' filename.txt  # s = substitution. / is the delimiter. Default behaviour is to replace first occurence in a line 
+sed 's/string/replacement/g' filename.txt  # /g is global - replaces all occurences
+sed -i 's!string!replacement!g' filename.txt
+
+awk  # https://www.geeksforgeeks.org/awk-command-unixlinux-examples/
 
 
 echo -e  # enable interpretation of backslashes
@@ -186,7 +189,7 @@ variable2=two
 # Access variables with the dollar sign. eg: (for some inbuilt shell variables)
 $PATH  
 # Add dir to path temporarily (edit ~/.bashrc to make permanent for user)
-export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/bin/cellranger-7.1.0:$PATH"
 
 $PS1  # The command prompt in the shell eg. thomas@wolf: ~$
 
@@ -275,11 +278,14 @@ sudo apt install package.deb
 
    #### Virtual environments ####
 
-## Conda ##
+##### Conda / MAMBA #####
+
+### MAMBA INSTEAD WHERE POSSIBLE ### 
+
 
 # Create envionment IN A SPECIFIC DIRECTORY (like venv)
-conda create --prefix /full/path/to/conda_env  # " conda config --set env_prompt '({name}) ' " alters .condarc so only env name not full path is displayed when activated.
-# use ./conda-env when creating or activating
+conda create --prefix /full/path/to/conda_env_name  # " conda config --set env_prompt '({name}) ' " alters .condarc so only env name not full path is displayed when activated.
+# use ./conda_env_name when creating or activating
 
 # (Create environment normally - saved into conda envs dir I think)
 conda create --name py35 python=3.5  # specifies python version
@@ -302,7 +308,17 @@ conda list --revisions
 conda list --explicit > conda_env.txt
 
 
-## Venv ##
+conda install -c conda-forge PACKAGENAME=version --freeze-installed # specify channel eg. bioconda, conda-forge etc. Freeze prevents currently installed from being updated but allows an additional version to be installed so dependencies aren't broken
+conda install r-dplyr r-seurat bioconductor-PACKAGENAME  # search conda website for conda compatible version of R packages. Use conda packages where possible
+
+conda config --get channels  # get channels. See .condarc.  Channel priority: strict to speed up, flexible to avoid dependancy clashes
+
+
+conda clean   # remove unused pacakages and cache
+
+
+
+##### Venv #####
 cd ~/GitRepos/practical_1
 python3 -m venv env  # create new environment "env"
 source ./env/bin/activate  # activate environment
@@ -318,3 +334,14 @@ alt+arrow keys skip words
 7 on num pad to move to beginning of line
 1 to move to the end
 Ctrl + W  # delete previous word
+
+Ctrl + Shift + F  # Find
+Alt + B  # Move one word backward
+Alt + F  # Move one word forward
+Ctrl + B  # Move one letter forward
+Ctrl + F  # Move one letter back
+Ctrl + K  # Delete the word/line AFTER the cursor
+Ctrl + U  # Delete line/word BEFORE cursor
+
+Ctrl + P  # Previous command (like up arrow)
+Ctrl + N  # Next command (like down arrow)

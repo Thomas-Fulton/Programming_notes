@@ -60,5 +60,6 @@ u  # undo actions
 ctrl + r  # redo actions
 
 :set number  # number lines
+:set nonumber  # unset numbers
 :set nowrap  # don't wrap long lines overflow
 

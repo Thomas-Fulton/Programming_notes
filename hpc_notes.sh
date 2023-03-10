@@ -1,7 +1,7 @@
 ###################  HPC notes  #####################
 
   ###########  Imperial  ###########
-
+ssh wfulton@login.hpc.imperial.ac.uk
 # login Quickstart
 export PS1='[\u@\h:\w]$ '
 module load anaconda3/personal
@@ -51,7 +51,7 @@ source activate ENV_NAME
 conda deactivate
 conda list  # List all packages and versions installed in active environment
 conda search PACKAGENAME
-conda install -c conda-forge PACKAGENAME=version  # specify channel eg. bioconda, conda-forge etc.
+conda install -c conda-forge PACKAGENAME=version --freeze-installed # specify channel eg. bioconda, conda-forge etc., prevents currently installed from being updated but allows an additional version to be installed so dependencies aren't broken
 conda clean   # remove unused pacakages and cache
 conda config --get channels # see added channels and priority order
 conda config --add channels bioconda  # last channel added has highest priority

@@ -1,5 +1,7 @@
 
 ########## Switching between versions of R ##############
+# SEE: https://community.rstudio.com/t/why-not-r-via-conda/9438/4 
+# https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html#:~:text=0%2C%20Conda%20has%20a%20strict,conda%20config%20%2D%2Ddescribe%20channel_priority%20. 
 # For 3.6:
 # Set environmental variable and launch Rstudio from the terminal (add to ~/.profile to lauch with application icon)
 export RSTUDIO_WHICH_R=/usr/local/bin/R3.6.3
@@ -36,6 +38,13 @@ RSTUDIO_WHICH_R=/usr/local/bin/R
 #### Packages #####
 
 # See for environment management with conda: https://astrobiomike.github.io/R/managing-r-and-rstudio-with-conda
+# Use Mamba not conda
+
+# Set default repo url below, which always uses nearest CRAN mirror:
+local({r <- getOption("repos")
+  r["CRAN"] <- "http://cran.r-project.org" 
+  options(repos=r)
+})
 
 
 install.packages("data.table")

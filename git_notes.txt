@@ -1,4 +1,11 @@
-   #### setup ####
+  
+https://imperialcollegelondon.github.io/research-computing-tips/rse/2020/04/15/git-oneline-log-alias.html
+LOOOOOOOOK ^
+ 
+
+
+
+    #### setup ####
 git config --global user.name "Thomas-Fulton"
 git config --global user.email "thomas@fultondesigns.co.uk"
 git config --get remote.origin.url   # see remote origin url
@@ -33,7 +40,7 @@ git add/commit/push files
 # use git diff <file> to see conflicts
 # edit file to resolve in vim - shown with >>>>>> etc
 # add and commit resolved file
-# pull/push
+# push then pull
 
 
     #### useful commands ####
@@ -71,6 +78,11 @@ git reset Head~1 --hard  # undoes your last commit and edits files to state of p
 
   ## undo local change (restore to remote version)
 git checkout -- <file/s>
+
+# Amend files in last commit: eg.Realize you forgot to add the changes from main.py 
+git add main.py 
+git commit --amend --no-edit  # to change files of last commit, --no-edit must be present. To change commit message just --amend will do.
+# see https://www.atlassian.com/git/tutorials/rewriting-history for amending older commits
 
 ## add section on stashing and commit ammending
 
