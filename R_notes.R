@@ -9,6 +9,9 @@ export RSTUDIO_WHICH_R=/usr/local/bin/R3.6.3
 
 
 #### How to set up switching ######
+# https://support.posit.co/hc/en-us/articles/215488098
+# https://docs.posit.co/resources/install-r/
+# see: https://cran.r-project.org/bin/linux/debian/
 ## normal .libPaths() :
  #[1]  "/home/thomas/R/x86_64-pc-linux-gnu-library/3.6" "/usr/local/lib/R/site-library"                  "/usr/lib/R/site-library"                       
  #[4]  "/usr/lib/R/library"
@@ -22,7 +25,8 @@ cp /usr/lib/R/* /usr/lib/R3.6/ -r
 
 # Install R 4.1.3 and 3.6.3
 export R_VERSION=4.1.3
-curl -O https://cdn.rstudio.com/r/ubuntu-2004/pkgs/r-${R_VERSION}_1_amd64.deb
+export UBUNTU_VERSION=2204
+curl -O https://cdn.rstudio.com/r/ubuntu-${UBUNTU_VERSION}/pkgs/r-${R_VERSION}_1_amd64.deb
 sudo gdebi r-${R_VERSION}_1_amd64.deb
 /opt/R/${R_VERSION}/bin/R --version
 # (making symlinks below is not necessary for subsequent installations)
@@ -34,6 +38,15 @@ sudo ln -s /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript${R_VERSION}
 
 # Change environmental variable in ~/.profile
 RSTUDIO_WHICH_R=/usr/local/bin/R
+
+
+#### Install rstudio ####
+# Download from https://posit.co/download/rstudio-desktop/
+# Append lines below to /etc/apt/sources.list to fix dependency error for package: libchang-dev
+#deb http://se.archive.ubuntu.com/ubuntu/ jammy main restricted universe
+#deb http://se.archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe
+
+
 
 #### Packages #####
 
