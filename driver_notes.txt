@@ -28,3 +28,8 @@ sudo apt install nvidia-driver-470 nvidia-dkms-470
 
 ########## 
 xrandr
+
+
+
+########## Attempts to fix #########
+sudo prime-select-nvidia  # Creates a line in /lib/modprobe.d/nvidia-kms.conf . Try with or without line
