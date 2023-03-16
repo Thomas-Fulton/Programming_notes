@@ -26,4 +26,5 @@ sudo ubuntu-drivers autoinstall
 sudo apt install nvidia-driver-470 nvidia-dkms-470
 
 
-
+########## 
+xrandr
