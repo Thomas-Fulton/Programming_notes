@@ -1,0 +1,13 @@
+# Go to the ubuntu recovery mode in the boot menu
+# Press enter to get prompt
+
+
+# to switch off gui
+systemctl set-default multi-user
+# to turn back on
+systemctl set-default graphical
+
+
+
+#install mostly working nvidia driver
+sudo apt install nvidia-driver-470 nvidia-dkms-470
