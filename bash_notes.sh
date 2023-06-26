@@ -79,7 +79,12 @@ rm -r  #remove directory can contain files
 rm filename  #delete file
 touch filename  # makes empty file
 mv oldfile.txt newfile.txt  # moves/cuts the file and pastes and renames it 
-find ~ -name filename.txt  # find file in ~ (home) dir
+mv /path/to/source/dir/{file1,file2,*.ext1,*.ext2} /path/to/destination/
+mv file1 file2 file3 -t DESTINATION
+find ~ -name "filename.txt"  # find file in ~ (home) dir
+find ~ -name "filename.txt" -delete  # find file in ~ (home) dir
+find . -wholename "*somedirna*.html"  # use multiple globs to look through directories
+find . -wholename './SRR*.fastq' | parallel -jobs 8 "gzip -r {}"  # if no glob at beginning: ./
 # Permissions
 chmod +rwx filename  # change permissions: add read write execute permissions to file/directory
 chmod -wx filname  # remove write and execute permissions

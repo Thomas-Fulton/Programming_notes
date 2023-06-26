@@ -1,8 +1,14 @@
  #!/bin/bash
  
  # ADD ssh general protocol/instructions
+
     #### Set up ssh tunnel #### 
-# start ssh agent:
+    # 1) Generate password protected ed 25519 pair of keys
+    # 2) Add ssh key to ssh agent so you don't have to type password every time
+# 1: Generate ssh key: (set a password)
+ssh-keygen -t ed25519  # leave blank when asked for location of key to generate in default location ~/.ssh/
+
+# 2: start ssh agent:
 eval "$(ssh-agent -s)"
 # add private key to ssh agent
 ssh-add ~/.ssh/id_ed25519

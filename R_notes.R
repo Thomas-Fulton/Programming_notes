@@ -62,6 +62,7 @@ local({r <- getOption("repos")
 
 install.packages("data.table")
 library(data.table)
+detach("package:stringr")
 
 # use package pacman to load, or install and then load packages, eg.
 #install.packages("pacman")
@@ -82,6 +83,9 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 }
 remotes::install_github("mojaveazure/seurat-disk")
 
+
+### Shortcuts ###
+# alt + drag up/ down multiline typing! Like visual column in vim
 
 ###  Cheatsheets  ###
 # https://www.rstudio.com/resources/cheatsheets/
@@ -170,6 +174,7 @@ unique(lin_mut_load_change[ ,c('Pos', 'Lineage')])
 
 # append df to df
 lin_mut_load_change <- rbind(lin_mut_load_change, mut_load_change)
+cbing  # for columns
 
 
  # Tidyverse #
@@ -257,9 +262,8 @@ lin_mut_load_change <- rbind(lin_mut_load_change, mut_load_change)
 
 
 
-
-
-print(output)
+# Name list of S4 objects:
+names(ptmp_obj) <- pids
 
 
 
@@ -312,3 +316,20 @@ if (!all(dir_exists)) {
   cat("✓ All paths specified in the manifest were found.\n")
 }
 
+
+# ------------------------------------------------------------------------------
+# Functions
+# ------------------------------------------------------------------------------
+# Docstrings:
+library("docstring")
+return_inverse <- function(x) {
+  #' Multiplicative Inverse of Number
+  #' 
+  #' @description Computes the multiplicative inverse of the input
+  #' 
+  #' @param x: Real number.
+  return(1/x)
+  
+}
+?return_inverse
+?return_inverse

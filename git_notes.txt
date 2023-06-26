@@ -14,6 +14,10 @@ git config --get remote.origin.url   # see remote origin url
     #### Create new repo ####
 # create repository on github.com first, then create locally and link remote repo:
 
+# -----------------------------------------------
+Use GIT CLONE not git init instructions like below...
+# -----------------------------------------------
+
 git init  # create git repository locally
 
 git add README.md
