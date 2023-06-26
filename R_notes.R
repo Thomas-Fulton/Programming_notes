@@ -29,10 +29,10 @@ export UBUNTU_VERSION=2204
 curl -O https://cdn.rstudio.com/r/ubuntu-${UBUNTU_VERSION}/pkgs/r-${R_VERSION}_1_amd64.deb
 sudo gdebi r-${R_VERSION}_1_amd64.deb
 /opt/R/${R_VERSION}/bin/R --version
-# (making symlinks below is not necessary for subsequent installations)
+# DEFAULT (make symlinks below to latest as default)
 sudo ln -s /opt/R/${R_VERSION}/bin/R /usr/local/bin/R
 sudo ln -s /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript
-# specify version
+# SPECIFICS: after installing new version, specify version for RSTUDIO_WHICH_R
 sudo ln -s /opt/R/${R_VERSION}/bin/R /usr/local/bin/R${R_VERSION}
 sudo ln -s /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript${R_VERSION}
 
