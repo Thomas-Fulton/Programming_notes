@@ -74,6 +74,7 @@ ls  #list folders/files in a directory
 ls -lht  # -l long: shows permisstions and time of last modification and size, -h human readable, -t sorts by recently modified
 du -ch  # see total space inside directory. -c total -h human readable
 mkdir dirname  #make directory
+mkdir -p parentdir/parent2dir/dirname/  # make parent directories as well (if no errors)
 rmdir dirname or rm -d  #remove empty directory
 rm -r  #remove directory can contain files
 rm filename  #delete file
@@ -81,10 +82,20 @@ touch filename  # makes empty file
 mv oldfile.txt newfile.txt  # moves/cuts the file and pastes and renames it 
 mv /path/to/source/dir/{file1,file2,*.ext1,*.ext2} /path/to/destination/
 mv file1 file2 file3 -t DESTINATION
+# Find command 
+# (https://unix.stackexchange.com/questions/493808/commands-differences-using-quotations-find)
+# (https://www.cyberciti.biz/faq/find-command-exclude-ignore-files/)
 find ~ -name "filename.txt"  # find file in ~ (home) dir
 find ~ -name "filename.txt" -delete  # find file in ~ (home) dir
 find . -wholename "*somedirna*.html"  # use multiple globs to look through directories
 find . -wholename './SRR*.fastq' | parallel -jobs 8 "gzip -r {}"  # if no glob at beginning: ./
+find ~/ -perm 777  #find <Directory> ~perm <Permissions>
+
+# Parallel
+# Don't need to specify no. jobs - parallel detects automatically ncores*nthreads I think
+# use `top` to see _id (percent cpu idle), and increase or decrease njobs if needed
+cat samplelist.txt | parallel somecommand {}
+
 # Permissions
 chmod +rwx filename  # change permissions: add read write execute permissions to file/directory
 chmod -wx filname  # remove write and execute permissions
@@ -286,13 +297,18 @@ sudo apt install package.deb
 ##### Conda / MAMBA #####
 
 ### MAMBA INSTEAD WHERE POSSIBLE ### 
+# Installation and useful commands: https://mamba.readthedocs.io/en/latest/user_guide/mamba.html
+# Update conda while using mamba:
+conda update --prefix /home/wfulton/mambaforge anaconda
+# Mamba specific commands:
+mamba repoquery search "xtensor>=0.18" # 
 
 
 # Create envionment IN A SPECIFIC DIRECTORY (like venv)
 conda create --prefix /full/path/to/conda_env_name  # " conda config --set env_prompt '({name}) ' " alters .condarc so only env name not full path is displayed when activated.
 # use ./conda_env_name when creating or activating
 
-# (Create environment normally - saved into conda envs dir I think)
+# (Create environment normally - saved into conda envs dir I think) - make sure base is activated first
 conda create --name py35 python=3.5  # specifies python version
 
 # Activate environment
@@ -303,8 +319,8 @@ source deactivate
 # create environment file to make it easier to recreate a conda environment (like a venv requirements.txt)
 conda env export --file environment.yml
 
-
-
+# List environments
+conda info --envs
 # List packages and version
 conda list
 # List changes to packages and version
@@ -312,7 +328,8 @@ conda list --revisions
 # Save environment to text file
 conda list --explicit > conda_env.txt
 
-
+## Channels ##
+# The Anaconda default channels are incompatible with conda-forge??
 conda install -c conda-forge PACKAGENAME=version --freeze-installed # specify channel eg. bioconda, conda-forge etc. Freeze prevents currently installed from being updated but allows an additional version to be installed so dependencies aren't broken
 conda install r-dplyr r-seurat bioconductor-PACKAGENAME  # search conda website for conda compatible version of R packages. Use conda packages where possible
 
@@ -350,3 +367,15 @@ Ctrl + U  # Delete line/word BEFORE cursor
 
 Ctrl + P  # Previous command (like up arrow)
 Ctrl + N  # Next command (like down arrow)
+
+
+##### Killing a process in linux #####
+# Explore processes
+top
+# get Process id
+pidof rsession
+# Kill (allowing process to end gracefully)
+kill -15 THE_PID_OF_PROCESS1 THE_PID_OF_PROCESS2 ...
+# Kill (Brute force - try -15 first)
+kill -9 THE_PID_OF_PROCESS1 THE_PID_OF_PROCESS2 ...
+
