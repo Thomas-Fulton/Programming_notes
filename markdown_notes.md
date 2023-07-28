@@ -1,11 +1,17 @@
-# Markdown Notes
+# Git Markdown Notes
 
-> REMEMBER to look at Ludwig repo README.md for examples
+>  - [helpful cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+>  - [Ludwig repo README.md](https://github.com/Thomas-Fulton/Ludwig_2019/README.md)
+
 
 # \# Main title
 ## \#\# Subtitle
 ### \#\#\# Smaller etc...
 
+For bulleted list:
+ - " \- 1st level"
+   - "   - 2nd level"
+     - ...
 For links: "\[words to be clicked on](https:theactuallink.co.uk)"
 eg. [Ludwig _et al._ (2019)](https://doi.org/10.1016/j.cell.2019.01.022) 
 &nbsp;  
