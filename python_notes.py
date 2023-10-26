@@ -115,8 +115,7 @@ for word in thestring_aslist :
     char_count = word.len()
     lengthofeachword.append(char_count)
 
-#
-atinating strings with + and ,
+# Concatinating strings with + and ,
 >>> print(fruit+fruit)
 bananabanana
 >>> print(fruit,fruit) # inserts space between strings, can concatenate strings with integers and floats
@@ -365,7 +364,7 @@ for line in handle :
 print(commonadrs[0],commonadrs[1])
 #to print key, then value
 for object in purse : #for key in dictionary
-    print(object, purse[object]
+    print(object, purse[object])
 
 print(list(purse)    
 purse.keys() #gives list of keys
@@ -688,5 +687,15 @@ Installation
    https://www.annasyme.com/trainingwebs.html
 
 
+
+###########################################################################
+# Pycharm 
+###########################################################################
+
+# Set code completetion to tab
+# Help for function with Ctrl+Q
+# Set vim! ideavim or something
+# Change move cursor to console to alt+P or something
+# 
 
 

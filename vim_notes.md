@@ -9,7 +9,7 @@ i  # insert mode: edit file directly, insert characters
 v  # visual
 V  # visual line
 Ctrl + v  # visual block
-- (select, I, edit, esc: applies changes in one line of selection to all)
+# - (select, I, edit, esc: applies changes in one line of selection to all)
 
 ## Command Mode ##
 :q  # quit
@@ -39,11 +39,14 @@ ctrl + u  # move up half a page
 ctrl + d  # move down half a page
 
 $  # move to end of line
-  A  # append: move cursor to end of line an change to insert mode
 ^  # move to beginning of line
-G  # move to last line of file 
+  A  # insert: move cursor to end of line and change to insert mode
+  I  # insert: move cursor to beginning of line and change to insert mode
+  O  # insert: new line above current line and change to insert mode
+  o  # insert: new line below current line and change to insert mode
+
 gg  # move to beginning of file or:
-Ctrl + home  # move to beginning of file
+G  # move to last line of file 
 B  # move to the end of the word
 W  # move to the beginning of the word
 #16  # moves 16 lines down
@@ -55,6 +58,7 @@ S  # delete whole line
 3dd  # delete next three lines
 
 y  # copy (yank)
+y{selection}  # Either previously selected in visual mode or: eg. yw (copy to end of word), yy (whole line)
 
 u  # undo actions
 ctrl + r  # redo actions

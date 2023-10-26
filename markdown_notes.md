@@ -1,12 +1,14 @@
 # Git Markdown Notes
-
+> SEE helpful examples:
 >  - [helpful cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 >  - [Ludwig repo README.md](https://github.com/Thomas-Fulton/Ludwig_2019/README.md)
-
 
 # \# Main title
 ## \#\# Subtitle
 ### \#\#\# Smaller etc...
+
+For \`code\`
+`the code`
 
 For bulleted list:
  - " \- 1st level"

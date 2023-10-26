@@ -120,6 +120,7 @@ z.minus.first.element <- z[-1] # NOT LIKE PYTHON: removes first element of the l
 z < 55 # is each element in the list less than 55, gives back Boulian for each element
 z[z<55] # only elements less than 55
 
+# Sort returns values, order returns indices
 sort(z, decreasing = TRUE) # sorts list
 
 sample(z, 5) # takes a 5 random samples from the list
