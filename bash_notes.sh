@@ -158,12 +158,14 @@ tr -d " " #deletes spaces
 tr # SEE man tr it's really cool
 
 cut -d " " -f 2 #cuts the second field of each line, with fields defined using the delimiter " ".
+cut -d, -f-4,6-10,12-  # cut fields 5 and 11 with "," delim - alternate phrasing(mutliple certain fields at once)
 
 expr 38-26 #allows sums
 
 sed 's/string/replacement' filename.txt  # s = substitution. / is the delimiter. Default behaviour is to replace first occurence in a line 
 sed 's/string/replacement/g' filename.txt  # /g is global - replaces all occurences
-sed -i 's!string!replacement!g' filename.txt
+sed -i 's!string!replacement!g' filename.txt  # edit file in place
+# sed will NOT match end of line \n
 
 awk  # https://www.geeksforgeeks.org/awk-command-unixlinux-examples/
 

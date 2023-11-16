@@ -4,9 +4,10 @@
 
 :objname  # I think : is a bit like $ in bash?
 
-# print in r
-printf()
+print()  # print() in R
+join(["dir/prefix", sampleName, 34, ".png"])  # paste0 in R: need vector of type::any (?)
 repeat("hello", inner = 3, outer = 2)  # like rep(c("hello", "hello" ,"hello"), 2)
+repeat([true], 8)  # 8 element vector{Bool}
 obj = nothing  # like rm(obj) in R
 
 using CategoricalArrays, DataFrames
@@ -22,10 +23,15 @@ df[1, [:Name]]  # will return a df
 df[1, :Name]  # will return a vector
 df[:, 1]  # Will return a COPY of the vector
 df[!, 1]  # Will return the underlying data itself
-df[!, colname] = vector  # new column
+df[!, "newColname"] = vector  # new column eg.:
+fcsFilesMetadata[!,"fileStart"] = repeat([0], size(fcsFilesMetadata)[1])  # Don't use missing values as they are hard to convert to anything else
 v .> 3   # . is needed for element wise operations
+# Delete column
+select!(df, Not([:x2, :x10]))
 
 # subset and replacing
+# Index must be converted to Bool or Int type ie. Bool.[0,1,1,1,0] or Int.[2,3,4]
+fcsFilesMetadata[Bool.(fcsFilesMetadata.fileStart .== 0),5] .= 4
 replace!(df.a, "None" => "c")
 # replace via condition over multiple columns
 ltmp[:,[:label]] = ifelse.(ltmp[!,[:label]] .>=23, 26, ltmp[!,[:label]])
