@@ -39,6 +39,15 @@ ltmp[:,[:label]] = ifelse.(ltmp[!,[:label]] .>=23, 26, ltmp[!,[:label]])
 first(df, 10)  # 10 rows
 last(df, 15)  # last 15 rows
 
+_  # underscore is a throwaway variable
+_, fcsParams = loadFCSHeader(md[1, :file_name])   # code returns list of 2 (?): underscore comma is assigning the output to two variables instead of one with a list of two?
+
+## Operators ##
+# When applied to a vector or list (?) needs the .
+v1 .== v2  # Per value
+v1 == v2  # like `all(v1 == v2)`  in R
+findall()  # like which() in R
+
 
 ## Dictionaries ## 
 #
