@@ -230,9 +230,11 @@ args=("$@")
 echo ${args[0]} ${args[1]} ${args[2]}
 echo $@
 
+## Arrays ## 
 readarray -t myarray < list.txt  # -t strips newline (/whichever delim is specified with -d) before assigning new index
 echo ${myarray[@]}  # all elements in array
 echo ${#myarray[@]}  # number of elements in array
+# Indexing: (starts at zero)
 echo ${myarray[@]:0}  # indexing: first element 
 echo ${myarray[@]:4:6}  # indexing 
 echo ${myarray[@]::6}  # indexing: first element to 6th 
