@@ -59,6 +59,7 @@ ls -1 | wc -l
 ls | head
 ls | sort 
 ls -lh | sort -k 5nr  # sorts -k is key (column) 5 (in this case file size), by number, in reverse order 
+ls -d */
 
 ls *jpg > imagefiles #lists names of .jpg files into new file imagefiles
 ls *gif >> imagefiles #appends names of .gif files to imagefiles (instead of overwriting
@@ -82,6 +83,8 @@ touch filename  # makes empty file
 mv oldfile.txt newfile.txt  # moves/cuts the file and pastes and renames it 
 mv /path/to/source/dir/{file1,file2,*.ext1,*.ext2} /path/to/destination/
 mv file1 file2 file3 -t DESTINATION
+# Rename directories to remove spaces and replace with underscores
+find . -depth -name "* *" -execdir rename 's/ /_/g' "{}" \;
 # Find command 
 # (https://unix.stackexchange.com/questions/493808/commands-differences-using-quotations-find)
 # (https://www.cyberciti.biz/faq/find-command-exclude-ignore-files/)
@@ -159,12 +162,14 @@ tr # SEE man tr it's really cool
 
 cut -d " " -f 2 #cuts the second field of each line, with fields defined using the delimiter " ".
 cut -d, -f-4,6-10,12-  # cut fields 5 and 11 with "," delim - alternate phrasing(mutliple certain fields at once)
+cut -d "_" -f 1 --complement  # inverts selection ie. all except field 1
 
 expr 38-26 #allows sums
 
 sed 's/string/replacement' filename.txt  # s = substitution. / is the delimiter. Default behaviour is to replace first occurence in a line 
 sed 's/string/replacement/g' filename.txt  # /g is global - replaces all occurences
 sed -i 's!string!replacement!g' filename.txt  # edit file in place
+sed '0,/string/{s/string/replacement/}' input_filename
 # sed will NOT match end of line \n
 
 awk  # https://www.geeksforgeeks.org/awk-command-unixlinux-examples/
@@ -225,7 +230,12 @@ args=("$@")
 echo ${args[0]} ${args[1]} ${args[2]}
 echo $@
 
-readarray myarray < list.txt
+readarray -t myarray < list.txt  # -t strips newline (/whichever delim is specified with -d) before assigning new index
+echo ${myarray[@]}  # all elements in array
+echo ${#myarray[@]}  # number of elements in array
+echo ${myarray[@]:0}  # indexing: first element 
+echo ${myarray[@]:4:6}  # indexing 
+echo ${myarray[@]::6}  # indexing: first element to 6th 
 for i in "${myarray[@]}"
 do
 echo "$i"

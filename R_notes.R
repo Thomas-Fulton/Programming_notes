@@ -83,6 +83,12 @@ if (!requireNamespace("remotes", quietly = TRUE)) {
 }
 remotes::install_github("mojaveazure/seurat-disk")
 
+# -------------------------------------------------------------------------------------------------------------------------------------------------------
+## Useful Functions ##
+# Specify decimal places: x is the number and k is no. decimal places
+specify_decimal <- function(x, k) as.double(trimws(format(round(x, k), nsmall=k)))
+
+
 
 ### Shortcuts ###
 # alt + drag up/ down multiline typing! Like visual column in vim
@@ -186,6 +192,30 @@ cbing  # for columns
 df %>% count(colname1) %>% filter(n>=2)
 mtcars %>% filter(str_detect(type, 'Toyota|Mazda'))
 
+
+ggdf <- ggdf %>% 
+  pivot_longer(c("DPG.POL.Phl.p","DPG.Phl.p","Phl.p", "unstimulated"), names_to = "Stimulation", values_to = "Population")
+"""
+# A tibble: 40 × 3
+   metacluster Stimulation   Population
+         <int> <fct>              <int>
+ 1           1 DPG.POL.Phl.p        305
+ 2           1 DPG.Phl.p            610
+ 3           1 Phl.p                615
+ 4           1 unstimulated        1256
+ 5           2 DPG.POL.Phl.p     152154
+ 6           2 DPG.Phl.p         192642
+ 7           2 Phl.p             179204
+ 8           2 unstimulated      163136
+ 9           3 DPG.POL.Phl.p      30067
+10           3 DPG.Phl.p          31504
+"""
+
+# apply function to whole dataframe: 
+# can use lapply: converts each col to list, applies function, and returns list for each col (so list of lists for df). Can then convert back to df
+lapply(df, function(x){x})[1]
+df[] <- data.frame(lapply(df, function(x){specify_decimal(x)}))
+
 ### Plotting
 
 x = 1:50
@@ -195,6 +225,47 @@ plot(x,y)
 plot(x,y, type = "l", col="red") # creates a line plot, red line
 
 barplot()
+
+### ggplot tips ----------------------------------------------------------------
+## Colour and size
+# scale_fill_  and scale_colour_  only work when shape is set to values between 21:25 
+# Automate based on factor of fill aes: improve by setting "Stimulation" col as factor
+ggdf$Stimulation <- factor(ggdf$Stimulation, levels = c("Phl.p","DPG.Phl.p","DPG.POL.Phl.p","unstimulated"))
+scale_fill_manual(values=setNames(scales::hue_pal()(length(levels(as.factor(ggdf[["Stimulation"]])))), levels(as.factor(ggdf[["Stimulation"]])))) + 
+
+## Legend
+# Remove legend for a particular aesthetic (fill):
+  bp + guides(fill="none")
+# It can also be done when specifying the scale:
+  bp + scale_fill_discrete(guide="none")
+# This removes all legends:
+  bp + theme(legend.position="none")
+
+
+# Heatmaps: https://jokergoo.github.io/ComplexHeatmap-reference/book/legends.html <- !!!!!!!!!
+# scale each column:
+mat <- scale(as.matrix(metaclusRes[, heatCols]))
+## Colour heatmap
+abs(mat) # makes all values positive by squaring the positive sqrt of each value
+# colour to max / min of scale mat: equal distance either side of zero to furthest from zero
+rg <- max(abs(mat))
+col_fun = circlize::colorRamp2(c(-rg, 0, rg), c("blue", "white", "darkred")) 
+# colour to max and min of scale mat: equal distance either side of zero
+rg <- quantile(mat, c(0.01, 0.99))
+col_fun = circlize::colorRamp2(c(rg[1], 0, rg[2]), c("blue", "white", "darkred")) 
+# Min and max of vals in mat
+col_fun = circlize::colorRamp2(c(min(mat), 0, max(mat)), c("blue", "white", "darkred")) 
+
+  Heatmap(mat, 
+          col = col_fun,
+          heatmap_legend_param = list(
+            title = "Scaled\nExpression",
+            direction = "vertical",                        # scale bar horizontal or vertical
+            title_position = "leftcenter-rot",             # -rot = rotated, right left center etc.
+            legend_height = unit(4, "cm"),
+            title_gp = gpar(col = "red", fontsize = 8)
+          ))
+
 
 
 url <- "http://www.mas.ncl.ac.uk/~nak102/teaching/MAS8406/fibroblast_data.txt"
