@@ -85,15 +85,17 @@ mv /path/to/source/dir/{file1,file2,*.ext1,*.ext2} /path/to/destination/
 mv file1 file2 file3 -t DESTINATION
 # Rename directories to remove spaces and replace with underscores
 find . -depth -name "* *" -execdir rename 's/ /_/g' "{}" \;
+ls | xargs -I {} cp {} p41_pre_{}
+
 # Find command 
 # (https://unix.stackexchange.com/questions/493808/commands-differences-using-quotations-find)
 # (https://www.cyberciti.biz/faq/find-command-exclude-ignore-files/)
 find ~ -name "filename.txt"  # find file in ~ (home) dir
 find ~ -name "filename.txt" -delete  # find file in ~ (home) dir
-find . -wholename "*somedirna*.html"  # use multiple globs to look through directories
+find . -wholename "*somedirna*.html"  # wholename includes directory names, not just base file name. Use multiple globs to look through directories
 find . -wholename './SRR*.fastq' | parallel -jobs 8 "gzip -r {}"  # if no glob at beginning: ./
 find ~/ -perm 777  #find <Directory> ~perm <Permissions>
-
+find . -maxdepth 1 -name "*afile*"  # only specificed folder, no subfolders. Must be specified
 # Parallel
 # Don't need to specify no. jobs - parallel detects automatically ncores*nthreads I think
 # use `top` to see _id (percent cpu idle), and increase or decrease njobs if needed
@@ -141,6 +143,7 @@ head -n5 file1  #prints first five lines of a file. Default is ten lines
 cat file1.txt  # creates file1. Write text. ctrl + D to save and exit
 cat file1 > file2  # copies content of file1 into file2. Overwrites/creates file2
 cat file1 >> file2  #appends contents of file1 into file2
+paste -d , date1.csv date2.csv  # paste files column-wise with delim ","
 wc  # word count
 wc -l  # number of lines
 

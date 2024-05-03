@@ -16,32 +16,39 @@ export RSTUDIO_WHICH_R=/usr/local/bin/R3.6.3
  #[1]  "/home/thomas/R/x86_64-pc-linux-gnu-library/3.6" "/usr/local/lib/R/site-library"                  "/usr/lib/R/site-library"                       
  #[4]  "/usr/lib/R/library"
 
-# as root in terminal (Bash):
-mkdir /tmp/R3.6/
-cp /home/thomas/R/x86_64-pc-linux-gnu-library/3.6/* /tmp/R3.6/ -r
-## 2nd and 3rd directories in .libPaths() are empty - move 4th to save
-mkdir /usr/lib/R3.6/ 
-cp /usr/lib/R/* /usr/lib/R3.6/ -r
+### Step 1 ###
+# Make dir for new library (once done automatically added to .libPaths() later - not sure how ahah)
+cd R/x86_64-pc-linux-gnu-library/
+mkdir 4.4  # Just first two numbers of R version
+## Copy R package libraries
+## as root in terminal (Bash):
+#mkdir /tmp/R3.6/
+#cp /home/thomas/R/x86_64-pc-linux-gnu-library/3.6/* /tmp/R3.6/ -r
+### 2nd and 3rd directories in .libPaths() are empty - move 4th to save
+#mkdir /usr/lib/R3.6/ 
+#cp /usr/lib/R/* /usr/lib/R3.6/ -r
 
 # Install R 4.1.3 and 3.6.3
 export R_VERSION=4.1.3
-export UBUNTU_VERSION=2204
+export UBUNTU_VERSION=2204  # lsb_release -a
+cd ~/Downloads/debfiles/
 curl -O https://cdn.rstudio.com/r/ubuntu-${UBUNTU_VERSION}/pkgs/r-${R_VERSION}_1_amd64.deb
 sudo gdebi r-${R_VERSION}_1_amd64.deb
 /opt/R/${R_VERSION}/bin/R --version
 # DEFAULT (make symlinks below to latest as default)
-sudo ln -s /opt/R/${R_VERSION}/bin/R /usr/local/bin/R
-sudo ln -s /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript
+sudo ln -sf /opt/R/${R_VERSION}/bin/R /usr/local/bin/R
+sudo ln -sf /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript
 # SPECIFICS: after installing new version, specify version for RSTUDIO_WHICH_R
-sudo ln -s /opt/R/${R_VERSION}/bin/R /usr/local/bin/R${R_VERSION}
-sudo ln -s /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript${R_VERSION}
+sudo ln -sf /opt/R/${R_VERSION}/bin/R /usr/local/bin/R${R_VERSION}
+sudo ln -sf /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript${R_VERSION}
 
 # Change environmental variable in ~/.profile
 RSTUDIO_WHICH_R=/usr/local/bin/R
 
 
 #### Install rstudio ####
-# Download from https://posit.co/download/rstudio-desktop/
+# Download from https://posit.co/download/rstudio-desktop/ (here into into "~/Downloads/debfiles/")
+sudo gdebi ~/Downloads/debfiles/rstudio-2024.04.0-735-amd64.deb 
 # Append lines below to /etc/apt/sources.list to fix dependency error for package: libchang-dev
 #deb http://se.archive.ubuntu.com/ubuntu/ jammy main restricted universe
 #deb http://se.archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe
@@ -62,7 +69,7 @@ local({r <- getOption("repos")
 
 install.packages("data.table")
 library(data.table)
-detach("package:stringr")
+detach("package:stringr")  # unload 
 
 # use package pacman to load, or install and then load packages, eg.
 #install.packages("pacman")
@@ -241,8 +248,86 @@ scale_fill_manual(values=setNames(scales::hue_pal()(length(levels(as.factor(ggdf
 # This removes all legends:
   bp + theme(legend.position="none")
 
+  
+### Arrange grobs gridExtra Cowplot etc. 
+  # https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html
+  
+###### pheatmap ####### (Use complex heatmap if poss)
+# Diagnostic pheatmap: Ordering of Cells: cell_identity_1, desc(Condition), percent.mt, patient_id, log10GeneperUMI, mapping.score
+try({
+  # Get expression matrix
+  #de_mat <- t.subset@assays$RNA@scale.data[rownames(DEG_pval0.05)[1:1000],]
+  de_mat <- t.subset@assays$RNA@scale.data[rownames(DEG_pval0.05),]
+  
+  # Cell (column) Annotations
+  tmpmdata <- t.subset@meta.data  # [grep("_B2", tmpmdata$Sample_Batch_ID, invert = T), ]
+  annot_col <- tmpmdata %>%
+    select(percent.mt, log10GeneperUMI, mapping.score, cell_identity_1, patient_id, Condition) %>%
+    as.data.frame()
+  head(annot_col)
+  annot_col$cell_ids <- rownames(annot_col)  # Save so rownames can be re-added
+  ## Cluster Cells (columns)
+  #d <- dist(t(de_mat), method="euclidean")
+  #h <- hclust(d, method="complete")
+  #clusAllCellNames <- h$labels[h$order]
+  ##de_mat <- de_mat[rev(clusAllGeneNames), clusAllCellNames] #t.subset@assays$RNA@scale.data[rownames(DEG)[1:100],]
+  #annot_col <- annot_col[clusAllCellNames, ]
+  #annot_col <- annot_col[, colnames(annot_col)[!(colnames(annot_col) == "cell_ids")]]
+  # Order cells
+  annot_col <- arrange(annot_col, cell_identity_1, desc(Condition), percent.mt, patient_id, log10GeneperUMI, mapping.score)
+  rownames(annot_col) <- annot_col$cell_ids
+  annot_col <- annot_col[, colnames(annot_col)[!(colnames(annot_col) == "cell_ids")]]
+  
+  # Gene (row) Annotations
+  annot_row <- data.frame(row.names = rownames(DEG_pval0.05), LFC = DEG_pval0.05$avg_log2FC)
+  annot_row$status <- NA
+  annot_row$status[annot_row$LFC > 0] = "Upregulated"
+  annot_row$status[annot_row$LFC < 0] = "Downregulated"
+  # Cluster Genes
+  #d <- dist(de_mat, method="euclidean")
+  #h <- hclust(d, method="complete")
+  clusAllGeneNames <- h$labels[h$order]
+  annot_row <- annot_row[clusAllGeneNames, ]
+  annot_row <- annot_row[c(rownames(annot_row)[annot_row$status == "Upregulated"], rownames(annot_row)[annot_row$status == "Downregulated"]), ]
+  ## Order Genes
+  #clusAllGeneNames <- rownames(annot_row)[order(annot_row$LFC)]
+  #annot_row <- annot_row[clusAllGeneNames, ]
+  
+  # Arrange de_mat using ordered/clustered annot_row and annot_col
+  de_mat <- de_mat[rownames(annot_row), rownames(annot_col)]
+  stopifnot(all(colnames(de_mat) == rownames(annot_col)))
+  stopifnot(all(rownames(de_mat) == rownames(annot_row)))
+  # Set annotation colours
+  ann_colours = list(
+    Condition = c("pre-treatment" ="blue", "post-treatment"="orange"),
+    patient_id = c("p33" = "turquoise1", "p36" = "slateblue", "p39" = "plum"),
+    cell_identity_1 = palette_cell_id1,
+    status = c("Upregulated" = "darkred", "Downregulated" = "darkblue")
+  )
+  # Breaks for colour scale
+  breaksList <- c(seq(-5, 4, by = 1), 10)
+  breaksList <- c(-4,-3,-2,-1.5,-1,-0.5, 0,0.5,1,1.5,2,3,4)
+  max(abs(de_mat))
+  # Plot
+  pheat <- pheatmap(de_mat, cluster_rows=FALSE, show_rownames=FALSE, show_colnames = FALSE, scale = "none", use_raster = T,
+                    cluster_cols=FALSE, annotation_col=annot_col, annotation_row = annot_row, color = colorRampPalette(c("navy", "white", "#D40000"))(length(breaksList)),  # colorRampPalette(rev(brewer.pal(n = 7, name = "RdBu")))
+                    breaks = breaksList, fontsize_row = 7.5, annotation_colors = ann_colours, 
+                    gaps_col = (which(!duplicated(annot_col$cell_identity_1))-1),
+                    main = paste0(""))
+  analysis_string <- "Heatmap_diagnostics_Signif_CelltypeConditionMtPid_splitupanddown"
+  #analysis_string <- "Heatmap_diagnostics_Signif_clusteredCells"
+  extension_string <- ".png"
+  save_string <- paste0(analysis_dir_string, analysis_string, "_", analysis_cluster_string, "_", analysis_patient_string, extension_string)
+  print(save_string)
+  png(filename = save_string, units = "px", width = (ncol(de_mat)+500), height = (nrow(de_mat)+200) )
+  print(pheat)
+  dev.off()
+})
 
+  
+  
 # Heatmaps: https://jokergoo.github.io/ComplexHeatmap-reference/book/legends.html <- !!!!!!!!!
+#### ComplexHeatmap  
 # scale each column:
 mat <- scale(as.matrix(metaclusRes[, heatCols]))
 ## Colour heatmap
@@ -267,7 +352,7 @@ col_fun = circlize::colorRamp2(c(min(mat), 0, max(mat)), c("blue", "white", "dar
           ))
 
 
-
+  
 url <- "http://www.mas.ncl.ac.uk/~nak102/teaching/MAS8406/fibroblast_data.txt"
 fibro <- read.table(url, header = TRUE)
 hist(fibro$Time, freq = FALSE, col = "gold", main = "Fibroblast cell survival", xlab = "Time", ylab = "Relative Frequency") # freq = FALSE shows relative frequency, ie. instead of no. cells surviving it shows proportion where 1 is the total - allows comparison of different datasetes

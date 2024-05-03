@@ -1,4 +1,10 @@
 
+# https://www.tecmint.com/funny-linux-commands/
+
+## nCPUs or cores ## 
+htop  # see each core and usage at the top of the terminal
+scpu | egrep 'Model name|Socket|Thread|NUMA|CPU\(s\)'  # get n
+
 
    ###  File System Hierarchy  ###
 /usr/
@@ -41,5 +47,13 @@ export PATH=/opt/myprog-1.0/bin:$PATH
 # Create symlink:
 ln -s my_prog-1.0/bin/executable /usr/local/bin/
 ln -s my_prog-1.0/bin/executable /home/wfulton/bin/
+
+
+############## Custom preferences ###################
+# Commands to run on terminal startup
+sh -c 'cd ~/Documents/Programming_notes; exec "${SHELL:-sh}"'
+
+echo -e '\n\nTOM\n\n\nURGENT TRANSMISSION INCOMING: REQUIRES IMMEDIATE ATTENTION\n\n\nMESSAGE FROM:\n\n' | pv -qL 20 ; sleep 2 ; echo '    "Caffeinated Cow"' | lolcat -p 0.5 -a -d 300 -s 40 ; echo -e '\n\nMESSAGE FOLLOWS...\n\n' | pv -qL 20 ; sleep 3 ; fortune | cowsay | lolcat -p 0.5 -a -d 15 -s 40; echo -e "\n\nWISDOM ENDS" | pv -qL 20
+
 
 

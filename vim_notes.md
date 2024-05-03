@@ -25,7 +25,9 @@ Ctrl + v  # visual block
 %  # selects whole file
 :%s/origninal/replacement/  # replace "original" with "replacement". First occurance only 
 :%s/origninal/replacement/g  # (/g) replace ALL occurances. (/c) asks for confirmation for each replacement
-  # (when searching for newline: \n, when replacing newline: \r).
+:%s/origninal/replacement/gc
+:s/origninal/replacement/gc  # same but in current line only 
+# (when searching for newline: \n, when replacing newline: \r).
 :g//  # lists all lines containing the last search pattern, and :redir will capture the results.
 
 ## Navigation ##
@@ -35,6 +37,12 @@ k  # move up one line
 j  # move down one line
 h  # move left one character
 
+# (within line movements)
+f(  # next occurence of character "("
+3f(  # 3rd next occurence of character "("
+F(  # previous occurence of character "("
+;  # repeat movement in same direction
+,  # repeat movement in opposite direction 
 ctrl + u  # move up half a page
 ctrl + d  # move down half a page
 
@@ -50,6 +58,10 @@ G  # move to last line of file
 B  # move to the end of the word
 W  # move to the beginning of the word
 #16  # moves 16 lines down
+
+diw  # delete in word
+yiw  # yank in word
+viw  # highlight in word etc.
 
 ## Editing ##
 d
