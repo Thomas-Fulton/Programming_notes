@@ -175,6 +175,7 @@ mut_load_change$Generation_labs[n] <- paste(SRR_lineage_generation[SRR_lineage_g
 
 cars[2] # list style indexing, returns column
 cars[,2] # matrix style indexing, returns a vector
+cars[,2, drop=FALSE]  # keep as dataframe, not vector
 
   ## Filtering rows: base R and tidyverse ##
 # put an expression in the index:
@@ -239,6 +240,9 @@ barplot()
 # Automate based on factor of fill aes: improve by setting "Stimulation" col as factor
 ggdf$Stimulation <- factor(ggdf$Stimulation, levels = c("Phl.p","DPG.Phl.p","DPG.POL.Phl.p","unstimulated"))
 scale_fill_manual(values=setNames(scales::hue_pal()(length(levels(as.factor(ggdf[["Stimulation"]])))), levels(as.factor(ggdf[["Stimulation"]])))) + 
+# Hints on rescaling scale_*_gradient and scale_*_continuous: https://stackoverflow.com/questions/73394761/set-limits-for-scale-fill-gradientn-for-ratios-values-from-0-to-1-with-blue-sca
+# gradientn takes "n" colours, values are in the range of 0:1.
+  scale_fill_gradientn(colours = c("orange","blue"), limits = c(0,3), values = c(0, 0.25, 1)) + theme_classic()
 
 ## Legend
 # Remove legend for a particular aesthetic (fill):
