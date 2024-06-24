@@ -143,6 +143,7 @@ sample(z, 5) # takes a 5 random samples from the list
 
 
 #### Data Frames
+cars[,2, drop=FALSE]  # keep as dataframe, not vector
 
 str(cars)  # see structure of data
 
@@ -331,7 +332,9 @@ try({
   
   
 # Heatmaps: https://jokergoo.github.io/ComplexHeatmap-reference/book/legends.html <- !!!!!!!!!
-#### ComplexHeatmap  
+#### ComplexHeatmap ####
+  # https://jokergoo.github.io/ComplexHeatmap-reference/book/heatmap-annotations.html#mark-annotation <- cool gene annotations?
+  # SEE "~/projects/Aero/0_initialise.R" plot_heat()
 # scale each column:
 mat <- scale(as.matrix(metaclusRes[, heatCols]))
 ## Colour heatmap

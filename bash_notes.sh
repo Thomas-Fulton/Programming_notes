@@ -130,6 +130,9 @@ tar -zxvf filename.tar.gz -C tmp/ # to tmp/dir/files*
 # .gz
 gzip  
 gunzip
+# .zip
+unzip
+
 
 file filename.gif  #prints file type eg. in this case GIF image data bla bla
 
