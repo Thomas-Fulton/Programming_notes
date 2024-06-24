@@ -43,10 +43,11 @@ Make backup IMMEDIATELY and LOG where all files are:
 \# (old) `find ${mydir} -type f -exec md5sum {} + | LC_ALL=C sort | md5sum > ${mydir}_checksum.md5`
 
 To check:  
-`md5sum -c "${mydir}"_files_checksums.md5`
-To check on directory, "${mydir}"\_files\_checksums.md5 must be re-calculated FIRST  
+`md5sum -c --quiet "${mydir}"_files_checksums.md5`  \# --quiet will only show mismatched checksums
+(Just use individual files checksums but if needed:) To check on directory: 
+ - "${mydir}"\_files\_checksums.md5 must be re-calculated FIRST  
 `md5sum -c "${mydir}"_dir_checksum.md5`
-
+\# (old): `find "${mydir}" -type f -exec md5sum {} + | LC_ALL=C sort | md5sum` 
 ### For contents, file paths, AND attributes/permissions etc.:
 > rsync must be done with `-a` aka archive mode to have preserved file attributes and permissions for the checksums to match
 
