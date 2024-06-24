@@ -27,7 +27,8 @@ Make backup IMMEDIATELY and LOG where all files are:
  1. Move to directory _above_ directory of interest, and set name of directory of interest:  
 `mydir=Aero`  
  2. Create manifest.tsv of all files in ${mydir}:  
-`find "${mydir}" -type f | LC_ALL=C sort > ${mydir}_manifest.tsv`
+`find "${mydir}" -type f | LC_ALL=C sort > ${mydir}_manifest.tsv`  
+`cat ${mydir}_manifest.tsv`
 
 ## MD5 Checksums
 ### For only contents and file paths:
@@ -42,7 +43,7 @@ Make backup IMMEDIATELY and LOG where all files are:
 `md5sum "${mydir}"_files_checksums.md5 > "${mydir}"_dir_checksum.md5`  
 \# (old) `find ${mydir} -type f -exec md5sum {} + | LC_ALL=C sort | md5sum > ${mydir}_checksum.md5`
 
-To check:  
+### To check:  
 `md5sum -c --quiet "${mydir}"_files_checksums.md5`  \# --quiet will only show mismatched checksums
 (Just use individual files checksums but if needed:) To check on directory: 
  - "${mydir}"\_files\_checksums.md5 must be re-calculated FIRST  
