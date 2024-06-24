@@ -14,7 +14,7 @@
 # rsync
 > See "ssh\_notes.sh" in ~/Programming\_notes/
 
-rsync -avzP /path/to/local/file.txt yourUsername@remote.computer.address:/path/on/remote/computer  
+`rsync -avzP /path/to/local/file.txt yourUsername@remote.computer.address:/path/on/remote/computer`
  - "-a" archive: (see https://serverfault.com/questions/141773/what-is-archive-mode-in-rsync)
 
 
@@ -28,26 +28,26 @@ rsync -avzP /path/to/local/file.txt yourUsername@remote.computer.address:/path/o
 
  1. move to directory _above_ directory of interest, and set name of directory of interest
 `mydir=Aero`
- 2. Calculate checksums for each file in "$mydir"
+ 2. Calculate checksums for each file in "$mydir":  
 `find "${mydir}" -type f -exec md5sum {} + | LC_ALL=C sort > ./"${mydir}"_files_checksums.md5`
- 3. THEN for the directory, calcluate checksum on on file containing sorted file checksums:
+ 3. THEN for the directory, calcluate checksum on on file containing sorted file checksums:  
 `md5sum "${mydir}"_files_checksums.md5 > "${mydir}"_dir_checksum.md5`
-# (old) `find ${mydir} -type f -exec md5sum {} + | LC_ALL=C sort | md5sum > ${mydir}_checksum.md5`
+\# (old) `find ${mydir} -type f -exec md5sum {} + | LC_ALL=C sort | md5sum > ${mydir}_checksum.md5`
 
-To check:
+To check:  
 `md5sum -c "${mydir}"_files_checksums.md5`
-To check on directory, "${mydir}"\_files\_checksums.md5 must be re-calculated FIRST
+To check on directory, "${mydir}"\_files\_checksums.md5 must be re-calculated FIRST  
 `md5sum -c "${mydir}"_dir_checksum.md5`
 
 ### For contents, file paths, AND attributes/permissions etc.:
 > rsync must be done with `-a` aka archive mode to have preserved file attributes and permissions for the checksums to match
 
-Create function and exports:
+Create function and exports:  
 `summary (){
     echo "$(stat -c '%y' "$1") $(md5sum "$1")"
 }
 export -f summary`
-find . -type f -exec bash -c 'summary "$0"' {} \; | LC_ALL=C sort | md5sum
+`find . -type f -exec bash -c 'summary "$0"' {} \; | LC_ALL=C sort | md5sum`
 
 
 
