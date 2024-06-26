@@ -20,15 +20,15 @@ Make backup IMMEDIATELY and LOG where all files are:
 ## 1. Set up  
 ### Example:
 Moving a folder of raw sequencing data (downloaded from globus) from a project "Aero" in "~/globus_ITG_data/Aero/" to ssd "/media/wfulton/T7". Moving folder "AvikData" (not all of Aero).  
- 1. Make sure duplicate _project_ directory exists in destination (eg. ssd)
-`mkdir /media/wfulton/T7/Aero`  \# (Without encrytion) TODO: same using veracrypt?
+ 1. Make sure duplicate _project_ directory exists in destination (eg. ssd)  
+```mkdir /media/wfulton/T7/Aero```  \# (Without encrytion) TODO: same using veracrypt?
 
 ## 2. Manifest
  1. Move to directory _above_ directory of interest (i.e. "~/globus_ITG_data/Aero/"), and set name of directory of interest (i.e. "./AvikData"):  
-`mydir=AvikData`  
+```mydir=AvikData```  
  2. Create manifest.tsv of all files in ${mydir}:  
-`find "${mydir}" -type f | LC_ALL=C sort > ${mydir}_manifest.tsv`  
-`cat ${mydir}_manifest.tsv`
+```find "${mydir}" -type f | LC_ALL=C sort > ${mydir}_manifest.tsv```  
+```cat ${mydir}_manifest.tsv```
 
 ## 3. MD5 Checksums
 ### For only contents and file paths:
@@ -36,45 +36,45 @@ Moving a folder of raw sequencing data (downloaded from globus) from a project "
  - Save .md5 files outside of dir as saving inside with change the results! - code below will save two files (one with checksums of all files in dir, one with checksum of checksums)
 
  1. move to directory _above_ directory of interest ("~/globus_ITG_data/Aero/"), and set name of directory of interest ("./AvikData")
-`mydir=AvikData`
+```mydir=AvikData```
  2. Calculate checksums for each file in "$mydir":  
-`find "${mydir}" -type f -exec md5sum {} + | LC_ALL=C sort > ./"${mydir}"_files_checksums.md5`  
-`cat "${mydir}"_files_checksums.md5`  
+```find "${mydir}" -type f -exec md5sum {} + | LC_ALL=C sort > ./"${mydir}"_files_checksums.md5```  
+```cat "${mydir}"_files_checksums.md5```  
  3. THEN for the directory, calcluate checksum on on file containing sorted file checksums:  
-`md5sum "${mydir}"_files_checksums.md5 > "${mydir}"_dir_checksum.md5`  
-`cat "${mydir}"_dir_checksum.md5`
-\# (old) `find ${mydir} -type f -exec md5sum {} + | LC_ALL=C sort | md5sum > ${mydir}_checksum.md5`
+```md5sum "${mydir}"_files_checksums.md5 > "${mydir}"_dir_checksum.md5```  
+```cat "${mydir}"_dir_checksum.md5```
+\# (old) ```find ${mydir} -type f -exec md5sum {} + | LC_ALL=C sort | md5sum > ${mydir}_checksum.md5```
 
 ## 4. Copy directory of interest to ssd
 1. Move folder
-`rsync -avzP  /media/wfulton/T7/Aero/`
+```rsync -avzP  /media/wfulton/T7/Aero/```
 2. Move checksums
-`rsync -avzP "${mydir}"_* /media/wfulton/T7/Aero/`
+```rsync -avzP "${mydir}"_* /media/wfulton/T7/Aero/```
 
 ## 5. Check MD5 checksums
  1. Make sure ${mydir} is set (if using different terminal window)  
-`mydir=AvikData`
-`md5sum -c --quiet "${mydir}"_files_checksums.md5`  \# --quiet will only show mismatched checksums
+```mydir=AvikData```
+```md5sum -c --quiet "${mydir}"_files_checksums.md5```  \# --quiet will only show mismatched checksums
 (Just use individual files checksums but if needed:) To check on directory: 
  - "${mydir}"\_files\_checksums.md5 must be re-calculated FIRST  
-`md5sum -c "${mydir}"_dir_checksum.md5`
-\# (old): `find "${mydir}" -type f -exec md5sum {} + | LC_ALL=C sort | md5sum` 
+```md5sum -c "${mydir}"_dir_checksum.md5```
+\# (old): ```find "${mydir}" -type f -exec md5sum {} + | LC_ALL=C sort | md5sum``` 
 
 
 # rsync
 > See "ssh\_notes.sh" in ~/Programming\_notes/
 
-`rsync -avzP /path/to/local/file.txt yourUsername@remote.computer.address:/path/on/remote/computer`
+```rsync -avzP /path/to/local/file.txt yourUsername@remote.computer.address:/path/on/remote/computer```
  - "-a" archive: (see https://serverfault.com/questions/141773/what-is-archive-mode-in-rsync)
 ### For contents, file paths, AND attributes/permissions etc.:
-> rsync must be done with `-a` aka archive mode to have preserved file attributes and permissions for the checksums to match
+> rsync must be done with ```-a``` aka archive mode to have preserved file attributes and permissions for the checksums to match
 
 Create function and exports:  
-`summary (){
+```summary (){
     echo "$(stat -c '%y' "$1") $(md5sum "$1")"
 }
-export -f summary`
-`find . -type f -exec bash -c 'summary "$0"' {} \; | LC_ALL=C sort | md5sum`
+export -f summary```
+```find . -type f -exec bash -c 'summary "$0"' {} \; | LC_ALL=C sort | md5sum```
 
 
 
