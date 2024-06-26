@@ -7,9 +7,11 @@
 ## \#\# Subtitle
 ### \#\#\# Smaller etc...
 
-For \`code\`
-`the code`
-
+For \`code\` in a sentence
+For code block (with copy button). Optional to add language:
+```bash
+the code`
+```
 For bulleted list:
  - " \- 1st level"
    - "   - 2nd level"
