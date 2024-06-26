@@ -94,7 +94,7 @@ find ${mydir} -type f -exec md5sum {} + | LC_ALL=C sort | md5sum > ${mydir}_chec
 1. Move folder
 
 ```
-rsync -avzP  /media/wfulton/T7/Aero/
+rsync -avzP "${mydir}" /media/wfulton/T7/Aero/
 ```
 
 2. Move checksums
