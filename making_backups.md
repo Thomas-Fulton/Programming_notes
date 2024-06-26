@@ -11,7 +11,12 @@ Make backup IMMEDIATELY and LOG where all files are:
 2. Make sure checksums are the same as globus, then use steps below to make checksums for internal comparisons. 
 3. Log where files are in "~/projects/IGF\_list.ods"
 
-
+# Using a new hard disk (SSD)
+### Fix Samsung T7 file deleting...
+ 1. Samsung includes software on hard disk for set up on Macs and Windows. This software (or the disconnection and recconection of the ssd from a faulty USB-C connecting cable), caused files to be deleted to a new ".Trash\*" folder. To stop this:
+ - Make sure to delete all Samsung installation files and directories
+ - Check cable (and laptop port?) using tester disk.  
+ 2. Set up veracrypt: see "README-ssd_info_and_backups_access.txt" in Programing notes or on previously set up hard disks
 
 # Creating Manifest and MD5 checksums 
 > see: https://www.baeldung.com/linux/directory-md5-checksum
@@ -110,9 +115,9 @@ mydir=AvikData
 ```
 md5sum -c --quiet "${mydir}"_files_checksums.md5
 ```
-  \# --quiet will only show mismatched checksums
-(Just use individual files checksums but if needed:) To check on directory: 
- - "${mydir}"\_files\_checksums.md5 must be re-calculated FIRST  
+  \# --quiet will only show mismatched checksums  
+#### (Just use individual files checksums but if needed:) To check on directory: 
+ > "${mydir}"\_files\_checksums.md5 must be re-calculated FIRST  
 
 ```
 md5sum -c "${mydir}"_dir_checksum.md5
