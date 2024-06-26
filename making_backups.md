@@ -19,16 +19,17 @@ Make backup IMMEDIATELY and LOG where all files are:
  2. Set up veracrypt: see "README-ssd_info_and_backups_access.txt" in Programing notes or on previously set up hard disks
 
 # Creating Manifest and MD5 checksums 
-> see: https://www.baeldung.com/linux/directory-md5-checksum
+> see: https://www.baeldung.com/linux/directory-md5-checksum  
 > see: https://www.bioinformatics.unibe.ch/unibe/portal/fak_naturwis/d_dbio/inst_bioinf/content/e218076/e1107953/e1108079/e1108085/files1108092/How_to_get_MD5_checksum_eng.pdf
 
 ## 1. Set up  
 ### Example:
 Moving a folder of raw sequencing data (downloaded from globus) from a project "Aero" in "~/globus_ITG_data/Aero/" to ssd "/media/wfulton/T7". Moving folder "AvikData" (not all of Aero).  
- 1. Make sure duplicate _project_ directory exists in destination (eg. ssd)  
+ 1. Make sure duplicate _project_ directory exists in destination (eg. ssd) and in "records-of-ITG-projects/"
 
 ```
 mkdir /media/wfulton/T7/Aero
+mkdir ~/projects/records-of-ITG-projects/Aero
 ```
   \# (Without encrytion) TODO: same using veracrypt?
 
@@ -101,6 +102,7 @@ rsync -avzP "${mydir}" /media/wfulton/T7/Aero/
 
 ```
 rsync -avzP "${mydir}"_* /media/wfulton/T7/Aero/
+rsync -avzP "${mydir}"_* ~/projects/records-of-ITG-projects/Aero/
 ```
 
 
