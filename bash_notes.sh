@@ -390,8 +390,9 @@ Ctrl + N  # Next command (like down arrow)
 
 
 ##### Killing a process in linux #####
-# Explore processes
+# Explore processes: top or htop for alternative with more detail, including number and usage of each cores at the top.
 top
+htop
 # get Process id
 pidof rsession
 # Kill (allowing process to end gracefully)
