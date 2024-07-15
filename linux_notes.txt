@@ -51,12 +51,22 @@ ln -s my_prog-1.0/bin/executable /home/wfulton/bin/
 
 ############## Custom preferences ###################
 # Commands to run on terminal startup
+
+## For "notes" profile ##
+# Put following into custom command in profile:
 sh -c 'cd ~/Documents/Programming_notes; exec "${SHELL:-sh}"'
 
+## For "serious work" profile ##
+# see ~/wisdom_from_an_old_friend.sh. Put following into custom command in profile:
+sh -c 'cd ~ ; ./wisdomFromAnOldFriend.sh; exec "${SHELL:-sh}"'
+similar to content of wisdomFromAnOldFriend.sh:
 echo -e '\n\nTOM\n\n\nURGENT TRANSMISSION INCOMING: REQUIRES IMMEDIATE ATTENTION\n\n\nMESSAGE FROM:\n\n' | pv -qL 20 ; echo '    "CAFFEINATED COW?"' | lolcat -p 0.5 -a -d 50 -s 40 ; echo -e '\n\nMESSAGE FOLLOWS...\n\n' | pv -qL 20 ; sleep 3 ; fortune | cowsay | lolcat -p 0.5 -a -d 100 -s 100; echo -e "\n\nWISDOM ENDS" | pv -qL 20
-
 
 echo -e '\n\nTOM\n\n\nURGENT TRANSMISSION INCOMING: REQUIRES IMMEDIATE ATTENTION\n\n\nMESSAGE FROM:\n\n' | pv -qL 20 ; sleep 2 ; echo '    "Caffeinated Cow"' | lolcat -p 0.5 -a -d 300 -s 40 ; echo -e '\n\nMESSAGE FOLLOWS...\n\n' | pv -qL 20 ; sleep 3 ; fortune | cowsay | lolcat -p 0.5 -a -d 15 -s 40; echo -e "\n\nWISDOM ENDS" | pv -qL 20
 
 
+## For caffeine profile ##
+# Install caffeine-indicator. To auto-activate: "caffeine-indicator is a python script. I also wanted it to auto-activate, so I edited it to do so. sudo vi /usr/bin/caffeine-indicator then in the class Caffeine() def __Init__() Add a last line in that function self.toggle_activated()"
+# Put following into custom command in profile:
+sh -c 'cd ~ ;caffeine-indicator'
 
