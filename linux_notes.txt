@@ -50,6 +50,9 @@ ln -s my_prog-1.0/bin/executable /home/wfulton/bin/
 
 
 ############## Custom preferences ###################
+## To set files default columns ##
+gsettings set org.gnome.nautilus.list-view default-visible-columns "['name', 'size', 'date_modified_with_time']"
+
 # Commands to run on terminal startup
 
 ## For "notes" profile ##
