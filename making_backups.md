@@ -17,6 +17,13 @@ Make backup IMMEDIATELY and LOG where all files are:
  - Make sure to delete all Samsung installation files and directories
  - Check cable (and laptop port?) using tester disk.  
  2. Set up veracrypt: see "README-ssd_info_and_backups_access.txt" in Programing notes or on previously set up hard disks
+# Reformatting hard disks
+> See https://dev.to/thekalderon/formatting-external-drives-on-linux-using-gparted-5goa
+ 1. make sure disk is unmounted.
+ 2. Open gparted, select disk (dev/sda1). make sure it is correct and not the system ssd (dev/nme...)
+ 3. Partition -> Format to -> ext4
+ 4. Click apply all operations
+ 5. Right click and re-label to T2(4) for example.  
 
 # Creating Manifest and MD5 checksums 
 > see: https://www.baeldung.com/linux/directory-md5-checksum  
