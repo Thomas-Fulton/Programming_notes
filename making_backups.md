@@ -24,7 +24,7 @@ Make backup IMMEDIATELY and LOG where all files are:
  3. Partition -> Format to -> ext4
  4. Click apply all operations
  5. Right click and re-label to T2(4) for example.  
- 6. Change group and group permissions:  
+ 6. Change group and group permissions: Move to dir above ssd (/media/wfulton/)  
   - `sudo chgrp -R emailonly T7-5/` 
   - `sudo chmod -R g+rw T7-5/`
 # Creating Manifest and MD5 checksums 
