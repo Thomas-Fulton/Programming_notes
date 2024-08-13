@@ -24,7 +24,9 @@ Make backup IMMEDIATELY and LOG where all files are:
  3. Partition -> Format to -> ext4
  4. Click apply all operations
  5. Right click and re-label to T2(4) for example.  
-
+ 6. Change group and group permissions:  
+  - `sudo chgrp -R emailonly T7-5/` 
+  - `sudo chmod -R g+rw T7-5/`
 # Creating Manifest and MD5 checksums 
 > see: https://www.baeldung.com/linux/directory-md5-checksum  
 > see: https://www.bioinformatics.unibe.ch/unibe/portal/fak_naturwis/d_dbio/inst_bioinf/content/e218076/e1107953/e1108079/e1108085/files1108092/How_to_get_MD5_checksum_eng.pdf
