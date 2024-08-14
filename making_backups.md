@@ -77,7 +77,7 @@ cat ${mydir}_manifest.tsv
  1. Move to directory _above_ directory of interest ("~/globus_ITG_data/Aero/"), and set name of directory of interest ("./AvikData")
 
 ```
-cd /media/wfulton/${ssdname}/${projdir}/
+cd ~/globus_ITG_data/${projdir}
 ```
 
  2. Calculate checksums for each file in "$mydir":  
@@ -157,6 +157,26 @@ This should include:
  - scripts (?)
  - seurat objects
  - (TODO - check for other essentials!)
+For Example:
+```  
+# Move to projdir in "~/projects/" and save the metadata.
+cd ~/projects/${projdir}
+# Get size of data/ and last results/ dirs
+du -h data/
+du -h results/
+```  
+```  
+# Copy data
+rsync -avzP data /media/wfulton/${ssdname}/${projdir}/
+# Copy last results dir
+rsync -avzP results /media/wfulton/${ssdname}/${projdir}/
+# Copy R scripts 
+rsync -avzP ./*.R /media/wfulton/${ssdname}/${projdir}/
+```  
+```  
+# Moving a h5seurat file - here rsync will create the h5seurat dir on the ssd
+rsync -avzP h5seurat/CCAintegratedOnRNApid_RegressMTCC_0.8mtRNA_35PCs_postExploratory_02-07-24.h5seurat /media/wfulton/${ssdname}/${projdir}/h5seurat/
+```  
 
 # rsync
 > See "ssh\_notes.sh" in ~/Programming\_notes/
@@ -192,4 +212,9 @@ find . -type f -exec bash -c 'summary "$0"' {} \; | LC_ALL=C sort | md5sum
 
 
 ## To save this as a pdf: open .md file in Chrome with the "Markdown Viewer" Extension. Edit theme to Github, then go to chrome options and "print", then tick "background graphics" option, and save as pdf.
+To see changes as you make them in a worse but updatable rending, run the following then ctr+click on the link to local server.
+```
+~/.local/bin/grip ~/Documents/Programming_notes/making_backups.md
+```
+
 > From: https://superuser.com/questions/689056/how-can-i-convert-github-flavored-markdown-to-a-pdf/1591372#1591372

@@ -4,6 +4,12 @@
 >  - [Ludwig repo README.md](https://github.com/Thomas-Fulton/Ludwig_2019/README.md)
 
 ## To save formatted github (and many other) markdown files as a pdf: open .md file in Chrome with the "Markdown Viewer" Extension. Edit theme to Github, then go to chrome options and "print", then tick "background graphics" option, and save as pdf.
+To see changes as you make them in a worse but updatable rending, run the following then ctr+click on the link to local server.
+```
+~/.local/bin/grip ~/Documents/Programming_notes/making_backups.md
+```
+
+
 > From: https://superuser.com/questions/689056/how-can-i-convert-github-flavored-markdown-to-a-pdf/1591372#1591372
 
 # \# Main title
