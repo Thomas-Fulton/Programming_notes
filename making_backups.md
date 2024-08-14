@@ -9,7 +9,7 @@
 Make backup IMMEDIATELY and LOG where all files are:
 1. Create manifest of files
 2. Make sure checksums are the same as globus, then use steps below to make checksums for internal comparisons. 
-3. Log where files are in "~/projects/IGF\_list.ods"
+3. Log where files are in "~/projects/records-of-ITG-projects/IGF\_list.ods"
 
 # Using a new hard disk (SSD)
 ### Fix Samsung T7 file deleting...
@@ -34,6 +34,8 @@ Make backup IMMEDIATELY and LOG where all files are:
 ## 1. Set up  
 ```  
 projdir=honey
+```  
+```  
 ssdname="T7-5"
 ```  
 
@@ -72,10 +74,10 @@ cat ${mydir}_manifest.tsv
  - Checksums are only done on FILES not DIRECTORIES: therefore do on all files:
  - Save .md5 files outside of dir as saving inside with change the results! - code below will save two files (one with checksums of all files in dir, one with checksum of checksums)
 
- 1. move to directory _above_ directory of interest ("~/globus_ITG_data/Aero/"), and set name of directory of interest ("./AvikData")
+ 1. Move to directory _above_ directory of interest ("~/globus_ITG_data/Aero/"), and set name of directory of interest ("./AvikData")
 
 ```
-mydir=AvikData
+cd /media/wfulton/${ssdname}/${projdir}/
 ```
 
  2. Calculate checksums for each file in "$mydir":  
@@ -148,7 +150,13 @@ md5sum -c "${mydir}"_dir_checksum.md5
 find "${mydir}" -type f -exec md5sum {} + | LC_ALL=C sort | md5sum
 ```
  
-
+## 6. Move downstream matrices, metadata and analysis files in project
+This should include:  
+ - feature-count matrix
+ - Meta-data
+ - scripts (?)
+ - seurat objects
+ - (TODO - check for other essentials!)
 
 # rsync
 > See "ssh\_notes.sh" in ~/Programming\_notes/
@@ -183,4 +191,5 @@ find . -type f -exec bash -c 'summary "$0"' {} \; | LC_ALL=C sort | md5sum
 
 
 
-
+## To save this as a pdf: open .md file in Chrome with the "Markdown Viewer" Extension. Edit theme to Github, then go to chrome options and "print", then tick "background graphics" option, and save as pdf.
+> From: https://superuser.com/questions/689056/how-can-i-convert-github-flavored-markdown-to-a-pdf/1591372#1591372
