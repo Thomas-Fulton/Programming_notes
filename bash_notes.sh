@@ -103,12 +103,17 @@ cat samplelist.txt | parallel somecommand {}
 
 # Permissions
 chmod +rwx filename  # change permissions: add read write execute permissions to file/directory
-chmod -wx filname  # remove write and execute permissions
+chmod -wx filename  # remove write and execute permissions
+find ./adir/ -type f -wholename "*.fastq.gz" -exec chmod g+r "{}" \;  # find specific files, then chmod
+chown -R <username> <foldername>  # -R = recursively 
 groups  # see groups you are a member of
 getent group developers  # get members of a group
+chgrp -R <group> <foldername>
 # http://www.yolinux.com/TUTORIALS/LinuxTutorialManagingGroups.html <- group permissions etc
-chmod -R +r dirname  # recursively change permissions in directory
-chmod -R g=u  dirname  # recurively set the permission of the group for a dir to those of the user
+# https://superuser.com/questions/341740/how-to-specify-group-with-chmod
+# DONT USE BELOW recursive with chmod - use find as above
+#chmod -R +r dirname  # recursively change permissions in directory
+#chmod -R g=u  dirname  # recurively set the permission of the group for a dir to those of the user
    +s  # setuid: a bit that makes an executable run with the privileges of the owner of the file.
 cp file.txt filcopy.txt  #copy file newfile
 cp -r dir /new/location/dircopy  #copy directories
@@ -127,6 +132,8 @@ tar -zcvf filename.tar.gz directory
     -v  # --verbose
 tar -zxvf filename.tar.gz # extract compressed dir 
 tar -zxvf filename.tar.gz -C tmp/ # to tmp/dir/files* 
+# To list files in a tar.gz file use less
+less filename.tar.gz
 # .gz
 gzip  
 gunzip
@@ -140,6 +147,9 @@ file filename.gif  #prints file type eg. in this case GIF image data bla bla
 touch file1.txt  # creates empty file file1.txt
 
 cat file1  #prints file1 in terminal
+# Skipping lines
+tail -n +2  # skips the first line
+sed 1,10d file.txt  # Alternative - skip first 10 lines
 less file1  #prints some of the file?
 head -n5 file1  #prints first five lines of a file. Default is ten lines
 
