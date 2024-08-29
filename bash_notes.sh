@@ -96,6 +96,9 @@ find . -wholename "*somedirna*.html"  # wholename includes directory names, not 
 find . -wholename './SRR*.fastq' | parallel -jobs 8 "gzip -r {}"  # if no glob at beginning: ./
 find ~/ -perm 777  #find <Directory> ~perm <Permissions>
 find . -maxdepth 1 -name "*afile*"  # only specificed folder, no subfolders. Must be specified
+# find and rsync
+rsync -avzP --files-from=<(find ./ -maxdepth 1 -type f) ./ /media/wfulton/${ssdname}/${projdir}/
+
 # Parallel
 # Don't need to specify no. jobs - parallel detects automatically ncores*nthreads I think
 # use `top` to see _id (percent cpu idle), and increase or decrease njobs if needed
