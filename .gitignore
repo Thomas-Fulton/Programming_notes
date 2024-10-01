@@ -7,3 +7,5 @@ ebooks/
 # Big pdfs, eg. cheatsheets
 R_cheatsheets/
 mysql-tutorial-excerpt-5.7-en.pdf
+
+.Rhistory
