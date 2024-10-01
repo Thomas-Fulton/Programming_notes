@@ -95,6 +95,13 @@ remotes::install_github("mojaveazure/seurat-disk")
 # Specify decimal places: x is the number and k is no. decimal places
 specify_decimal <- function(x, k) as.double(trimws(format(round(x, k), nsmall=k)))
 
+#' Convert/Format from scientific notation (eg. 5e-4)
+#' Use with `scale_*_continuous(labels = format_nums)` or  `scale_*_log10(labels = format_nums)`
+format_nums <- function(x){format(x, scientific = FALSE, big.mark = ',')}
+# Eg. aggplot + scale_y_continuous(labels = format_nums)
+
+# Also see below to conver and format numbers
+scales::label_number(scale = 1e-9, prefix = "$", suffix = "b", accuracy = 1)
 
 
 ### Shortcuts ###
@@ -224,7 +231,8 @@ ggdf <- ggdf %>%
 # can use lapply: converts each col to list, applies function, and returns list for each col (so list of lists for df). Can then convert back to df
 lapply(df, function(x){x})[1]
 df[] <- data.frame(lapply(df, function(x){specify_decimal(x)}))
-
+# Replace \r and \n or \r\n in each cell with a single " ".
+tbl2[] <- lapply(tbl, function(x) (gsub("\r?\n|\r", " ", x)))
 ### Plotting
 
 x = 1:50
@@ -252,8 +260,14 @@ scale_fill_manual(values=setNames(scales::hue_pal()(length(levels(as.factor(ggdf
   bp + scale_fill_discrete(guide="none")
 # This removes all legends:
   bp + theme(legend.position="none")
-
+# Re-name Legend fill title
+  bp + guides(fill = guide_legend(title = "Title"))
+ 
   
+## Increase padding/margin
+  # top, then right, bottom and left, and units (default is "pt")
+  margin(t = 0, r = 0, b = 0, l = 0, unit = "pt")
+  theme(plot.margin = margin(1,1,1.5,1.2, "cm"))
 ### Arrange grobs gridExtra Cowplot etc. 
   # https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html
   

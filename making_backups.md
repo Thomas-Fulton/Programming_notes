@@ -124,6 +124,15 @@ rsync -avzP "${mydir}"_* ~/projects/records-of-ITG-projects/${projdir}/
 rsync -avzP "md5_manifest_globus.tsv" /media/wfulton/${ssdname}/${projdir}/
 
 ```
+3. Update GitHub repo: records-of-ITG-projects
+```  
+cd ~/projects/records-of-ITG-projects/${projdir}
+git add "${mydir}"_*
+# Edit and save "../projects_IGF_list.ods" to record which ssd the data was saved
+git add ../projects_IGF_list.ods
+git commit -m "update ${projdir} - ${mydir}"
+git push
+```  
 
 
 ## 5. Check MD5 checksums
@@ -186,6 +195,10 @@ find cellrangerOuts/ -wholename "*MSIT*/outs/per_sample_outs/*count/sample_filte
 # Moving a h5seurat file - here rsync will create the h5seurat dir on the ssd
 rsync -avzP h5seurat/CCAintegratedOnRNApid_RegressMTCC_0.8mtRNA_35PCs_postExploratory_02-07-24.h5seurat /media/wfulton/${ssdname}/${projdir}/h5seurat/
 ```  
+```
+# Move remaining files in first level of projectdir (presentations, miscallaneous)
+rsync -avzP --files-from=<(find ./ -maxdepth 1 -type f) ./ /media/wfulton/${ssdname}/${projdir}/
+```
 
 # rsync
 > See "ssh\_notes.sh" in ~/Programming\_notes/

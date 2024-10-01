@@ -263,6 +263,11 @@ echo "$i"
 # or do whatever with individual element of the array
 done
 
+# Read file line by line
+cat "$filename" | while read line ; do ; echo $line ; done
+# (Example)
+cat ../data/patient-treatmentNames.txt | cut -f 2 | while read sname ; do find . -type f -wholename "*${sname}*web_summary.html" -exec cp {} "../QCs/${sname}_web_summary.html" \; ; done
+
 # user input
 read word word2 # script prompts user for input, which is put into variable word
 echo word word2  # spaces define the end of the first word
