@@ -45,8 +45,8 @@ cd /opt/myprog-1.0
 # Export to $PATH: 
 export PATH=/opt/myprog-1.0/bin:$PATH 
 # Create symlink:
-ln -s my_prog-1.0/bin/executable /usr/local/bin/
-ln -s my_prog-1.0/bin/executable /home/wfulton/bin/
+ln -s full/path/to/my_prog-1.0/bin/executable /usr/local/bin/
+ln -s /opt/my_prog-1.0/bin/executable /home/wfulton/bin/
 
 
 ############## Custom preferences ###################

@@ -91,6 +91,11 @@ git commit --amend --no-edit  # to change files of last commit, --no-edit must b
 ## add section on stashing and commit ammending
 
 
+##### Searching git commits/code/log #####
+# See https://www.baeldung.com/ops/git-commit-search-string 
+git log -G  "A phrase/filename"  # Searches for any  
+
+
 
 ## Git Markdown notes ##
 

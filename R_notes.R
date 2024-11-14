@@ -143,6 +143,11 @@ z[z<55] # only elements less than 55
 # Sort returns values, order returns indices
 sort(z, decreasing = TRUE) # sorts list
 
+# Using order to correct levels when ordered alphabetically instead of numerically eg. 1,10,2,3,4,5,6... 
+# Basic structure:
+order(as.numeric(sort(as.character(1:length(the_levels)))))
+# Example
+psts$lineages <- factor(psts$lineages, levels = levels(as.factor(psts$lineages))[order(as.numeric(sort(as.character(1:length(sds@metadata$lineages))))) ] )
 sample(z, 5) # takes a 5 random samples from the list
 
 # IMPORTANT
@@ -153,6 +158,8 @@ sample(z, 5) # takes a 5 random samples from the list
 cars[,2, drop=FALSE]  # keep as dataframe, not vector
 
 str(cars)  # see structure of data
+
+DT::datatable(top_res)  # output html verson of table into viewer that is copy-paste -able
 
 cars
 colnames(cars)
@@ -253,7 +260,12 @@ scale_fill_manual(values=setNames(scales::hue_pal()(length(levels(as.factor(ggdf
 # gradientn takes "n" colours, values are in the range of 0:1.
   scale_fill_gradientn(colours = c("orange","blue"), limits = c(0,3), values = c(0, 0.25, 1)) + theme_classic()
 
+viridis::viridis(6)
+"#440154FF" "#414487FF" "#2A788EFF" "#22A884FF" "#7AD151FF" "#FDE725FF"
+
 ## Legend
+# For legend spacing! See: teunbrand's answer at https://stackoverflow.com/questions/11366964/is-there-a-way-to-change-the-spacing-between-legend-items-in-ggplot2    
+guides(colour = guide_legend(ncol = 2))
 # Remove legend for a particular aesthetic (fill):
   bp + guides(fill="none")
 # It can also be done when specifying the scale:
@@ -261,8 +273,8 @@ scale_fill_manual(values=setNames(scales::hue_pal()(length(levels(as.factor(ggdf
 # This removes all legends:
   bp + theme(legend.position="none")
 # Re-name Legend fill title
-  bp + guides(fill = guide_legend(title = "Title"))
- 
+  bp + guides(fill = guide_legend(ncol = 2, title = "Title"))
+  
   
 ## Increase padding/margin
   # top, then right, bottom and left, and units (default is "pt")
@@ -270,7 +282,38 @@ scale_fill_manual(values=setNames(scales::hue_pal()(length(levels(as.factor(ggdf
   theme(plot.margin = margin(1,1,1.5,1.2, "cm"))
 ### Arrange grobs gridExtra Cowplot etc. 
   # https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.html
+
+### geom_point ###
+# Shape is controlled by pch. Only 21- 25 (?) can have fill and border control
+# See shapes:
+  ggpubr::show_point_shapes() 
+pch = 21  # Filled circle
+pch = 1   # Only border of circle
+
   
+### Wrap labels and general customisation example (cut and paste TODO tidy and annotate)
+ arghhhh <- doNetwork(tgse, netcats = netcatsALL, geneList = tgeneList, title = paste0("Pathways in Cluster: \n",cluster2plot), 
+                       layout = "kk", colourEdge = T) + 
+    scale_edge_color_discrete(labels = scales::label_wrap(20), name = "Pathway") +  # wrap labels in legend
+    #scale_edge_color_manual(values = c("purple", "forestgreen", "orange", "lightblue")) #+
+    scale_color_gradientn(name = "LFC", colours = c("blue","white", "red"), limits = c(-slims, slims), na.value = "black") #+
+  #arghhhh$data$color <- unlist(lapply(arghhhh$data$name, function(x){ if(x %in% DEG$GeneID){print(tDEG$avg_log2FC[tDEG$GeneID == x]); tDEG$avg_log2FC[tDEG$GeneID == x] } else { NA } }))
+  
+  slims <- max(abs(c(min(floor(as.numeric(arghhhh$data$color[!is.na(arghhhh$data$color)]))), max(ceiling(as.numeric(arghhhh$data$color[!is.na(arghhhh$data$color)]))))))
+  
+  arghhhh <- arghhhh +
+    scale_color_gradientn(name = "LFC", colours = c("blue","white", "red"), limits = c(-slims, slims), na.value = "black") + 
+    geom_point(aes(x = x, y = y, size = size), colour = "black", pch = 1) #+ guides(edge=)
+    #guides(edge = guide_legend(title = "Pathway"))
+    
+  #arghh <- arghhhh + geom_point(aes(x = x, y = y, size = size, fill = color), pch = 1)
+  arghhhh$layers <- arghhhh$layers[c(1,2,3,5,4)]
+  #arghh$layers <- arghh$layers[c(1,2,5,3,4)]
+  arghhhh
+  
+  
+  
+   
 ###### pheatmap ####### (Use complex heatmap if poss)
 # Diagnostic pheatmap: Ordering of Cells: cell_identity_1, desc(Condition), percent.mt, patient_id, log10GeneperUMI, mapping.score
 try({
@@ -443,7 +486,11 @@ lin_mut_load_change <- rbind(lin_mut_load_change, mut_load_change)
 # Name list of S4 objects:
 names(ptmp_obj) <- pids
 
-
+# Get object content from object name as a string and vice versa
+eg.genes.all <- c("gene1", "gene2", "gene3", "etc")
+quote(eg.genes.all)  # returns "eg.genes.all"
+eg.DEG_genes_name <- "eg.genes.all"
+get(eg.DEG_genes_name)  # returns vector: [1] "gene1", "gene2", "gene3", "etc"
 
     ####  Parse command-line arguments  ####
 library(argparse)
@@ -486,6 +533,8 @@ check_exists <- function(filepath) {
 
 dir_exists <- purrr::pmap_lgl(manifest, ~ check_exists(as.character(..2)))
 
+
+# echo and cat for new lines / newline
 if (!all(dir_exists)) {
   cat("The following paths were not found: -\n")
   print(manifest[!dir_exists, ])
