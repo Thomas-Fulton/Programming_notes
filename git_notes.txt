@@ -93,7 +93,11 @@ git commit --amend --no-edit  # to change files of last commit, --no-edit must b
 
 ##### Searching git commits/code/log #####
 # See https://www.baeldung.com/ops/git-commit-search-string 
-git log -G  "A phrase/filename"  # Searches for any  
+git log -G "A phrase/filename"  # Searches for any match in the git diff of the commits in that branch (?)
+git log -S "A phrase/filename"  # Searches for a change in frequency of that word
+
+# 1) Search log in terminal to get the commits
+# 2) Easier to search the for the commit online, then search the commit for the phrase
 
 
 
