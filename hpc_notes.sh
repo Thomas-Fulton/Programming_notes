@@ -91,4 +91,8 @@ qsub -l walltime=30:25:05 myjob.pbs
 Queue	Use cases	No. nodes per job	No. cores per job (ncpus)(gb)	Memory	Walltime (hrs)
 medium72	Single-node jobs	1	9 - 256	1 - 920	9 - 72*
 
+### Check on progress
+qstat [number]
+
+
 # For single cell seq: 4 CPUs, 50gb ? <- from Tiak's 0_initialize.R script 

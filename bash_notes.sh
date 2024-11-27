@@ -149,7 +149,8 @@ file filename.gif  #prints file type eg. in this case GIF image data bla bla
 
 touch file1.txt  # creates empty file file1.txt
 
-cat file1  #prints file1 in terminal
+cat file1  # prints file1 in terminal
+tac file1  # (cat backwards) prints lines in reverse
 # Skipping lines
 tail -n +2  # skips the first line
 sed 1,10d file.txt  # Alternative - skip first 10 lines
