@@ -58,7 +58,7 @@ ls --ignore=PATTERN # ignores matches with PATTERN
 ls -1 | wc -l 
 ls | head
 ls | sort 
-ls -lh | sort -k 5nr  # sorts -k is key (column) 5 (in this case file size), by number, in reverse order 
+ls -lh | sort -k 5nr  # sorts -k is key (column) 5 (in this case file size), n by number, r in reverse order 
 ls -d */
 
 ls *jpg > imagefiles #lists names of .jpg files into new file imagefiles
@@ -74,6 +74,7 @@ cd ~ or cd # cd to /home/thomas
 ls  #list folders/files in a directory
 ls -lht  # -l long: shows permisstions and time of last modification and size, -h human readable, -t sorts by recently modified
 du -ch  # see total space inside directory. -c total -h human readable
+du -ha  # see all files not just directories
 mkdir dirname  #make directory
 mkdir -p parentdir/parent2dir/dirname/  # make parent directories as well (if no errors)
 rmdir dirname or rm -d  #remove empty directory
@@ -92,12 +93,20 @@ ls | xargs -I {} cp {} p41_pre_{}
 # (https://www.cyberciti.biz/faq/find-command-exclude-ignore-files/)
 find ~ -name "filename.txt"  # find file in ~ (home) dir
 find ~ -name "filename.txt" -delete  # find file in ~ (home) dir
+find ~ -name "dirname" -type d  # find directories only
 find . -wholename "*somedirna*.html"  # wholename includes directory names, not just base file name. Use multiple globs to look through directories
 find . -wholename './SRR*.fastq' | parallel -jobs 8 "gzip -r {}"  # if no glob at beginning: ./
 find ~/ -perm 777  #find <Directory> ~perm <Permissions>
 find . -maxdepth 1 -name "*afile*"  # only specificed folder, no subfolders. Must be specified
 # find and rsync
 rsync -avzP --files-from=<(find ./ -maxdepth 1 -type f) ./ /media/wfulton/${ssdname}/${projdir}/
+# Alternatvely, eg.
+for file in "${files[@]}"
+   do
+           echo ${file}
+           find . -wholename "${file}" -print >> files2zip.txt
+   done
+rsync -avzP --files-from=files2zip.txt . ${zipdir}
 
 # Parallel
 # Don't need to specify no. jobs - parallel detects automatically ncores*nthreads I think
