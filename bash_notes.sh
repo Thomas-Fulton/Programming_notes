@@ -91,13 +91,13 @@ ls | xargs -I {} cp {} p41_pre_{}
 # Find command 
 # (https://unix.stackexchange.com/questions/493808/commands-differences-using-quotations-find)
 # (https://www.cyberciti.biz/faq/find-command-exclude-ignore-files/)
-find ~ -name "filename.txt"  # find file in ~ (home) dir
-find ~ -name "filename.txt" -delete  # find file in ~ (home) dir
-find ~ -name "dirname" -type d  # find directories only
-find . -wholename "*somedirna*.html"  # wholename includes directory names, not just base file name. Use multiple globs to look through directories
+find ~ -name "filename.txt"            # find file in ~ (home) dir
+find ~ -name "filename.txt" -delete    # find file in ~ (home) dir
+find ~ -name "dirname" -type d         # find directories only
+find . -wholename "*somedirna*.html"   # wholename includes directory names, not just base file name. Use multiple globs to look through directories
 find . -wholename './SRR*.fastq' | parallel -jobs 8 "gzip -r {}"  # if no glob at beginning: ./
-find ~/ -perm 777  #find <Directory> ~perm <Permissions>
-find . -maxdepth 1 -name "*afile*"  # only specificed folder, no subfolders. Must be specified
+find ~/ -perm 777                      # find <Directory> ~perm <Permissions>
+find . -maxdepth 1 -name "*afile*"     # only specificed folder, no subfolders. Must be specified
 # find and rsync
 rsync -avzP --files-from=<(find ./ -maxdepth 1 -type f) ./ /media/wfulton/${ssdname}/${projdir}/
 # Alternatvely, eg.

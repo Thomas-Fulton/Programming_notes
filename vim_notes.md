@@ -48,6 +48,7 @@ ctrl + d  # move down half a page
 
 $  # move to end of line
 ^  # move to beginning of line
+%  # move to matched pair of bracket, braces or square bracket
   A  # insert: move cursor to end of line and change to insert mode
   I  # insert: move cursor to beginning of line and change to insert mode
   O  # insert: new line above current line and change to insert mode

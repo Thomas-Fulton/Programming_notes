@@ -88,6 +88,11 @@ git add main.py
 git commit --amend --no-edit  # to change files of last commit, --no-edit must be present. To change commit message just --amend will do.
 # see https://www.atlassian.com/git/tutorials/rewriting-history for amending older commits
 
+  ## Resolving conflicts ##
+git diff origin/main   # See difference between current branch and remote main
+# See:   https://stackoverflow.com/questions/161813/how-do-i-resolve-merge-conflicts-in-a-git-repository
+git mergetool --tool=vimdiff
+
 ## add section on stashing and commit ammending
 
 

@@ -130,7 +130,7 @@ cd ~/projects/records-of-ITG-projects/${projdir}
 git add "${mydir}"_*
 # Edit and save "../projects_IGF_list.ods" to record which ssd the data was saved
 git add ../projects_IGF_list.ods
-git commit -m "update ${projdir} - ${mydir}"
+git commit -m "save ${projdir} - ${mydir} to ${ssdname}"
 git push
 ```  
 

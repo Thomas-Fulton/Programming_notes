@@ -146,6 +146,8 @@ sort(z, decreasing = TRUE) # sorts list
 # Using order to correct levels when ordered alphabetically instead of numerically eg. 1,10,2,3,4,5,6... 
 # Basic structure:
 order(as.numeric(sort(as.character(1:length(the_levels)))))
+# BUT if starting from 0 not 1
+levels(tmp_objTcells)[order(as.numeric(sort(as.character(0:(length(levels(tmp_objTcells))-1)))))]
 # Example
 psts$lineages <- factor(psts$lineages, levels = levels(as.factor(psts$lineages))[order(as.numeric(sort(as.character(1:length(sds@metadata$lineages))))) ] )
 sample(z, 5) # takes a 5 random samples from the list
@@ -256,10 +258,20 @@ barplot()
 # Automate based on factor of fill aes: improve by setting "Stimulation" col as factor
 ggdf$Stimulation <- factor(ggdf$Stimulation, levels = c("Phl.p","DPG.Phl.p","DPG.POL.Phl.p","unstimulated"))
 scale_fill_manual(values=setNames(scales::hue_pal()(length(levels(as.factor(ggdf[["Stimulation"]])))), levels(as.factor(ggdf[["Stimulation"]])))) + 
-# Hints on rescaling scale_*_gradient and scale_*_continuous: https://stackoverflow.com/questions/73394761/set-limits-for-scale-fill-gradientn-for-ratios-values-from-0-to-1-with-blue-sca
-# gradientn takes "n" colours, values are in the range of 0:1.
+  # Hints on rescaling scale_*_gradient and scale_*_continuous: https://stackoverflow.com/questions/73394761/set-limits-for-scale-fill-gradientn-for-ratios-values-from-0-to-1-with-blue-sca
+  # gradientn takes "n" colours, values are in the range of 0:1.
   scale_fill_gradientn(colours = c("orange","blue"), limits = c(0,3), values = c(0, 0.25, 1)) + theme_classic()
 
+
+## Colours ##
+# https://www.datanovia.com/en/blog/top-r-color-palettes-to-know-for-great-data-visualization/ 
+library(RColorBrewer)
+display.brewer.all()
+# Hexadecimal color specification 
+brewer.pal(n = 3, name = "Dark2")
+"#1B9E77" "#D95F02" "#7570B3"
+brewer.pal(n = 3, name = "Accent")
+"#7FC97F" "#BEAED4" "#FDC086"
 viridis::viridis(6)
 "#440154FF" "#414487FF" "#2A788EFF" "#22A884FF" "#7AD151FF" "#FDE725FF"
 
@@ -290,6 +302,8 @@ guides(colour = guide_legend(ncol = 2))
 pch = 21  # Filled circle
 pch = 1   # Only border of circle
 
+### substitute underscores and wrap labels of ggplot title ###
+ggtitle(scales::label_wrap(20)(gsub(pattern = "_", replacement = " ", p))) + NoLegend() + tf_theme_umap()
   
 ### Wrap labels and general customisation example (cut and paste TODO tidy and annotate)
  arghhhh <- doNetwork(tgse, netcats = netcatsALL, geneList = tgeneList, title = paste0("Pathways in Cluster: \n",cluster2plot), 
@@ -311,7 +325,12 @@ pch = 1   # Only border of circle
   #arghh$layers <- arghh$layers[c(1,2,5,3,4)]
   arghhhh
   
-  
+ ### Edit ggplot layers ###
+allu_plot$layers[[1]]$  # see params
+# Change layer constructor like below:
+  allu_plot$layers[[1]] <- ggalluvial::geom_alluvium(mapping = ggplot2::aes(fill = .data[["dice.fine"]]),
+    color = "white", curve_type = curve_type, aggregate.y = TRUE, na.rm = T)
+
   
    
 ###### pheatmap ####### (Use complex heatmap if poss)
@@ -478,10 +497,20 @@ output <- case_when(fbnums %% 15 == 0 ~ "FizzBuzz",
 #       new_df[index0, index1] = correlation(data0, data1)
 #  - convert data types? eg. floats to integers
 
+# Parallelisation: see 0_initialise.R for rough notes on using the future package and future.callr package
+
 # appending rows/dfs: create separate df with same structure and use rbind
 lin_mut_load_change <- rbind(lin_mut_load_change, mut_load_change)
 
 
+### Time function ###
+library(tictoc)
+tic()
+toc()
+# Or to store time 
+tic()
+ltime <- toc()
+ltime$callback_msg
 
 # Name list of S4 objects:
 names(ptmp_obj) <- pids
