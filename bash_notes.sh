@@ -85,7 +85,7 @@ mv oldfile.txt newfile.txt  # moves/cuts the file and pastes and renames it
 mv /path/to/source/dir/{file1,file2,*.ext1,*.ext2} /path/to/destination/
 mv file1 file2 file3 -t DESTINATION
 # Rename directories to remove spaces and replace with underscores
-find . -depth -name "* *" -execdir rename 's/ /_/g' "{}" \;
+find . -maxdepth 1 -name "*,*" -exec rename 's/,/_/g' "{}" -v \;
 ls | xargs -I {} cp {} p41_pre_{}
 
 # Find command 
@@ -358,6 +358,7 @@ conda create --prefix /full/path/to/conda_env_name  # " conda config --set env_p
 
 # (Create environment normally - saved into conda envs dir I think) - make sure base is activated first
 conda create --name py35 python=3.5  # specifies python version
+mamba env remove -n ENV_NAME
 
 # Activate environment
 source activate py35
