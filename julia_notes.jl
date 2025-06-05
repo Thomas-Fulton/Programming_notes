@@ -38,6 +38,7 @@ v .> 3   # . is needed for element wise operations
 select!(df, Not([:x2, :x10]))
 
 # subset and replacing
+# Indexing starts at 1 (like R) not 0 (like python)
 # Index must be converted to Bool or Int type ie. Bool.[0,1,1,1,0] or Int.[2,3,4]
 fcsFilesMetadata[Bool.(fcsFilesMetadata.fileStart .== 0),5] .= 4
 # Booleans
@@ -58,6 +59,7 @@ _, fcsParams = loadFCSHeader(md[1, :file_name])   # code returns list of 2 (?): 
 # When applied to a vector or list (?) needs the .
 v1 .== v2  # Per value
 v1 == v2  # like `all(v1 == v2)`  in R
+v1 || v2  # or 
 
 # vectorised logical subsetting and examples
 findall()  # like which() in R

@@ -60,6 +60,9 @@ B  # move to the end of the word
 W  # move to the beginning of the word
 #16  # moves 16 lines down
 
+ma  # mark position, map to letter a
+`a  # move to marked position mapped to letter a
+
 diw  # delete in word
 yiw  # yank in word
 viw  # highlight in word etc.

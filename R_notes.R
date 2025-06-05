@@ -70,6 +70,7 @@ local({r <- getOption("repos")
 install.packages("data.table")
 library(data.table)
 detach("package:stringr")  # unload 
+unloadNamespace()
 
 # use package pacman to load, or install and then load packages, eg.
 #install.packages("pacman")
@@ -78,11 +79,13 @@ pacman::p_load(Seurat,SeuratObject,SeuratDisk,
 
 ### Repositories ###
 # CRAN is default
+install.packages("apackage")
 # Bioconductor:
+BiocManager::available()
+BiocManager::install("apackage")
+# Install and load if it's not already installed (require)
 if (!require("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
-BiocManager::available()
-BiocManager::install()
 
 # Install from github:
 if (!requireNamespace("remotes", quietly = TRUE)) {
@@ -125,7 +128,6 @@ rm(object) # deletes object from global environment
 ### Data Structures
 #### Vectors/lists
 # A vector is an ordered list of data. To assign a vector to the object x:
-
 x <- c(3,5,3,5)
 mean(x)
 
@@ -133,12 +135,21 @@ y <- rep(5,50) # creates a vector with the value "5" 50 times.
 
 z <- seq(10,100,5) # creates a vector starting at "10", and going up in steps of 20 until 100
 
+# Indexing are in Square brackets 
 fourth.element.z <- z[4]
 two.to.four.z <- z[2:4] # NOT LIKE PYTHON: first value is indexed "1". 
-z.minus.first.element <- z[-1] # NOT LIKE PYTHON: removes first element of the list
+z.minus.second.element <- z[-2] # NOT LIKE PYTHON: removes second element of the list
+# Indexing can take numbers or Booleans
+z[TRUE,T,F,F]
+
+
 
 z < 55 # is each element in the list less than 55, gives back Boulian for each element
 z[z<55] # only elements less than 55
+
+10/4
+floor(10/4)  # Quotient
+10%%4  # Remainder
 
 # Sort returns values, order returns indices
 sort(z, decreasing = TRUE) # sorts list
@@ -157,6 +168,7 @@ sample(z, 5) # takes a 5 random samples from the list
 
 
 #### Data Frames
+cars[1:4,]
 cars[,2, drop=FALSE]  # keep as dataframe, not vector
 
 str(cars)  # see structure of data
@@ -262,6 +274,8 @@ scale_fill_manual(values=setNames(scales::hue_pal()(length(levels(as.factor(ggdf
   # gradientn takes "n" colours, values are in the range of 0:1.
   scale_fill_gradientn(colours = c("orange","blue"), limits = c(0,3), values = c(0, 0.25, 1)) + theme_classic()
 
+# TODO check if variables can be parsed through eg. 
+aes(fill = !!rlang::ensym(variable))
 
 ## Colours ##
 # https://www.datanovia.com/en/blog/top-r-color-palettes-to-know-for-great-data-visualization/ 
@@ -286,7 +300,15 @@ guides(colour = guide_legend(ncol = 2))
   bp + theme(legend.position="none")
 # Re-name Legend fill title
   bp + guides(fill = guide_legend(ncol = 2, title = "Title"))
-  
+# Remove "a" from legend when using geom_label, geom_text, geom_label_repel,  geom_text_repel  etc.
+  # Use `, show.legend = FALSE` in the geom itself to hide it's effect on legend
+  ggplot(ggnetwork(mynet, layout = mylayout, arrow.gap = 0.001), aes(x=x, y=y, xend = xend, yend = yend, colour = Type)) +  # Default: "fruchtermanreingold"
+  geom_edges(aes(colour = Correlation), curvature = 0.1, arrow = arrow(length = unit(3, "pt")) ) +
+  geom_nodes() +
+  scale_colour_manual(values = c("orange", "purple","darkgreen", "darkred"), 
+                      breaks = c("Regulator", "Target", "Activation", "Repression")) + 
+  geom_nodelabel_repel(aes(label = node_label), show.legend = FALSE) +
+  theme_blank() + guides(colour = guide_legend(title = NULL))
   
 ## Increase padding/margin
   # top, then right, bottom and left, and units (default is "pt")
@@ -501,6 +523,8 @@ output <- case_when(fbnums %% 15 == 0 ~ "FizzBuzz",
 
 # appending rows/dfs: create separate df with same structure and use rbind
 lin_mut_load_change <- rbind(lin_mut_load_change, mut_load_change)
+# same but for a list of dataframes
+data.table::rbindlist(listOfDfs)
 
 
 ### Time function ###

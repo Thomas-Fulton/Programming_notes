@@ -114,6 +114,7 @@ rsync -avzP --files-from=files2zip.txt . ${zipdir}
 cat samplelist.txt | parallel somecommand {}
 
 # Permissions
+# u stands for user owner, g for group owner, and o for others
 chmod +rwx filename  # change permissions: add read write execute permissions to file/directory
 chmod -wx filename  # remove write and execute permissions
 find ./adir/ -type f -wholename "*.fastq.gz" -exec chmod g+r "{}" \;  # find specific files, then chmod
@@ -327,7 +328,7 @@ username2=${user}\ is\ the\ name  # strings which are not part of the variable n
 
 user=$(whoami)
 input=/home/$user
-output=/tmp/${user}_home_$(date +%Y-%m-%d_%H%M%S).tar.gz
+output=/tmp/${user}_home_$(date +%Y-%m-%d_%H%M%S).tar.gz  # save with time and date
 
 tar -czf $output $input
 echo "Backup of $input completed! Details about the output backup file:"
@@ -429,3 +430,14 @@ kill -15 THE_PID_OF_PROCESS1 THE_PID_OF_PROCESS2 ...
 # Kill (Brute force - try -15 first)
 kill -9 THE_PID_OF_PROCESS1 THE_PID_OF_PROCESS2 ...
 
+
+
+######### Fun commands ##########
+cowsay
+pv
+oneko
+cmatrix
+fortune
+xeyes
+bb
+#TODO https://contabo.com/blog/top-10-linux-easter-eggs/
