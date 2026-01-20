@@ -26,6 +26,26 @@ scpu | egrep 'Model name|Socket|Thread|NUMA|CPU\(s\)'  # get n
 
    ###  Installing programs  ###
   ##  Apt  ##
+  # Repositories # 
+# see: https://help.ubuntu.com/community/Repositories
+# Stored/accessed in the file "/etc/apt/sources.list", and additionally in the directory "/etc/apt/sources.list.d/"
+# These are in the format:
+     deb [website] [release][-channel] [component]
+e.g.
+     deb http://se.archive.ubuntu.com/ubuntu/ jammy-updates main
+# Components include: 
+# - main
+# - restricted 
+# - universe
+# - multiverse
+
+# Channels include for OS release "jammy":
+# - jammy: Don’t touch it, I like consistency, even with my unresolved bugs. 
+# - jammy-security: I accept patches to existing versions (and very rare version upgrades if absolutely necessary) in the process of keeping my system secure.
+# - jammy-updates: some bugs are worth fixing, and I trust you enough to install these on my system, but probably not in broader production deployments.
+
+# TODO deb vs deb-src
+
 
 
   ##  Manual installation  ##
