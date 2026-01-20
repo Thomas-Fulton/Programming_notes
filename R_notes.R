@@ -102,6 +102,8 @@ specify_decimal <- function(x, k) as.double(trimws(format(round(x, k), nsmall=k)
 #' Use with `scale_*_continuous(labels = format_nums)` or  `scale_*_log10(labels = format_nums)`
 format_nums <- function(x){format(x, scientific = FALSE, big.mark = ',')}
 # Eg. aggplot + scale_y_continuous(labels = format_nums)
+# Convert type in columns of df
+tblsFinalMerged <- lapply(tblsFinalMerged, function(x){x %>% mutate_at(vars(coordinates.number), as.numeric)})
 
 # Also see below to conver and format numbers
 scales::label_number(scale = 1e-9, prefix = "$", suffix = "b", accuracy = 1)
@@ -220,14 +222,27 @@ unique(lin_mut_load_change[ ,c('Pos', 'Lineage')])
 lin_mut_load_change <- rbind(lin_mut_load_change, mut_load_change)
 cbing  # for columns
 
+# Trim whitespace
+trimws()
 
- # Tidyverse #
+
+ # Tidyverse and dplyr#
 # Pipe using %>% eg. out_object <- df %>% egselect() %>% firstfilter %>% secondfilter 
 # Operands & and | for selecting the intersection or the union of two sets of variables.
 # Filter rows using df %>% filter()
 # get frequency of an occurence in a column using tidyverse, filter so frequency >= 2.
 df %>% count(colname1) %>% filter(n>=2)
 mtcars %>% filter(str_detect(type, 'Toyota|Mazda'))
+# Piping: With pipe your data are passed as a first argument to the next function, so if you want to use it somewhere else 
+#   you need to wrap the next line in {} and use . as a data "marker".
+tblsFinalSheetnamesATLFormatted <- tblsFinalSheetnamesATL %>% 
+  stringr::str_squish() %>% 
+  {gsub(pattern = "PA1_", replacement = "", x = .)} %>% 
+  {gsub("Ara h2", "Arah2", x = .)}
+### Useful dplyr and tidyr functions
+separate(data, col = PID.Visit, into = c("PID", "Visit"), sep = "\\.", remove = FALSE)
+bind_rows(listOfdfs, .id = "IgA.assay")  # .id specifies name of NEW column: values are from the names of the list (or index if no names)
+
 
 
 ggdf <- ggdf %>% 
@@ -279,6 +294,7 @@ aes(fill = !!rlang::ensym(variable))
 
 ## Colours ##
 # https://www.datanovia.com/en/blog/top-r-color-palettes-to-know-for-great-data-visualization/ 
+# https://www.nceas.ucsb.edu/sites/default/files/2020-04/colorPaletteCheatsheet.pdfb
 library(RColorBrewer)
 display.brewer.all()
 # Hexadecimal color specification 
@@ -297,7 +313,7 @@ guides(colour = guide_legend(ncol = 2))
 # It can also be done when specifying the scale:
   bp + scale_fill_discrete(guide="none")
 # This removes all legends:
-  bp + theme(legend.position="none")
+  bp + theme(legend.position="none", legend.byrow = T)
 # Re-name Legend fill title
   bp + guides(fill = guide_legend(ncol = 2, title = "Title"))
 # Remove "a" from legend when using geom_label, geom_text, geom_label_repel,  geom_text_repel  etc.
@@ -525,6 +541,8 @@ output <- case_when(fbnums %% 15 == 0 ~ "FizzBuzz",
 lin_mut_load_change <- rbind(lin_mut_load_change, mut_load_change)
 # same but for a list of dataframes
 data.table::rbindlist(listOfDfs)
+# For cbind a list of dataframes:
+do.call(cbind, listofDFs)
 
 
 ### Time function ###

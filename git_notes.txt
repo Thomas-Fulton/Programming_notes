@@ -91,7 +91,26 @@ git commit --amend --no-edit  # to change files of last commit, --no-edit must b
   ## Resolving conflicts ##
 git diff origin/main   # See difference between current branch and remote main
 # See:   https://stackoverflow.com/questions/161813/how-do-i-resolve-merge-conflicts-in-a-git-repository
-git mergetool --tool=vimdiff
+# Setup gvimdiff with the link above first eg. git mergetool --tool=vimdiff
+# Run following to open gui mergetool:
+git mergetool 
+  - # dark blue dashes on pale blue background are "missing" lines.
+  - # pink are changes/conflicts between any including BASE
+  - # find the >>> HEAD and 
+  - use `ctrl+w` to switch between panes
+  - [c or ]c to jump to a change
+  - TODO :buffers to get pane names, :diffget dg  and  diffput file-2  to modify files
+  - edit merged file
+  - :wq
+  ╔═══════╦══════╦════════╗  # Base is the LUCA (common ancestor file before divergences)
+  ║       ║      ║        ║
+  ║ LOCAL ║ BASE ║ REMOTE ║
+  ║       ║      ║        ║
+  ╠═══════╩══════╩════════╣
+  ║                       ║
+  ║        MERGED         ║
+  ║                       ║
+  ╚═══════════════════════╝
 
 ## add section on stashing and commit ammending
 

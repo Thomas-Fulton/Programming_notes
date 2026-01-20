@@ -1,7 +1,7 @@
 #### VIM tips and hints
 https://www.keycdn.com/blog/vim-commands  # useful cheat sheet
 https://vimhelp.org/vim_faq.txt.html#faq-10.2
-
+https://gist.github.com/azadkuh/5d223d46a8c269dadfe4
 
 ### Modes ### 
 esc  # command mode: 
@@ -82,4 +82,36 @@ ctrl + r  # redo actions
 :set number  # number lines
 :set nonumber  # unset numbers
 :set nowrap  # don't wrap long lines overflow
+
+##################################################
+# Customisation
+
+# SEE https://github.com/romainl/idiomatic-vimrc
+
+:help keycodes
+# :map and :map! cover too many modes. 
+# Therefore use :nmap for normal mode recursive mappings, :imap for insert mode, :xmap for visual mode, etc.
+noremap  # no recursive remap - should use this?
+:map <key>  # To see what a <key> does
+:nmap <key>  # To see what a <key> does in normal mode
+
+nnoremap <key> <Commands><CR>  # <CR> is Carrage Return or Enter
+
+
+#### Using vim to edit commands in the terminal command line
+# SEE https://stackoverflow.com/questions/59771639/how-do-i-edit-current-shell-command-without-executing-it
+### To edit command line in default editor (Vim for me) `Ctrl+x`, `Ctrl+e`
+## Remap <leader> key. Default is "\" but this is inconvenient. Change to " "
+
+gg"+G$dd
+
+# Here nn means nnoremap
+# BufEnter means when opening a buffer which matches the pattern /tmp/bash-fc.* 
+au BufEnter /tmp/bash-fc.* nn <Leader>d :%y+<CR>:%d<CR>:wq<CR>
+
+
+
+TODO try aliasing `Ctrl+x`, `Ctrl+e` to add a paste on the end
+
+
 

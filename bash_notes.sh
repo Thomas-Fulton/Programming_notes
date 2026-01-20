@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # quick hints: https://devhints.io/bash
+# Bash cheat sheet: https://github.com/RehanSaeed/Bash-Cheat-Sheet
 # full manual: https://www.gnu.org/software/bash/manual/bash.html#Command-Substitution
 # bash terminal shortcuts: https://www.makeuseof.com/linux-bash-terminal-shortcuts/
 
@@ -15,6 +16,22 @@
 # https://bash.cyberciti.biz/guide/.bash_profile
 export $PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$' 
 export PS1='[\u@\h:\w]$ '  # hpc
+
+### Border around terminal window
+# Create config file:
+~/.config/gtk-3.0/gtk.css
+# Add text below and restart/login:
+decoration {
+  border: 1px solid gray;
+  background: gray;
+}
+
+### Replace EMACs commands with VIM commands in terminal
+#set -o vi
+### Prefer to use `Ctrl+X`, `Ctrl+E` to edit current command in vim
+# SEE vim_notes and .vimrc to customise set up that allows editing and exiting without immediately executing (<leader>d aka \ + d)
+
+
 
    #################### Bash and directory notes ######################
 
@@ -146,6 +163,8 @@ tar -zcvf filename.tar.gz directory
 tar -zxvf filename.tar.gz # extract compressed dir 
 tar -zxvf filename.tar.gz -C tmp/ # to tmp/dir/files* 
 # To list files in a tar.gz file use less
+tar -tf filename.tar.gz
+    -t  # list files
 less filename.tar.gz
 # .gz
 gzip  
@@ -309,6 +328,8 @@ greeting=Hello\ There\ $username  # "\" hides the single character after it.
 if test -f "./example_file.txt"; then
 echo "example_file.txt exists"
 elif [[$(wc -l example_file.txt) -eq 0]]; then
+	echo "something"
+fi
 
 
 # command substitution
@@ -391,14 +412,15 @@ conda clean   # remove unused pacakages and cache
 
 
 ##### Venv #####
-cd ~/GitRepos/practical_1
+# Generally accepted place is to put venv environments in ~/.virtualenvs/
+cd ~/.virtualenvs/
 python3 -m venv env  # create new environment "env"
 source ./env/bin/activate  # activate environment
 pip install matplotlib  # installs matplotlib into virtual environment
 pip install numpy
 pip freeze > requirements.txt  # put only additional packages and their dependencies installed within the virtual environment into the requirements.txt file in the right format, because the virtual environment is activated
 deactivate  # exit environment
-
+rm -r ./env/  # DEACTIVATE, then delete. Maybe uninstall packages first see: https://stackoverflow.com/questions/11005457/how-do-i-remove-delete-a-virtualenv
 
 
 #################### Terminal #######################
@@ -417,6 +439,8 @@ Ctrl + U  # Delete line/word BEFORE cursor
 
 Ctrl + P  # Previous command (like up arrow)
 Ctrl + N  # Next command (like down arrow)
+
+Alt + #  # Insert comment at beginning of the line and enter
 
 
 ##### Killing a process in linux #####
