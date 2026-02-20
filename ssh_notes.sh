@@ -13,6 +13,8 @@ eval "$(ssh-agent -s)"
 # add private key to ssh agent
 ssh-add ~/.ssh/id_ed25519
 
+    ## Imperial access ## 
+ssh wfulton@login.hpc.imperial.ac.uk
 
     ## ncl rocket access ##
 ssh c0078068@unix.ncl.ac.uk

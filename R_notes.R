@@ -225,6 +225,10 @@ cbing  # for columns
 # Trim whitespace
 trimws()
 
+# Error catching
+stop("Only one of 'useCorralPCA' and 'useGLMPCA' should be TRUE, not both")
+stopifnot(conditionOrBooleanOfLength1)
+
 
  # Tidyverse and dplyr#
 # Pipe using %>% eg. out_object <- df %>% egselect() %>% firstfilter %>% secondfilter 
@@ -240,7 +244,9 @@ tblsFinalSheetnamesATLFormatted <- tblsFinalSheetnamesATL %>%
   {gsub(pattern = "PA1_", replacement = "", x = .)} %>% 
   {gsub("Ara h2", "Arah2", x = .)}
 ### Useful dplyr and tidyr functions
+# str_split
 separate(data, col = PID.Visit, into = c("PID", "Visit"), sep = "\\.", remove = FALSE)
+tmerged <- tmerged %>% separate(col = ARM, into = c("Treatment", "delete"), sep = '[(]', remove = F)
 bind_rows(listOfdfs, .id = "IgA.assay")  # .id specifies name of NEW column: values are from the names of the list (or index if no names)
 
 
@@ -278,6 +284,12 @@ plot(x,y)
 plot(x,y, type = "l", col="red") # creates a line plot, red line
 
 barplot()
+
+### Read excel with merged cells 
+tblsFinal <- lapply(tblsFinalSheetnamesFormatted, function(sheetname){ 
+  openxlsx::read.xlsx(xlsxFile = paste0(finalDataExcel), sheet = sheetname, colNames = FALSE, 
+                      fillMergedCells = TRUE, skipEmptyCols = FALSE, skipEmptyRows = FALSE)}) 
+
 
 ### ggplot tips ----------------------------------------------------------------
 ## Colour and size

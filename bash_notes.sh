@@ -84,6 +84,7 @@ ls *gif >> imagefiles #appends names of .gif files to imagefiles (instead of ove
    
 cd directorypath #change directory. 
 cd ~ or cd # cd to /home/thomas
+cd -  # Move to previous directory ($OLDPWD)
 ~  # is home/thomas (user?) directory
 /  #root directory
 *  #represents any number of any characters including nothing
@@ -109,7 +110,8 @@ ls | xargs -I {} cp {} p41_pre_{}
 # (https://unix.stackexchange.com/questions/493808/commands-differences-using-quotations-find)
 # (https://www.cyberciti.biz/faq/find-command-exclude-ignore-files/)
 find ~ -name "filename.txt"            # find file in ~ (home) dir
-find ~ -name "filename.txt" -delete    # find file in ~ (home) dir
+find ~ -name "filename.txt" -ls        # find file in ~ (home) dir and show ls output. MUST be after the name / wholename
+find ~ -name "filename.txt" -delete    # delete file in ~ (home) dir
 find ~ -name "dirname" -type d         # find directories only
 find . -wholename "*somedirna*.html"   # wholename includes directory names, not just base file name. Use multiple globs to look through directories
 find . -wholename './SRR*.fastq' | parallel -jobs 8 "gzip -r {}"  # if no glob at beginning: ./
@@ -130,7 +132,7 @@ rsync -avzP --files-from=files2zip.txt . ${zipdir}
 # use `top` to see _id (percent cpu idle), and increase or decrease njobs if needed
 cat samplelist.txt | parallel somecommand {}
 
-# Permissions
+# Permissions ------
 # u stands for user owner, g for group owner, and o for others
 chmod +rwx filename  # change permissions: add read write execute permissions to file/directory
 chmod -wx filename  # remove write and execute permissions

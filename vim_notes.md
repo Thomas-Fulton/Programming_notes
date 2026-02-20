@@ -2,6 +2,7 @@
 https://www.keycdn.com/blog/vim-commands  # useful cheat sheet
 https://vimhelp.org/vim_faq.txt.html#faq-10.2
 https://gist.github.com/azadkuh/5d223d46a8c269dadfe4
+https://vim.rtorr.com/
 
 ### Modes ### 
 esc  # command mode: 
@@ -78,6 +79,8 @@ y{selection}  # Either previously selected in visual mode or: eg. yw (copy to en
 
 u  # undo actions
 ctrl + r  # redo actions
+
+Ctrl+A  # Increases a number by 1
 
 :set number  # number lines
 :set nonumber  # unset numbers
