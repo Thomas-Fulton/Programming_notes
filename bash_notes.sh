@@ -7,6 +7,7 @@
 
    #################### Customising bash environment #################
 # Which file to edit (.bashprofile or bashrc?) see links:
+#      The .profile and .xinitrc run once on login. The .bashrc runs every time you open a terminal.
 # https://www.maths.cam.ac.uk/computing/linux/bash/adding
 # https://unix.stackexchange.com/questions/38175/difference-between-login-shell-and-non-login-shell
 
