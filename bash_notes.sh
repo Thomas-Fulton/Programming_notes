@@ -15,6 +15,7 @@
 # https://www.unix.com/hp-ux/173508-unable-set-prompt-current-working-dir.html
 # https://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
 # https://bash.cyberciti.biz/guide/.bash_profile
+# TODO https://blog.devgenius.io/writing-beautiful-cli-programs-6fc3e3728c8b
 export $PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$' 
 export PS1='[\u@\h:\w]$ '  # hpc
 
@@ -32,7 +33,9 @@ decoration {
 ### Prefer to use `Ctrl+X`, `Ctrl+E` to edit current command in vim
 # SEE vim_notes and .vimrc to customise set up that allows editing and exiting without immediately executing (<leader>d aka \ + d)
 
-
+## Useful packages to install ##
+# "csvkit" to view csv files formatted in the command line
+csvlook sample_info.csv
 
    #################### Bash and directory notes ######################
 

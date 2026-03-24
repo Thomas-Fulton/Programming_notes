@@ -16,6 +16,9 @@ export RSTUDIO_WHICH_R=/usr/local/bin/R3.6.3
  #[1]  "/home/thomas/R/x86_64-pc-linux-gnu-library/3.6" "/usr/local/lib/R/site-library"                  "/usr/lib/R/site-library"                       
  #[4]  "/usr/lib/R/library"
 
+## Change .libPaths() by putting vector of new .libPaths() in function
+#.libPaths(c("/home/wfulton/R/x86_64-pc-linux-gnu-library/4.2", "/opt/R/4.4.0/lib/R/library"))
+
 ### Step 1 ###
 # Make dir for new library (once done automatically added to .libPaths() later - not sure how ahah)
 cd R/x86_64-pc-linux-gnu-library/
@@ -44,28 +47,79 @@ sudo ln -sf /opt/R/${R_VERSION}/bin/Rscript /usr/local/bin/Rscript${R_VERSION}
 
 # Change environmental variable in ~/.profile
 RSTUDIO_WHICH_R=/usr/local/bin/R
+R_LIBS_USER
+Sys.getenv("R_LIBS_USER")
 
-
-#### Install rstudio ####
+  #### Install rstudio ####
 # Download from https://posit.co/download/rstudio-desktop/ (here into into "~/Downloads/debfiles/")
 sudo gdebi ~/Downloads/debfiles/rstudio-2024.04.0-735-amd64.deb 
 # Append lines below to /etc/apt/sources.list to fix dependency error for package: libchang-dev
 #deb http://se.archive.ubuntu.com/ubuntu/ jammy main restricted universe
 #deb http://se.archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe
 
+#### Renv ####
+# See "renv_usage.R" in "projects/scRNA-analysis/"
+# For alternative package managment with conda/mamba (tried and had lots of problems so use renv), See: https://astrobiomike.github.io/R/managing-r-and-rstudio-with-conda
+# Use Mamba not conda
 
 
 #### Packages #####
 
-# See for environment management with conda: https://astrobiomike.github.io/R/managing-r-and-rstudio-with-conda
-# Use Mamba not conda
-
+# Add to .Rprofile - should make it permanent
 # Set default repo url below, which always uses nearest CRAN mirror:
 local({r <- getOption("repos")
   r["CRAN"] <- "http://cran.r-project.org" 
   options(repos=r)
 })
 
+# PREFERRED: set to use Posix package manager containing binaries
+bioconductor_version <- BiocManager::version()
+# GO TO: https://p3m.dev/client/#/repos/bioconductor/setup?snapshot=latest&bioconductor_version=3.19
+# COPY CODE INTO .Rprofile
+# E.g. for 3.19
+    # Configure BiocManager to use Posit Package Manager
+    options(BioC_mirror = "https://p3m.dev/bioconductor/latest")
+    # Configure BiocManager to load its configuration from Package Manager
+    options(BIOCONDUCTOR_CONFIG_FILE = "https://p3m.dev/bioconductor/latest/config.yaml")
+    # Set the Bioconductor version to prevent defaulting to a newer version
+    Sys.setenv("R_BIOC_VERSION" = "3.19")
+    # Configure a CRAN snapshot compatible with Bioconductor 3.19
+    options(repos = c(CRAN = "https://p3m.dev/cran/__linux__/jammy/2024-10-30"))
+
+# To add more than one repo: 
+bioc.url <- getOption("BioC_mirror")
+p3mrepo.url <- "https://packagemanager.posit.co/cran/__linux__/jammy/latest"  # For cran binaries
+getOption("repos")  # Default is "http://cran.r-project.org"
+local({
+  repos <- c(Bioc = bioc.url)  # Here PackageManager is an arbitrary name that refers to using Posix Package Manager
+  repos["PackageManager"] <- p3mrepo.url
+  # add the new repositories first, but keep the existing ones
+  options(repos = c(repos, getOption("repos")))
+})
+
+# verify the current repository list
+getOption("repos")
+
+# Check that BiocManager uses Package Manager for the Bioconductor repositories
+BiocManager::repositories()  # (Read message: repos defined above replace these)
+
+# Configure the R user agent header to install Linux binary packages
+getOption("HTTPUserAgent")  # See: https://docs.posit.co/rspm/admin/serving-binaries.html#binary-user-agents
+options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])))
+
+# Using Pak to install packages ------
+# pak manages dependencies better (also see using Require::install.packages() instead) 
+# Package binaries from P3M (Posit Package Manager) ----------------------------
+# Binaries are already compiled, wheres source needs compliling, which may cause issues if dependencies for compliation are missing: system specific C compliers for example?
+# C interpreters etc shouldn't be a problem
+pak::repo_get()  # See current repos
+# See for setup: 
+#   - https://p3m.dev/__docs__/user/configure-r.html#configure-ide
+#   - https://docs.posit.co/rspm/admin/serving-binaries.html#using-linux-binary-packages
+#See: "https://packagemanager.posit.co/client/#/repos/cran/setup?distribution=ubuntu-22.04&snapshot=latest"
+p3mrepo.url <- "https://packagemanager.posit.co/cran/__linux__/jammy/latest"
+pak::ppm_repo_url()
+pak::pkg_install("haleyjeppson/ggmosaic")
 
 install.packages("data.table")
 library(data.table)
@@ -474,7 +528,7 @@ col_fun = circlize::colorRamp2(c(rg[1], 0, rg[2]), c("blue", "white", "darkred")
 # Min and max of vals in mat
 col_fun = circlize::colorRamp2(c(min(mat), 0, max(mat)), c("blue", "white", "darkred")) 
 
-  Heatmap(mat, 
+  ht <- Heatmap(mat, 
           col = col_fun,
           heatmap_legend_param = list(
             title = "Scaled\nExpression",
@@ -482,9 +536,12 @@ col_fun = circlize::colorRamp2(c(min(mat), 0, max(mat)), c("blue", "white", "dar
             title_position = "leftcenter-rot",             # -rot = rotated, right left center etc.
             legend_height = unit(4, "cm"),
             title_gp = gpar(col = "red", fontsize = 8)
-          ))
+          )) 
 
-
+# Heatmap with overall plot title
+# Column titles 
+ht + NULL  # +NULL turns ht into heatmap list and aligns title in draw()
+draw(ht, column_title = panel, column_title_gp = gpar(fontface = "bold"))
   
 url <- "http://www.mas.ncl.ac.uk/~nak102/teaching/MAS8406/fibroblast_data.txt"
 fibro <- read.table(url, header = TRUE)
