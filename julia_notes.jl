@@ -82,7 +82,7 @@ string.(md[:,"Sample Name"], md.Condition)  # paste0
 
 # lapply 
 
-# Transpose a matrix
+# Transpose a matrix with an apostrophie
 mat.'  # like `t(A)` in R
 
 # Converting between types
@@ -92,7 +92,7 @@ Matrix()
 # Matrices
 amatrix = [1 3 2 5 3 ; 3 5 5 6 7 ]
 avector = [3, 3, 0, 0, 0]
-vcat(amatrix, avector')  # rbind vector (treated as a column until transposed (') )
+vcat(amatrix, avector')  # rbind vector (treated as a column until transposed (') with apostrophie )
 [amatrix ; avector']     # rbind alternative
 hcat(amatrix, newcolVector)  # cbind
 
