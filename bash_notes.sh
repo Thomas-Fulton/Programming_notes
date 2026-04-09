@@ -117,7 +117,8 @@ find ~ -name "filename.txt"            # find file in ~ (home) dir
 find ~ -name "filename.txt" -ls        # find file in ~ (home) dir and show ls output. MUST be after the name / wholename
 find ~ -name "filename.txt" -delete    # delete file in ~ (home) dir
 find ~ -name "dirname" -type d         # find directories only
-find . -wholename "*somedirna*.html"   # wholename includes directory names, not just base file name. Use multiple globs to look through directories
+# wholename needs "./" prepended as it includes directory names, not just base file name. Use multiple globs to look through directories
+find . -wholename "*somedirna*.html"   # Either ./ or a glob * needed with wholename
 find . -wholename './SRR*.fastq' | parallel -jobs 8 "gzip -r {}"  # if no glob at beginning: ./
 find ~/ -perm 777                      # find <Directory> ~perm <Permissions>
 find . -maxdepth 1 -name "*afile*"     # only specificed folder, no subfolders. Must be specified
