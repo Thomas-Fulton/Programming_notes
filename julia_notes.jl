@@ -29,8 +29,8 @@ rename!(fcsFilesMetadata, :matrixSize => "matrixSizeRows")
 
 df[1, [:Name]]  # will return a df
 df[1, :Name]  # will return a vector
-df[:, 1]  # Will return a COPY of the vector
-df[!, 1]  # Will return the underlying data itself
+df[:, 1]  # Will return a COPY of the vector (colon)
+df[!, 1]  # Will return the underlying data itself (exclamation mark)
 df[!, "newColname"] = vector  # new column eg.:
 fcsFilesMetadata[!,"fileStart"] = repeat([0], size(fcsFilesMetadata)[1])  # Don't use missing values as they are hard to convert to anything else
 v .> 3   # . is needed for element wise operations
