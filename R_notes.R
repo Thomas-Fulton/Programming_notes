@@ -151,7 +151,7 @@ remotes::install_github("mojaveazure/seurat-disk")
 ## Useful Functions ##
 # Specify decimal places: x is the number and k is no. decimal places
 specify_decimal <- function(x, k) as.double(trimws(format(round(x, k), nsmall=k)))
-
+sprintf(as.numeric(colnames(ttab)[!colnames(ttab) %in% c("SUBJID_VISIT", "SUBJID", "CONC", "VISIT")]), fmt = '%#.2f')
 #' Convert/Format from scientific notation (eg. 5e-4)
 #' Use with `scale_*_continuous(labels = format_nums)` or  `scale_*_log10(labels = format_nums)`
 format_nums <- function(x){format(x, scientific = FALSE, big.mark = ',')}
@@ -301,9 +301,13 @@ tblsFinalSheetnamesATLFormatted <- tblsFinalSheetnamesATL %>%
 # str_split
 separate(data, col = PID.Visit, into = c("PID", "Visit"), sep = "\\.", remove = FALSE)
 tmerged <- tmerged %>% separate(col = ARM, into = c("Treatment", "delete"), sep = '[(]', remove = F)
+cordf_merged.FULL$Site <- unlist(lapply(cordf_merged.FULL$SUBJID, function(x){
+  str_split_fixed(x, pattern = "", n = 6)[,1:3] %>% paste0(collapse = "")}))
+
 bind_rows(listOfdfs, .id = "IgA.assay")  # .id specifies name of NEW column: values are from the names of the list (or index if no names)
 
-
+# statsBG type summarise
+ggdf %>% group_by(name) %>% summarise(total.in.sample.dplyr = sum(value)) 
 
 ggdf <- ggdf %>% 
   pivot_longer(c("DPG.POL.Phl.p","DPG.Phl.p","Phl.p", "unstimulated"), names_to = "Stimulation", values_to = "Population")

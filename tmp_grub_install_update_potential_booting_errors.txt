@@ -1,0 +1,71 @@
+wfulton@ic-5cg3060ry8:~$ sudo apt upgrade
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+Calculating upgrade... Done
+The following packages were automatically installed and are no longer required:
+  amd64-microcode intel-microcode iucode-tool libdevmapper1.02.1:i386 libefiboot1:i386 libefivar1:i386
+  libfwupdplugin5 libgcab-1.0-0 libjavascriptcoregtk-4.1-0 libllvm13 libnvidia-cfg1-470
+  libnvidia-common-470 libnvidia-compute-470 libnvidia-compute-470:i386 libnvidia-decode-470
+  libnvidia-decode-470:i386 libnvidia-encode-470 libnvidia-encode-470:i386 libnvidia-extra-470
+  libnvidia-fbc1-470 libnvidia-fbc1-470:i386 libnvidia-gl-470 libnvidia-gl-470:i386 libnvidia-ifr1-470
+  libnvidia-ifr1-470:i386 libslirp0 libsmbios-c2 libsoup-3.0-0 libsoup-3.0-common libwebkit2gtk-4.1-0
+  libwpe-1.0-1 libwpebackend-fdo-1.0-1 libxatracker2 libxvmc1 nvidia-compute-utils-470
+  nvidia-kernel-common-470 nvidia-kernel-source-470 nvidia-utils-470 slirp4netns thermald
+  xserver-xorg-video-amdgpu xserver-xorg-video-ati xserver-xorg-video-fbdev xserver-xorg-video-intel
+  xserver-xorg-video-nvidia-470 xserver-xorg-video-qxl xserver-xorg-video-radeon xserver-xorg-video-vesa
+  xserver-xorg-video-vmware
+Use 'sudo apt autoremove' to remove them.
+Get more security updates through Ubuntu Pro with 'esm-apps' enabled:
+  libmagickcore-6.q16-dev libgsl-dev libzvbi-common liburiparser1 libde265-dev
+  libcmark-gfm-extensions0.29.0.gfm.3 libmagick++-dev libzbar0
+  libcommons-io-java libheif1 imagemagick libjs-jquery-ui python3-pip-whl
+  libpathplan4 libopenexr-dev gimp-data graphviz libgvpr2 libgvc6 libopenexr25
+  libmagick++-6.q16-8 python3-scipy libpostproc55 libcgraph6
+  libmagickcore-6.q16-6-extra python3-fonttools libsoup-3.0-0 libcdt5 gimp
+  libsvn1 libavcodec58 libgimp2.0 libgstreamer-plugins-bad1.0-0
+  libmagickwand-6.q16-6 libavutil56 imagemagick-6.q16 libswscale5 libheif-dev
+  libmagickcore-6.q16-6 python3-pip libgsl27 libcmark-gfm0.29.0.gfm.3
+  liblab-gamut1 libswresample3 imagemagick-6-common libsoup-3.0-common
+  libmagickcore-6-arch-config libavformat58 libzvbi0 gstreamer1.0-plugins-bad
+  libmagick++-6-headers libmagickwand-6-headers libgslcblas0
+  libmagick++-6.q16-dev libde265-0 subversion libmagickwand-6.q16-dev
+  libmagickcore-6-headers liburiparser-dev libavfilter7
+Learn more about Ubuntu Pro at https://ubuntu.com/pro
+The following packages have been kept back:
+  libnvidia-ifr1-470 libnvidia-ifr1-470:i386
+The following packages will be upgraded:
+  libxatracker2
+1 to upgrade, 0 to newly install, 0 to remove and 2 not to upgrade.
+1 not fully installed or removed.
+1 standard LTS security update
+Need to get 0 B/2,115 kB of archives.
+After this operation, 0 B of additional disk space will be used.
+Do you want to continue? [Y/n] y
+(Reading database ... 338864 files and directories currently installed.)
+Preparing to unpack .../libxatracker2_23.2.1-1ubuntu3.1~22.04.4_amd64.deb ...
+Unpacking libxatracker2:amd64 (23.2.1-1ubuntu3.1~22.04.4) over (23.2.1-1ubuntu3.1~22.04.3) ...
+Setting up libxatracker2:amd64 (23.2.1-1ubuntu3.1~22.04.4) ...
+Setting up fwupd (2.0.20-1ubuntu2~22.04.1) ...
+
+Configuration file '/etc/grub.d/35_fwupd'
+ ==> Deleted (by you or by a script) since installation.
+ ==> Package distributor has shipped an updated version.
+   What would you like to do about it ?  Your options are:
+    Y or I  : install the package maintainer's version
+    N or O  : keep your currently-installed version
+      D     : show the differences between the versions
+      Z     : start a shell to examine the situation
+ The default action is to keep your current version.
+*** 35_fwupd (Y/I/N/O/D/Z) [default=N] ? N
+Installing new version of config file /etc/update-motd.d/85-fwupd ...
+Removing obsolete conffile /etc/fwupd/daemon.conf ...
+Removing obsolete conffile /etc/fwupd/msr.conf ...
+Removing obsolete conffile /etc/fwupd/redfish.conf ...
+Removing obsolete conffile /etc/fwupd/remotes.d/dell-esrt.conf ...
+Removing obsolete conffile /etc/fwupd/remotes.d/vendor.conf ...
+Removing obsolete conffile /etc/fwupd/thunderbolt.conf ...
+Removing obsolete conffile /etc/fwupd/uefi_capsule.conf ...
+fwupd-refresh.service is a disabled or a static unit not running, not starting it.
+Processing triggers for libc-bin (2.35-0ubuntu3.13) ...
+

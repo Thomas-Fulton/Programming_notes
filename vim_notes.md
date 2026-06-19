@@ -116,5 +116,23 @@ au BufEnter /tmp/bash-fc.* nn <Leader>d :%y+<CR>:%d<CR>:wq<CR>
 
 TODO try aliasing `Ctrl+x`, `Ctrl+e` to add a paste on the end
 
+#### Current .vimrc ####
+
+" Always keeps at least 2 lines visible above/below cursor when moving around
+set scrolloff=5
+
+" Option to copy to and paste from the system register
+noremap <leader>y "+y   
+noremap <leader>p "+gp  
+noremap <leader>P "+gP  
+
+" Change <leader> key mapping to space (default is a backslash)
+" let mapleader = " "
+
+" When using 
+" autocommand when opening buffer that matches pattern /tmp.bash-fc.* ; then command nnoremap ...
+au BufEnter /tmp/bash-fc.* nnoremap <leader>d :%y+<CR>:%d<CR>:wq<CR>
+
+nnoremap <leader>o o<ESC>
 
 

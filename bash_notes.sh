@@ -366,7 +366,7 @@ ls -l $output
 ############  Install packages  ##################
 
 # download .deb file
-sudo apt install package.deb
+sudo apt install ./package.deb
 
 
    #### Virtual environments ####
