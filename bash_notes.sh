@@ -109,6 +109,7 @@ mv file1 file2 file3 -t DESTINATION
 # Rename directories to remove spaces and replace with underscores
 find . -maxdepth 1 -name "*,*" -exec rename 's/,/_/g' "{}" -v \;
 ls | xargs -I {} cp {} p41_pre_{}
+find . "*csv" | xargs -0 -- basename  
 
 # Find command 
 # (https://unix.stackexchange.com/questions/493808/commands-differences-using-quotations-find)
@@ -117,6 +118,8 @@ find ~ -name "filename.txt"            # find file in ~ (home) dir
 find ~ -name "filename.txt" -ls        # find file in ~ (home) dir and show ls output. MUST be after the name / wholename
 find ~ -name "filename.txt" -delete    # delete file in ~ (home) dir
 find ~ -name "dirname" -type d         # find directories only
+  # -type removes the "./" at the beginning of returned filenames when name is just an asterix for reasons
+find ~ -name "*gz" -print0  # Good practice to remove whitespace and problem characters when piping
 # wholename needs "./" prepended as it includes directory names, not just base file name. Use multiple globs to look through directories
 find . -wholename "*somedirna*.html"   # Either ./ or a glob * needed with wholename
 find . -wholename './SRR*.fastq' | parallel -jobs 8 "gzip -r {}"  # if no glob at beginning: ./
@@ -132,10 +135,22 @@ for file in "${files[@]}"
    done
 rsync -avzP --files-from=files2zip.txt . ${zipdir}
 
-# Parallel
+# Read input from a file
+cat patient-treatmentNames.txt | while read SampleName; do
+
+
+
+# Parallel --------
 # Don't need to specify no. jobs - parallel detects automatically ncores*nthreads I think
 # use `top` to see _id (percent cpu idle), and increase or decrease njobs if needed
 cat samplelist.txt | parallel somecommand {}
+
+# xargs -----
+# Manages piping between stdin and some other "utility" comand
+# E.g. basename cannot read from stdin
+{output of some command like find -print0} | xargs -- basename  # To check
+xargs -I -- basename '{}'# To check
+# The -- is between them to explicitly end xargs’ option processing, ensuring that basename is treated as the target "utility," in their terms.
 
 # Permissions ------
 # u stands for user owner, g for group owner, and o for others

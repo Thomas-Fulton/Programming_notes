@@ -283,6 +283,10 @@ trimws()
 stop("Only one of 'useCorralPCA' and 'useGLMPCA' should be TRUE, not both")
 stopifnot(conditionOrBooleanOfLength1)
 
+# Errors and debugging
+# Use browser() to interact with objects within a function i.e. not in global environment
+browser()
+
 
  # Tidyverse and dplyr#
 # Pipe using %>% eg. out_object <- df %>% egselect() %>% firstfilter %>% secondfilter 
@@ -350,6 +354,9 @@ tblsFinal <- lapply(tblsFinalSheetnamesFormatted, function(sheetname){
 
 
 ### ggplot tips ----------------------------------------------------------------
+# Replace the data-set of the last plot
+plot1 %+% alt_dataset
+
 ## Colour and size
 # scale_fill_  and scale_colour_  only work when shape is set to values between 21:25 
 # Automate based on factor of fill aes: improve by setting "Stimulation" col as factor
@@ -614,6 +621,8 @@ output <- case_when(fbnums %% 15 == 0 ~ "FizzBuzz",
 lin_mut_load_change <- rbind(lin_mut_load_change, mut_load_change)
 # same but for a list of dataframes
 data.table::rbindlist(listOfDfs)
+# .id specifies name of NEW column: values are from the names of the list (or index if no names)
+bind_rows(listOfdfs, .id = "IgA.assay")  
 # For cbind a list of dataframes:
 do.call(cbind, listofDFs)
 
