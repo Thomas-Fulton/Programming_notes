@@ -68,6 +68,7 @@ $  # end of string
     #### system and file navigation ####
     
 cat /etc/os-release  # shows linux version info.
+neofetch
 
 df -H --total  #shows free disk space. -H for human readable.
 top  # see CPU usage
@@ -203,10 +204,10 @@ touch file1.txt  # creates empty file file1.txt
 cat file1  # prints file1 in terminal
 tac file1  # (cat backwards) prints lines in reverse
 # Skipping lines
-tail -n +2  # skips the first line
 sed 1,10d file.txt  # Alternative - skip first 10 lines
 less file1  #prints some of the file?
 head -n5 file1  #prints first five lines of a file. Default is ten lines
+tail -n +2  # skips the first line e.g. headers in a csv
 
 cat file1.txt  # creates file1. Write text. ctrl + D to save and exit
 cat file1 > file2  # copies content of file1 into file2. Overwrites/creates file2
@@ -226,6 +227,8 @@ grep [OPTION] searchterm [FILE]  # searches line by line for term. Puts into sta
 grep -v  # inverts output ie. lines without search term into standard output 
 grep '*>' file  # allows to search for characters that might be interpreted by bash as something else - see Scripting section.
 grep -e ^I file  #extracts lines that start with I. ^ beginning of line, $ end of line
+grep ${searchstring}$  # end of line
+grep ${searchstring}\b  # end of word i.e. no other alphanumeric values
 
 tr -s " " #Translate. Replaces multiple spaces with one space (--sqeeze-repeats)
 tr -d " " #deletes spaces
@@ -249,8 +252,9 @@ awk  # https://www.geeksforgeeks.org/awk-command-unixlinux-examples/
 echo -e  # enable interpretation of backslashes
 echo -n  # don't show trailing newline
 
-
+# curl is often faster for small files, while wget handles large files and resumes better. Reliability: wget excels in unreliable network
 wget <url>  # download from link
+wget -c <url>  # to resume interrupted downloads, ensuring you don't lose progress on large files.
 curl <url>  # curl is more powerful, -l 
 
 

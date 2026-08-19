@@ -3,7 +3,7 @@
 
 ## nCPUs or cores ## 
 htop  # see each core and usage at the top of the terminal
-scpu | egrep 'Model name|Socket|Thread|NUMA|CPU\(s\)'  # get n
+lscpu | egrep 'Model name|Socket|Thread|NUMA|CPU\(s\)'  # get ncores and threads per core
 
 
    ###  File System Hierarchy  ###
@@ -67,6 +67,8 @@ export PATH=/opt/myprog-1.0/bin:$PATH
 # Create symlink:
 ln -s full/path/to/my_prog-1.0/bin/executable /usr/local/bin/
 ln -s /opt/my_prog-1.0/bin/executable /home/wfulton/bin/
+
+# Remove a symlink with 'rm' or 'unlink': neither deletes the original file
 
 
 ############## Custom preferences ###################

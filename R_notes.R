@@ -168,6 +168,7 @@ scales::label_number(scale = 1e-9, prefix = "$", suffix = "b", accuracy = 1)
 
 ###  Cheatsheets  ###
 # https://www.rstudio.com/resources/cheatsheets/
+# https://psych252.github.io/psych252book/cheatsheets-6.html 
 
 
 object <- 10
